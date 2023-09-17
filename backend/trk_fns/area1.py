@@ -16,7 +16,7 @@ class CarDetInfo:
     events: List = field(default_factory=list)
 
 
-def tracker_area1(det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, proc_num):
+def tracker_area1(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, proc_num):
 
     center_points_lst = []
     frame_cnt = 0

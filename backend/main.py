@@ -21,8 +21,14 @@ import os
 os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 
 
+def create_backend(op_flag):
+    gs_tracker_instance = gs_tracker(op_flag)
+    gs_tracker_instance.run()
+
+
+
 class gs_tracker():
-    def __init__(self, video_op_flag) -> None:
+    def __init__(self, shared_variables) -> None:
         print('backend created')
         self.image_que_lst_proc = []
         self.image_que_lst_draw = []
@@ -38,7 +44,7 @@ class gs_tracker():
         self.need_visualization = True
         self.visualization_eco_mode = False
         
-        self.video_loader_op_flag = video_op_flag
+        self.operation_flag = shared_variables['operation_flag']
 
         # yolo_area1_flag = multiprocessing.Event()
         # yolo_area3_flag = multiprocessing.Event()
@@ -55,21 +61,21 @@ class gs_tracker():
             self.draw_proc_result_que_lst.append(Queue(200))
             self.visualize_bp_que_lst.append(Queue(200))
 
-            self.video_loader_lst.append(multiprocessing.Process(target=video_load, args=(self.video_loader_op_flag, self.image_que_lst_proc[i], self.image_que_lst_draw[i], paths[i], self.need_visualization), daemon=False))
+            self.video_loader_lst.append(multiprocessing.Process(target=video_load, args=(self.operation_flag, self.image_que_lst_proc[i], self.image_que_lst_draw[i], paths[i], self.need_visualization), daemon=False))
             # self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.yolo_inference_flags[i],self.image_que_lst_proc[i], self.det_result_que_lst[i]), daemon=False))
-            self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.image_que_lst_proc[i], self.det_result_que_lst[i]), daemon=False))
+            self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.operation_flag, self.image_que_lst_proc[i], self.det_result_que_lst[i]), daemon=False))
             # self.yolo_inference_lst.append(inference(self.image_que_lst_proc[i], self.det_result_que_lst[i]))
             # self.yolo_inference_lst.append(inference(self.image_que_lst_proc[i], self.det_result_que_lst[i]))
-            self.tracking_proc_lst.append(multiprocessing.Process(target=lst_of_trk_fns[i], args=(self.det_result_que_lst[i], self.trk_result_que_lst[i], self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],i), daemon=False))
+            self.tracking_proc_lst.append(multiprocessing.Process(target=lst_of_trk_fns[i], args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i], self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],i), daemon=False))
             if self.need_visualization:
-                self.draw_proc_lst.append(multiprocessing.Process(target=visualize, args=(self.image_que_lst_draw[i], self.draw_proc_result_que_lst[i], i, self.visualization_eco_mode), daemon=False))
+                self.draw_proc_lst.append(multiprocessing.Process(target=visualize, args=(self.operation_flag, self.image_que_lst_draw[i], self.draw_proc_result_que_lst[i], i, self.visualization_eco_mode), daemon=False))
 
 
         # for i in range(0, len(paths)):
         #     self.yolo_inference_lst[i].start()
 
-        self.post_proc = multiprocessing.Process(target=control_center, args=(self.trk_result_que_lst[0], self.trk_result_que_lst[1], self.trk_result_que_lst[2]), daemon=False)
-        self.visualize_bp_proc = multiprocessing.Process(target=visualize_bp, args=(self.visualize_bp_que_lst[0], self.visualize_bp_que_lst[1], self.visualize_bp_que_lst[2]), daemon=False)
+        self.post_proc = multiprocessing.Process(target=control_center, args=(self.operation_flag, self.trk_result_que_lst[0], self.trk_result_que_lst[1], self.trk_result_que_lst[2]), daemon=False)
+        self.visualize_bp_proc = multiprocessing.Process(target=visualize_bp, args=(self.operation_flag, self.visualize_bp_que_lst[0], self.visualize_bp_que_lst[1], self.visualize_bp_que_lst[2]), daemon=False)
         
         print('backend init end')
 
@@ -124,39 +130,35 @@ class gs_tracker():
 def video_load(op_flag, image_que1, image_que2, path, need_visualization):
     cap_loader = cv2.VideoCapture(path)
     while True:
-        if op_flag.is_set():
-            _, _ = cap_loader.read()
-            ret, frame = cap_loader.read()
+        op_flag.wait()
+        _, _ = cap_loader.read()
+        ret, frame = cap_loader.read()
 
-            if not ret:
-                image_que1.put(None)
-                if need_visualization:
-                    image_que2.put(None)
-                cap_loader.release()
-                print('loader break')
-                break
-            if ret:
-                image_que1.put(frame)
-                if need_visualization:
-                    image_que2.put(frame)
-        else:
-            time.sleep(0.01)
-            # print('video loading stopped')
+        if not ret:
+            image_que1.put(None)
+            if need_visualization:
+                image_que2.put(None)
+            cap_loader.release()
+            print('loader break')
+            break
+        if ret:
+            image_que1.put(frame)
+            if need_visualization:
+                image_que2.put(frame)
+    else:
+        time.sleep(0.01)
+        # print('video loading stopped')
     print('video loader breaked!')
 
 
 
-def create_backend(video_op_flag):
-    gs_tracker_instance = gs_tracker(video_op_flag)
-    gs_tracker_instance.run()
 
 
-
-def yolo_inference(image_que, result_que):
+def yolo_inference(op_flag, image_que, result_que):
     inference_instance = inference()
     # if flag.is_set():
     y_s = time.time()
-    inference_instance.run(image_que, result_que)
+    inference_instance.run(op_flag, image_que, result_que)
     print('yolo inference breaked!')
     y_e = time.time()
     y_elapsed_time = y_e - y_s

@@ -184,12 +184,12 @@ def create_frontend(video_op_flag):
 #         self.app_process.start()
 
 class App(customtkinter.CTk):
-    def __init__(self, video_op_flag):
+    def __init__(self, shared_variables):
         print('App created')
         # Process.__init__(self)
         super().__init__()
         
-        self.video_op_flag = video_op_flag
+        self.operation_flag = shared_variables['operation_flag']
         
     
         
@@ -288,11 +288,11 @@ class App(customtkinter.CTk):
         print('frontend init end')
         
     def toggle_video_op_flag(self):
-        if self.video_op_flag.is_set():
-            self.video_op_flag.clear()
+        if self.operation_flag.is_set():
+            self.operation_flag.clear()
             cv2.destroyAllWindows()
         else:
-            self.video_op_flag.set()
+            self.operation_flag.set()
         
     def whole_clicked(self, event):
         print('self clicked')

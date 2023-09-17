@@ -179,7 +179,7 @@ class inference():
 
     # self.yolo_inference_flags[i],self.image_que_lst_proc[i], self.det_result_que_lst[i]
     @smart_inference_mode()
-    def run(self, image_que, result_que):
+    def run(self, op_flag, image_que, result_que):
     # def run(self):
         # image_que = self.img_que
         # result_que = self.det_que

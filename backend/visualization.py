@@ -5,7 +5,7 @@ from .map_vars import area4_global_inout_map_non_false_idx, area4_car_wash_waiti
 from .util_functions import get_bbox_conf
 from .font import font
 
-def visualize(img_q, proc_result_q, area_num_idx, eco=False):
+def visualize(op_flag, img_q, proc_result_q, area_num_idx, eco=False):
     frame_cnt = 0
 
     area_num_lst = [1, 3, 4]
@@ -59,6 +59,9 @@ def visualize(img_q, proc_result_q, area_num_idx, eco=False):
     available_key_lst = [ord(str(i)) for i in range(0, len(display_bool_lst)+1)]
 
     while True:
+        if not op_flag.is_set():
+            cv2.destroyAllWindows()
+        op_flag.wait()
         if eco_mode:
             _ = proc_result_q.get()
         proc_result = proc_result_q.get()
@@ -66,6 +69,8 @@ def visualize(img_q, proc_result_q, area_num_idx, eco=False):
         center_points_lst = proc_result['center_points_lst']
         for i in range(0, len(cnts_lst)):
             cnts_lst[i] = proc_result['cnt_lst'][i]
+        
+        
         
         if eco_mode:
             _ = img_q.get()

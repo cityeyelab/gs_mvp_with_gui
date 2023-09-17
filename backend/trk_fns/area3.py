@@ -3,7 +3,7 @@ from ..util_functions import filter_out_low_conf, eliminate_dup, magnify_bbox, g
 from ..map_vars import area3_global_inout_map, area3_car_wash_waiting_map
 
 
-def tracker_area3(det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, proc_num):
+def tracker_area3(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, proc_num):
 
     center_points_lst = []
     frame_cnt = 0

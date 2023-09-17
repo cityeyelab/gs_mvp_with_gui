@@ -12,20 +12,22 @@ if __name__ == '__main__':
     
     # print('check')
     
-    video_loader_op_flag = multiprocessing.Event()
+    # operation_flag = multiprocessing.Event()
+    
+    shared_variables = SharedVariables()
     
     
     # video_loader_op_flag.
-    video_loader_op_flag.set()
-    p2 = Process(target = create_backend, args= (video_loader_op_flag,), daemon=False)
+    # operation_flag.set()
+    p2 = Process(target = create_backend, args= (shared_variables.args,), daemon=False)
     
-    p1 = Process(target = create_frontend, args= (video_loader_op_flag,), daemon=False)
+    p1 = Process(target = create_frontend, args= (shared_variables.args,), daemon=False)
     
     # gs_tracker_instance.video_loader_op_flag.set()
-    video_loader_op_flag.set()
+    # operation_flag.set()
     p2.start()
     p1.start()
-    video_loader_op_flag.clear()
+    # operation_flag.clear()
     
     
     p1.join()
