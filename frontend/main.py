@@ -199,17 +199,31 @@ class App(customtkinter.CTk):
         self.grid_rowconfigure(4, weight=1)
 
         # create sidebar frame with widgets
-        self.sidebar_frame = customtkinter.CTkFrame(self, corner_radius=0)
+        self.sidebar_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color='white', border_width=4, border_color='grey')
         self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(4, weight=1)
-        self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="CityEyeLab", font=customtkinter.CTkFont(size=20, weight="bold"))
-        self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
+        # logo_image_ = cv2.imread('assets/main_logo.svg')
+        # logo_image = Image.open('.assets/main_logo.svg')
+        logo_image = Image.open('frontend/assets/logo.png')
+        imgtk = customtkinter.CTkImage(logo_image, size= (220, 60))
+        # img = Image.fromarray()
+        self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.logo_label.grid(row=0, column=0, padx=20, pady=20)
+        self.logo_label.configure(image=imgtk)
+        # img = Image.fromarray(frame)
+        # imgtk = customtkinter.CTkImage(img, size= (int(0.95 * self.card_width), int(0.95 * self.card_height)))
+        # self.lbl.imgtk = ImageTk
+        # self.lbl.configure(image=imgtk)
+        
+        # self.logo_text = customtkinter.CTkLabel(self.sidebar_frame, text="CityEyeLab", font=customtkinter.CTkFont(size=20, weight="bold"))
+        # self.logo_text.grid(row=1, column=0, padx=20, pady=(20, 10))
+        
         self.sidebar_button_1 = customtkinter.CTkButton(self.sidebar_frame, text='button1', command=None)
-        self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
-        self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text='button1', command=None)
-        self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
-        self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text='button1', command=None)
-        self.sidebar_button_3.grid(row=3, column=0, padx=20, pady=10)
+        self.sidebar_button_1.grid(row=2, column=0, padx=20, pady=10)
+        self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text='button2', command=None)
+        self.sidebar_button_2.grid(row=3, column=0, padx=20, pady=10)
+        # self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text='button3', command=None)
+        # self.sidebar_button_3.grid(row=4, column=0, padx=20, pady=10)
         
         
         
@@ -240,7 +254,7 @@ class App(customtkinter.CTk):
         # self.rtsp_card_2.bind("<Button-1>", lambda event : self.select_rtsp_card(event=event, card_num=2))
         # self.rtsp_card_3.bind("<Button-1>", lambda event : self.select_rtsp_card(event=event, card_num=3))
         
-        self.rtsp_main_card = RtspMainView(self.rtsp_frame, 200)
+        self.rtsp_main_card = RtspMainView(self.rtsp_frame, 240)
         self.rtsp_main_card.grid(row=1, column=0, rowspan=2, columnspan=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
         
         self.op_button = customtkinter.CTkButton(self, text='run', command=self.toggle_video_op_flag)
@@ -354,5 +368,6 @@ class App(customtkinter.CTk):
 
 
 if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+    pass
+    # app = App()
+    # app.mainloop()

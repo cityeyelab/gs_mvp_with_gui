@@ -130,21 +130,22 @@ class gs_tracker():
 def video_load(op_flag, image_que1, image_que2, path, need_visualization):
     cap_loader = cv2.VideoCapture(path)
     while True:
-        op_flag.wait()
+        # op_flag.wait()
         _, _ = cap_loader.read()
         ret, frame = cap_loader.read()
 
-        if not ret:
+        
+        if op_flag.is_set() and ret:
+            image_que1.put(frame)
+            if need_visualization:
+                image_que2.put(frame)
+        elif not ret:
             image_que1.put(None)
             if need_visualization:
                 image_que2.put(None)
             cap_loader.release()
             print('loader break')
             break
-        if ret:
-            image_que1.put(frame)
-            if need_visualization:
-                image_que2.put(frame)
     else:
         time.sleep(0.01)
         # print('video loading stopped')

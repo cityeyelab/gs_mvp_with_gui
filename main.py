@@ -7,28 +7,15 @@ import multiprocessing
 
 
 
-if __name__ == '__main__':
-    # gs_tracker_instance = gs_tracker()
-    
-    # print('check')
-    
-    # operation_flag = multiprocessing.Event()
+if __name__ == '__main__':    
     
     shared_variables = SharedVariables()
     
-    
-    # video_loader_op_flag.
-    # operation_flag.set()
+    p1 = Process(target = create_frontend, args= (shared_variables.args,), daemon=False)
     p2 = Process(target = create_backend, args= (shared_variables.args,), daemon=False)
     
-    p1 = Process(target = create_frontend, args= (shared_variables.args,), daemon=False)
-    
-    # gs_tracker_instance.video_loader_op_flag.set()
-    # operation_flag.set()
-    p2.start()
     p1.start()
-    # operation_flag.clear()
-    
+    p2.start()
     
     p1.join()
     p2.join()

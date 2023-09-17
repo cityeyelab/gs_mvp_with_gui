@@ -3,7 +3,7 @@ import time
 import numpy as np
 from .firebase import firebase_upload
 
-def control_center(que1, que2, que3):
+def control_center(op_flag, que1, que2, que3):
     # print('cc check!')
     area1_global_cnt = 0
     area1_car_wash_waiting_cnt = 0
