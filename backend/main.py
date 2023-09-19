@@ -21,15 +21,16 @@ import os
 os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 
 
-def create_backend(op_flag):
-    gs_tracker_instance = gs_tracker(op_flag)
+def create_backend(op_flag, drawing_result_que):
+    gs_tracker_instance = gs_tracker(op_flag, drawing_result_que)
     gs_tracker_instance.run()
 
 
 
 class gs_tracker():
-    def __init__(self, shared_variables) -> None:
+    def __init__(self, shared_variables, drawing_result_que) -> None:
         print('backend created')
+        self.drawing_result_que = drawing_result_que
         self.image_que_lst_proc = []
         self.image_que_lst_draw = []
         self.det_result_que_lst = []
@@ -68,14 +69,14 @@ class gs_tracker():
             # self.yolo_inference_lst.append(inference(self.image_que_lst_proc[i], self.det_result_que_lst[i]))
             self.tracking_proc_lst.append(multiprocessing.Process(target=lst_of_trk_fns[i], args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i], self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],i), daemon=False))
             if self.need_visualization:
-                self.draw_proc_lst.append(multiprocessing.Process(target=visualize, args=(self.operation_flag, self.image_que_lst_draw[i], self.draw_proc_result_que_lst[i], i, self.visualization_eco_mode), daemon=False))
+                self.draw_proc_lst.append(multiprocessing.Process(target=visualize, args=(self.operation_flag, self.image_que_lst_draw[i], self.draw_proc_result_que_lst[i], i, self.drawing_result_que[0:3], self.visualization_eco_mode), daemon=False))
 
 
         # for i in range(0, len(paths)):
         #     self.yolo_inference_lst[i].start()
 
         self.post_proc = multiprocessing.Process(target=control_center, args=(self.operation_flag, self.trk_result_que_lst[0], self.trk_result_que_lst[1], self.trk_result_que_lst[2]), daemon=False)
-        self.visualize_bp_proc = multiprocessing.Process(target=visualize_bp, args=(self.operation_flag, self.visualize_bp_que_lst[0], self.visualize_bp_que_lst[1], self.visualize_bp_que_lst[2]), daemon=False)
+        self.visualize_bp_proc = multiprocessing.Process(target=visualize_bp, args=(self.operation_flag, self.visualize_bp_que_lst[0], self.visualize_bp_que_lst[1], self.visualize_bp_que_lst[2], self.drawing_result_que[3]), daemon=False)
         
         print('backend init end')
 

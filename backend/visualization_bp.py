@@ -16,11 +16,11 @@ height_car, width_car  = car_image.shape[:2]
 def draw_car_img(img ,ct_pt):
     img[int(ct_pt[1]):int(ct_pt[1]+height_car), int(ct_pt[0]):int(ct_pt[0]+width_car)] = car_image
 
-def visualize_bp(op_flag, que_area1, que_area3, que_area4):
+def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que):
     # print('bp vis')
     while True:
-        if not op_flag.is_set():
-            cv2.destroyAllWindows()
+        # if not op_flag.is_set():
+        #     cv2.destroyAllWindows()
         op_flag.wait()
         background_img = blueprint.copy()
 
@@ -47,7 +47,8 @@ def visualize_bp(op_flag, que_area1, que_area3, que_area4):
             cv2.circle(background_img, pt, 8, (255,0,255), -1)
 
 
+        drawing_result_que.put(background_img)
 
-        cv2.namedWindow('blueprint', cv2.WINDOW_NORMAL)
-        cv2.imshow('blueprint', background_img)
-        cv2.waitKey(1)
+        # cv2.namedWindow('blueprint', cv2.WINDOW_NORMAL)
+        # cv2.imshow('blueprint', background_img)
+        # cv2.waitKey(1)

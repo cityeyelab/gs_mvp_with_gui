@@ -5,7 +5,7 @@ from .map_vars import area4_global_inout_map_non_false_idx, area4_car_wash_waiti
 from .util_functions import get_bbox_conf
 from .font import font
 
-def visualize(op_flag, img_q, proc_result_q, area_num_idx, eco=False):
+def visualize(op_flag, img_q, proc_result_q, area_num_idx, drawing_result_ques, eco=False):
     frame_cnt = 0
 
     area_num_lst = [1, 3, 4]
@@ -59,8 +59,8 @@ def visualize(op_flag, img_q, proc_result_q, area_num_idx, eco=False):
     available_key_lst = [ord(str(i)) for i in range(0, len(display_bool_lst)+1)]
 
     while True:
-        if not op_flag.is_set():
-            cv2.destroyAllWindows()
+        # if not op_flag.is_set():
+        #     cv2.destroyAllWindows()
         op_flag.wait()
         if eco_mode:
             _ = proc_result_q.get()
@@ -123,9 +123,9 @@ def visualize(op_flag, img_q, proc_result_q, area_num_idx, eco=False):
         
         cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         
-
-        cv2.namedWindow('frame: area'+str(area_num), cv2.WINDOW_NORMAL)
-        cv2.imshow('frame: area'+str(area_num), frame)
+        drawing_result_ques[area_num_idx].put(frame)
+        # cv2.namedWindow('frame: area'+str(area_num), cv2.WINDOW_NORMAL)
+        # cv2.imshow('frame: area'+str(area_num), frame)
         
         frame_cnt += 1
 

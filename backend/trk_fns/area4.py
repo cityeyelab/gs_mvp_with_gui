@@ -63,7 +63,7 @@ def tracker_area4(op_flag, det_result_que, trk_result_que, draw_proc_result_que,
                 glb_in_cnt += 1
 
                 if area4_car_wash_waiting_map[int(center_point[1]), int(center_point[0])] == True:
-                    pos_data.append((center_point[1] - area4_slope *(center_point[0])))
+                    pos_data.append(round((center_point[1] - area4_slope *(center_point[0])),2))
                     car_wash_waiting_cnt += 1
                 elif area4_car_interior_washing_map[int(center_point[1]), int(center_point[0])] == True:
                     car_interior_washing_waiting_cnt += 1

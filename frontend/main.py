@@ -8,25 +8,26 @@ from PIL import Image, ImageTk
 import time
 import threading
 from multiprocessing import Process
-from .widgets.rtsp_cards import RtspCard, RtspMainView
+from .widgets.rtsp_cards import RtspCard, RtspMainView, BpView
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
-def create_frontend(video_op_flag):
-    app_instance = App(video_op_flag)
+def create_frontend(video_op_flag, drawing_result_ques):
+    app_instance = App(video_op_flag, drawing_result_ques)
     app_instance.mainloop()
     # app_process.join()
 
 
 class App(customtkinter.CTk):
-    def __init__(self, shared_variables):
+    def __init__(self, shared_variables, drawing_result_ques):
         print('App created')
         super().__init__()
+        self.drawing_result_ques = drawing_result_ques
         self.operation_flag = shared_variables['operation_flag']
 
         self.title("GS demonstration MVP GUI")
-        self.geometry(f"{1200}x{800}")
+        self.geometry(f"{1400}x{800}")
 
         self.grid_rowconfigure(4, weight=1)
 
@@ -50,6 +51,10 @@ class App(customtkinter.CTk):
         self.sidebar_button_1.grid(row=2, column=0, padx=20, pady=10)
         self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text='button2', command=None)
         self.sidebar_button_2.grid(row=3, column=0, padx=20, pady=10)
+        
+        self.op_button = customtkinter.CTkButton(self.sidebar_frame, text='run/pause', command=self.toggle_video_op_flag)
+        self.op_button.grid(row=5, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        
         # self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text='button3', command=None)
         # self.sidebar_button_3.grid(row=4, column=0, padx=20, pady=10)
         
@@ -59,15 +64,15 @@ class App(customtkinter.CTk):
         self.rtsp_frame = customtkinter.CTkFrame(self, height=100, corner_radius=0)
         self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
         
-        self.rtsp_card_1 = RtspCard(self.rtsp_frame, 'rtsp://admin:self1004@@118.37.223.147:8522/live/main7', 70)
+        self.rtsp_card_1 = RtspCard(self.rtsp_frame, 'rtsp://admin:self1004@@118.37.223.147:8522/live/main7', 85, self.drawing_result_ques[0])
         self.rtsp_card_1.grid(row=0, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
         
         
-        self.rtsp_card_2 = RtspCard(self.rtsp_frame, 'rtsp://admin:self1004@@118.37.223.147:8522/live/main6', 70)
+        self.rtsp_card_2 = RtspCard(self.rtsp_frame, 'rtsp://admin:self1004@@118.37.223.147:8522/live/main6', 85, self.drawing_result_ques[1])
         self.rtsp_card_2.grid(row=0, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
         
         
-        self.rtsp_card_3 = RtspCard(self.rtsp_frame, 'rtsp://admin:self1004@@118.37.223.147:8522/live/main8', 70)
+        self.rtsp_card_3 = RtspCard(self.rtsp_frame, 'rtsp://admin:self1004@@118.37.223.147:8522/live/main8', 85, self.drawing_result_ques[2])
         self.rtsp_card_3.grid(row=0, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
         
         # self.rtsp_card_1.tkraise()
@@ -76,11 +81,15 @@ class App(customtkinter.CTk):
         self.rtsp_card_2.lbl.bind("<Button-1>", lambda e: self.select_rtsp_card(event=e, card_num=2))
         self.rtsp_card_3.lbl.bind("<Button-1>", lambda e: self.select_rtsp_card(event=e, card_num=3))
         
-        self.rtsp_main_card = RtspMainView(self.rtsp_frame, 240)
+        self.rtsp_main_card = RtspMainView(self.rtsp_frame, 300, self.drawing_result_ques[0:3])
         self.rtsp_main_card.grid(row=1, column=0, rowspan=2, columnspan=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
         
-        self.op_button = customtkinter.CTkButton(self, text='run/pause', command=self.toggle_video_op_flag)
-        self.op_button.grid(row=3, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        self.bp_view = BpView(self.rtsp_frame, 300, self.drawing_result_ques[3])
+        self.bp_view.grid(row=0, column=3, rowspan=2, columnspan=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        
+        
+        
+        
         
         # self.frame_click_test = customtkinter.CTkFrame(self.rtsp_frame, corner_radius=0, fg_color='transparent')
         # self.frame_click_test.grid(row=3, column=0, rowspan=2, columnspan=3, padx=(0, 0), pady=(0, 0), sticky="nsew")

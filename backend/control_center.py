@@ -43,7 +43,7 @@ def control_center(op_flag, que1, que2, que3):
             area1_car_wash_waiting_cnt = qdata1['car_washing_waiting_cnt']
             area1_place0_cnt = qdata1['place0_cnt']
             area1_pos = qdata1['pos_data']
-            print('qdata1 = ', qdata1)
+            # print('qdata1 = ', qdata1)
             updated = True
 
         if not que2.empty(): # area3
@@ -52,7 +52,7 @@ def control_center(op_flag, que1, que2, que3):
             area3_global_cnt = qdata2['global_cnt']
             area3_car_wash_waiting_cnt = qdata2['car_washing_waiting_cnt']
             area3_pos = qdata2['pos_data']
-            print('qdata2 = ' , qdata2)
+            # print('qdata2 = ' , qdata2)
             updated = True
 
         if not que3.empty(): #area4
@@ -64,7 +64,7 @@ def control_center(op_flag, que1, que2, que3):
             area4_car_interior_wash_cnt = qdata3['car_interior_washing_waiting_cnt']
             area4_electric_vehicle_charging_cnt = qdata3['electric_vehicle_charging_waiting_cnt']
             area4_pos = qdata3['pos_data']
-            print('qdata3 = ' , qdata3)
+            # print('qdata3 = ' , qdata3)
             updated = True
         
 
@@ -88,7 +88,7 @@ def control_center(op_flag, que1, que2, que3):
 
             if data != prev_data:
                 firebase_upload(data=data)
-                print('data updated : ', data)
+                # print('data updated : ', data)
                 prev_data = data.copy()
 
 
