@@ -1,4 +1,4 @@
-from multiprocessing import Manager, Event
+from multiprocessing import Manager, Event, Queue
 
 class SharedVariables():
     def __init__(self) -> None:
@@ -16,4 +16,6 @@ class SharedVariables():
                      'yolo_operation_flag': yolo_operation_flag, 'tracker_loader_operation_flag': tracker_loader_operation_flag,
                      'det_visualization_operation_flag': det_visualization_operation_flag, 'bp_visualization_operation_flag': bp_visualization_operation_flag
                      }
+        
+        self.drawing_result_ques = [Queue(200), Queue(200), Queue(200), Queue(200)]
 

@@ -8,7 +8,7 @@ from PIL import Image, ImageTk
 import time
 import threading
 from multiprocessing import Process
-from .widgets.rtsp_cards import RtspCard, RtspMainView, BpView, RtspFrame
+from .widgets.rtsp_cards import RtspCard, RtspMainView, BpView
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -34,7 +34,7 @@ class App(customtkinter.CTk):
         # create sidebar frame with widgets
         self.sidebar_frame = customtkinter.CTkFrame(self, corner_radius=8, fg_color='white', border_width=4, border_color='grey')
         self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
-        self.sidebar_frame.grid_rowconfigure(5, weight=1)
+        self.sidebar_frame.grid_rowconfigure(4, weight=1)
         # logo_image_ = cv2.imread('assets/main_logo.svg')
         # logo_image = Image.open('.assets/main_logo.svg')
         logo_image = Image.open('frontend/assets/logo.png')
@@ -53,7 +53,7 @@ class App(customtkinter.CTk):
         self.sidebar_button_2.grid(row=3, column=0, padx=20, pady=10)
         
         self.op_button = customtkinter.CTkButton(self.sidebar_frame, text='run/pause', command=self.toggle_video_op_flag)
-        self.op_button.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
+        self.op_button.grid(row=5, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
         
         # self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text='button3', command=None)
         # self.sidebar_button_3.grid(row=4, column=0, padx=20, pady=10)
@@ -61,8 +61,33 @@ class App(customtkinter.CTk):
         
         
         # rtsp frame
-        self.rtsp_frame = RtspFrame(self, self.drawing_result_ques)
+        self.rtsp_frame = customtkinter.CTkFrame(self, height=100, corner_radius=0)
         self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
+        
+        self.rtsp_card_1 = RtspCard(self.rtsp_frame, 'rtsp://admin:self1004@@118.37.223.147:8522/live/main7', 85, self.drawing_result_ques[3])
+        self.rtsp_card_1.grid(row=0, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        
+        
+        self.rtsp_card_2 = RtspCard(self.rtsp_frame, 'rtsp://admin:self1004@@118.37.223.147:8522/live/main6', 85, self.drawing_result_ques[4])
+        self.rtsp_card_2.grid(row=0, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        
+        
+        self.rtsp_card_3 = RtspCard(self.rtsp_frame, 'rtsp://admin:self1004@@118.37.223.147:8522/live/main8', 85, self.drawing_result_ques[5])
+        self.rtsp_card_3.grid(row=0, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        
+        # self.rtsp_card_1.tkraise()
+        # print('bind tags = ' , self.bindtags())
+        self.rtsp_card_1.lbl.bind("<Button-1>", lambda e: self.select_rtsp_card(event=e, card_num=1))
+        self.rtsp_card_2.lbl.bind("<Button-1>", lambda e: self.select_rtsp_card(event=e, card_num=2))
+        self.rtsp_card_3.lbl.bind("<Button-1>", lambda e: self.select_rtsp_card(event=e, card_num=3))
+        
+        self.rtsp_main_card = RtspMainView(self.rtsp_frame, 300, self.drawing_result_ques[0:3])
+        self.rtsp_main_card.grid(row=1, column=0, rowspan=2, columnspan=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        
+        self.bp_view = BpView(self.rtsp_frame, 300, self.drawing_result_ques[3])
+        self.bp_view.grid(row=0, column=3, rowspan=2, columnspan=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        
+        
         
         
         
@@ -104,10 +129,8 @@ class App(customtkinter.CTk):
         # self.test_frame3 = customtkinter.CTkFrame(self, corner_radius=0, bg_color='black', fg_color='yellow')
         # self.test_frame3.grid(row=3, column=1, padx=10, pady=10)
         
-        # self.rtsp_card_1.make_selected()
-        # self.rtsp_main_card.selected_cam_num = 1
-        
-        
+        self.rtsp_card_1.make_selected()
+        self.rtsp_main_card.selected_cam_num = 1
         self.scaling_optionemenu.set("100%")
         
         print('frontend init end')
@@ -115,7 +138,7 @@ class App(customtkinter.CTk):
     def toggle_video_op_flag(self):
         if self.operation_flag.is_set():
             self.operation_flag.clear()
-            # cv2.destroyAllWindows()
+            cv2.destroyAllWindows()
         else:
             self.operation_flag.set()
         

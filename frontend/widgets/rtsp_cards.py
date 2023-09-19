@@ -1,54 +1,186 @@
+from typing import Optional, Tuple, Union
 import customtkinter
 import cv2
 import threading
+from multiprocessing import Process
 from PIL import Image, ImageTk
 import numpy as np
 import tkinter as tk
+import time
+
+
+def cvimg_to_tkimg(frame, width, height):
+    frame = cv2.resize(frame.copy(), (int(width), int(height)))
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    img = Image.fromarray(frame)
+    imgtk = ImageTk.PhotoImage(image=img)
+    return imgtk
+
+class RtspFrame(customtkinter.CTkFrame):
+    # def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, **kwargs):
+    #     super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
+    def __init__(self, parent, drawing_result_que):
+        super().__init__(master=parent)
+        
+        self.drawing_result_que = drawing_result_que
+        # self.rtsp_card_1 = RtspCard(self, 85, self.drawing_result_ques[3])
+        
+        self.card_height = 85
+        self.card_width = int(self.card_height * (16/9))
+        
+        self.main_view_height = 300
+        self.main_view_width = int(self.main_view_height * (16/9))
+        
+        
+        self.rtsp_card_1 = RtspCard(self, self.card_height)
+        self.rtsp_card_1.grid(row=0, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
+
+
+        # self.rtsp_card_2 = RtspCard(self, 85, self.drawing_result_ques[4]) 
+        self.rtsp_card_2 = RtspCard(self, self.card_height)
+        self.rtsp_card_2.grid(row=0, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
+
+
+        # self.rtsp_card_3 = RtspCard(self, 85, self.drawing_result_ques[5])
+        self.rtsp_card_3 = RtspCard(self, self.card_height)
+        self.rtsp_card_3.grid(row=0, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        
+        
+
+        self.rtsp_card_1.lbl.bind("<Button-1>", lambda e: self.select_rtsp_card(event=e, card_num=1))
+        self.rtsp_card_2.lbl.bind("<Button-1>", lambda e: self.select_rtsp_card(event=e, card_num=2))
+        self.rtsp_card_3.lbl.bind("<Button-1>", lambda e: self.select_rtsp_card(event=e, card_num=3))
+
+        self.rtsp_main_card = RtspMainView(self, 300)
+        self.rtsp_main_card.grid(row=1, column=0, rowspan=2, columnspan=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
+
+        self.bp_view = BpView(self, 300)
+        self.bp_view.grid(row=0, column=3, rowspan=2, columnspan=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        
+        self.current_frame_1 = np.zeros((1080, 1920, 3), dtype=np.uint8)
+        self.current_frame_2 = np.zeros((1080, 1920, 3), dtype=np.uint8)
+        self.current_frame_3 = np.zeros((1080, 1920, 3), dtype=np.uint8)
+        self.current_frame_bp = cv2.imread('frontend/assets/blueprint.png')
+        
+        self.rtsp_card_1.make_selected()
+        self.rtsp_main_card.selected_cam_num = 1
+        
+        self.run_video_thread = threading.Thread(target=self.run_video, args=(), daemon=False)
+        # self.run_video_thread = Process(target=self.run_video, args=(), daemon=False)
+        self.run_video_thread.start()
+        
+        self.update_frame()
+        
+        
+    def select_rtsp_card(self, event, card_num):
+        # print('frame clicked! card num = ', card_num)
+        self.rtsp_card_1.make_unselected()
+        self.rtsp_card_2.make_unselected()
+        self.rtsp_card_3.make_unselected()
+        
+        if card_num == 1:
+            self.rtsp_card_1.make_selected()
+            self.rtsp_main_card.selected_cam_num = 1
+        elif card_num == 2:
+            self.rtsp_card_2.make_selected()
+            self.rtsp_main_card.selected_cam_num = 2
+        elif card_num == 3:
+            self.rtsp_card_3.make_selected()
+            self.rtsp_main_card.selected_cam_num = 3
+            
+    def run_video(self):
+        # print('run video')
+        while True:
+            self.current_frame_1 = self.drawing_result_que[0].get()
+            self.current_frame_2 = self.drawing_result_que[1].get()
+            self.current_frame_3 = self.drawing_result_que[2].get()
+            self.current_frame_bp = self.drawing_result_que[3].get()
+        
+    def update_frame(self):
+        # print('update frame')
+        frame1 = self.current_frame_1
+        frame2 = self.current_frame_2
+        frame3 = self.current_frame_3
+        frame_bp = self.current_frame_bp
+        # if not self.is_selected:
+        #     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        
+        if self.rtsp_main_card.selected_cam_num == 1:
+            # frame = cv2.resize(frame1.copy(), (int(1.5 * self.main_view_width), int(1.5 * self.main_view_height)))
+            # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # img = Image.fromarray(frame)
+            # imgtk = ImageTk.PhotoImage(image=img)
+            imgtk = cvimg_to_tkimg(frame1, int(1.5 * self.main_view_width),  int(1.5 * self.main_view_height))
+            self.rtsp_main_card.lbl.configure(image=imgtk)
+        elif self.rtsp_main_card.selected_cam_num == 2:
+            # frame = cv2.resize(frame2.copy(), (int(1.5 * self.main_view_width), int(1.5 * self.main_view_height)))
+            # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # img = Image.fromarray(frame)
+            # imgtk = ImageTk.PhotoImage(image=img)
+            imgtk = cvimg_to_tkimg(frame2, int(1.5 * self.main_view_width),  int(1.5 * self.main_view_height))
+            self.rtsp_main_card.lbl.configure(image=imgtk)
+        elif self.rtsp_main_card.selected_cam_num == 3:
+            # frame = cv2.resize(frame3.copy(), (int(1.5 * self.main_view_width), int(1.5 * self.main_view_height)))
+            # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # img = Image.fromarray(frame)
+            # imgtk = ImageTk.PhotoImage(image=img)
+            imgtk = cvimg_to_tkimg(frame3, int(1.5 * self.main_view_width),  int(1.5 * self.main_view_height))
+            self.rtsp_main_card.lbl.configure(image=imgtk)
+        
+        
+        # frame1 = cv2.resize(frame1, (int(1.5 * self.card_width), int(1.5 * self.card_height)))
+        # frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
+        # img1 = Image.fromarray(frame1)
+        # imgtk1 = ImageTk.PhotoImage(image=img1)
+        imgtk1 = cvimg_to_tkimg(frame1, int(1.5 * self.card_width),  int(1.5 * self.card_height))
+        self.rtsp_card_1.lbl.configure(image=imgtk1)
+        
+        # frame2 = cv2.resize(frame2, (int(1.5 * self.card_width), int(1.5 * self.card_height)))
+        # frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2RGB)
+        # img2 = Image.fromarray(frame2)
+        # imgtk2 = ImageTk.PhotoImage(image=img2)
+        imgtk2 = cvimg_to_tkimg(frame2, int(1.5 * self.card_width),  int(1.5 * self.card_height))
+        self.rtsp_card_2.lbl.configure(image=imgtk2)
+        
+        # frame3 = cv2.resize(frame3, (int(1.5 * self.card_width), int(1.5 * self.card_height)))
+        # frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2RGB)
+        # img3 = Image.fromarray(frame3)
+        # imgtk3 = ImageTk.PhotoImage(image=img3)
+        imgtk3 = cvimg_to_tkimg(frame3, int(1.5 * self.card_width),  int(1.5 * self.card_height))
+        self.rtsp_card_3.lbl.configure(image=imgtk3)
+        
+        # frame_bp = cv2.resize(frame_bp, (int(1.5 * self.main_view_width), int(1.5 * self.main_view_height)))
+        # frame_bp = cv2.cvtColor(frame_bp, cv2.COLOR_BGR2RGB)
+        # img_bp = Image.fromarray(frame_bp)
+        # imgtk_bp = ImageTk.PhotoImage(image=img_bp)
+        imgtk_bp = cvimg_to_tkimg(frame_bp, int(1.5 * self.main_view_width),  int(1.7 * self.main_view_height))
+        self.bp_view.lbl.configure(image=imgtk_bp)
+
+        self.after(16, self.update_frame)
+        
 
 class RtspCard(customtkinter.CTkFrame):
-    def __init__(self, parent, path, height, drawing_result_que) -> None:
+    def __init__(self, parent, height) -> None:
         super().__init__(parent)
-        self.drawing_result_que = drawing_result_que
         self.is_selected = False
         self.card_height = height
         self.card_width = int(self.card_height * (16/9))
         self.lbl = customtkinter.CTkLabel(self, text='', width=self.card_width, height=self.card_height, fg_color='light grey', )
-        # lbl.grid(row=0, column=0, columnspan=4, padx=(10, 10), pady=(10, 10), sticky="nsew")
         self.lbl.pack(anchor='center', fill='both', expand=True)
-        # self.lbl.bind("<Button-1>", self.make_selected)
         
         self.lbl.bind("<Enter>", self.on_hover)
         self.lbl.bind("<Leave>", self.off_hover)
-        
-        
-        # self.lbl.grid(row=0, column=0, padx=0, pady=0)
-        # self.video_button = customtkinter.CTkButton(self, fg_color="transparent", border_width=2, text_color=("gray10", "#DCE4EE")
-        #                                             ,text='video button', command=self.run_video)
-        # self.video_button.pack()
-        # self.path = path
-        # self.cap_loader = cv2.VideoCapture(path)
-        # _, self.current_frame = self.cap_loader.read()
-        self.current_frame = np.zeros((1080, 1920, 3), dtype=np.uint8)
-        
-        self.run_video_thread = threading.Thread(target=self.run_video, args=(), daemon=False)
-        self.run_video_thread.start()
-        
-        # self.update_frame_thread = threading.Thread(target=self.update_frame, args = () , daemon=False)
-        # self.update_frame_thread.start()
-        self.update_frame()
-        # print('init end')
-        
-    
+
     def on_hover(self, event):
         # print('event = ', event)
         if not self.is_selected:
             self.lbl.configure(fg_color = 'light sky blue')
-    
+
     def off_hover(self, event):
         # print('event = ', event)
         if not self.is_selected:
             self.lbl.configure(fg_color = 'light grey')
-        
+
     def make_selected(self):
         self.is_selected = True
         self.lbl.configure(fg_color = 'blue')
@@ -56,185 +188,24 @@ class RtspCard(customtkinter.CTkFrame):
     def make_unselected(self):
         self.is_selected = False
         self.lbl.configure(fg_color = 'light grey')
-    
-    def run_video(self):
-        # print('run video check2')
-        while True:
-            self.current_frame = self.drawing_result_que.get()
-            # ret, self.current_frame = self.cap_loader.read()
-            # _ , _ = self.cap_loader.read()
-            # if not ret:
-            #     self.cap_loader.release()
-            # print('frame loaded')
-    
-    def update_frame(self):
-        # print('update frame')
-        frame = self.current_frame
-        if not self.is_selected:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            # hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-            # h, s, v = cv2.split(hsv)
-            
-            # lim = 30
-            # v[v < lim] = 0 
-            # v[v >= lim] -= lim
-
-            # final_hsv = cv2.merge((h, s, v))
-            # frame = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
-            # frame = frame - 10
-            # frame = np.clip(frame, 0, 255)
-        
-        frame = cv2.resize(frame, (int(1.5 * self.card_width), int(1.5 * self.card_height)))
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
-        
-        img = Image.fromarray(frame)
-        # imgtk = customtkinter.CTkImage(img, size= (int(0.95 * self.card_width), int(0.95 * self.card_height)))
-        imgtk = ImageTk.PhotoImage(image=img)
-        # self.lbl.imgtk = imgtk
-        self.lbl.configure(image=imgtk)
-        # self.lbl.update()
-        # self.after(256, self.update_frame)
-        self.lbl.after(256, self.update_frame)
-
-
 
 
 class RtspMainView(customtkinter.CTkFrame):
-    def __init__(self, parent, height, drawing_result_ques) -> None:
+    def __init__(self, parent, height) -> None:
         super().__init__(parent)
-        self.drawing_result_ques = drawing_result_ques
         self.card_height = height
         self.card_width = int(self.card_height * (16/9))
         self.lbl = customtkinter.CTkLabel(self, text='', width=self.card_width, height=self.card_height, fg_color='light grey', )
-        # lbl.grid(row=0, column=0, columnspan=4, padx=(10, 10), pady=(10, 10), sticky="nsew")
         self.lbl.pack(anchor='center', fill='both', expand=True)
-        self.paths = ['rtsp://admin:self1004@@118.37.223.147:8522/live/main7', 'rtsp://admin:self1004@@118.37.223.147:8522/live/main6',
-                 'rtsp://admin:self1004@@118.37.223.147:8522/live/main8']
-        
-        # self.cap_loader1 = cv2.VideoCapture(self.paths[0])
-        # _, self.current_frame = self.cap_loader1.read()
-        # self.cap_loader2 = cv2.VideoCapture(self.paths[1])
-        # self.cap_loader3 = cv2.VideoCapture(self.paths[2])
-        
-        self.current_frame = np.zeros((1080, 1920, 3), dtype=np.uint8)
-        
+
         self.selected_cam_num = 1
-        
-        self.run_video_thread = threading.Thread(target=self.run_video, args=(), daemon=False)
-        self.run_video_thread.start()
-        
-        self.update_frame()
-
-    def run_video(self):
-        # print('run video check2')
-        while True:
-            frame1 = self.drawing_result_ques[0].get()
-            frame2 = self.drawing_result_ques[1].get()
-            frame3 = self.drawing_result_ques[2].get()
-            
-            if self.selected_cam_num == 1:
-                self.current_frame = frame1
-            if self.selected_cam_num == 2:
-                self.current_frame = frame2
-            if self.selected_cam_num == 3:
-                self.current_frame = frame3
-                
-            
-            # if self.selected_cam_num == 1:
-            #     _, _ = self.cap_loader1.read()
-            #     ret, self.current_frame = self.cap_loader1.read()
-                
-            #     _, _ = self.cap_loader2.read()
-            #     _, _ = self.cap_loader2.read()
-            #     _, _ = self.cap_loader3.read()
-            #     _, _ = self.cap_loader3.read()
-            #     if not ret:
-            #         self.cap_loader1.release()
-            # elif self.selected_cam_num == 2:
-            #     _, _ = self.cap_loader2.read()
-            #     ret, self.current_frame = self.cap_loader2.read()
-                
-            #     _, _ = self.cap_loader1.read()
-            #     _, _ = self.cap_loader1.read()
-            #     _, _ = self.cap_loader3.read()
-            #     _, _ = self.cap_loader3.read()
-            #     if not ret:
-            #         self.cap_loader2.release()
-            # elif self.selected_cam_num == 3:
-            #     _, _ = self.cap_loader3.read()
-            #     ret, self.current_frame = self.cap_loader3.read()
-                
-            #     _, _ = self.cap_loader2.read()
-            #     _, _ = self.cap_loader2.read()
-            #     _, _ = self.cap_loader1.read()
-            #     _, _ = self.cap_loader1.read()
-            #     if not ret:
-            #         self.cap_loader3.release()
-
-    
-    def update_frame(self):
-        # print('update frame')
-        frame = self.current_frame
-        frame = cv2.resize(frame, (int(1.5 * self.card_width), int(1.5 * self.card_height)))
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
-        img = Image.fromarray(frame)
-        # imgtk = customtkinter.CTkImage(img, size= (int(0.95 * self.card_width), int(0.95 * self.card_height)))
-        imgtk = ImageTk.PhotoImage(image=img)
-        # self.lbl.imgtk = ImageTk
-        self.lbl.configure(image=imgtk)
-        # self.lbl.update()
-        # self.after(10, self.update_frame)
-        self.lbl.after(10, self.update_frame)
-        
-
 
 
 class BpView(customtkinter.CTkFrame):
-    def __init__(self, parent, height, drawing_result_que) -> None:
+    def __init__(self, parent, height) -> None:
         super().__init__(parent)
-        self.drawing_result_ques = drawing_result_que
         self.card_height = height
         self.card_width = int(self.card_height * (16/9))
         self.lbl = customtkinter.CTkLabel(self, text='', width=self.card_width, height=self.card_height, fg_color='light grey', )
-        # lbl.grid(row=0, column=0, columnspan=4, padx=(10, 10), pady=(10, 10), sticky="nsew")
         self.lbl.pack(anchor='center', fill='both', expand=True)
-        # self.paths = ['rtsp://admin:self1004@@118.37.223.147:8522/live/main7', 'rtsp://admin:self1004@@118.37.223.147:8522/live/main6',
-        #          'rtsp://admin:self1004@@118.37.223.147:8522/live/main8']
-        
-        
-        self.current_frame = cv2.imread('frontend/assets/blueprint.png')
-        # self.cap_loader1 = cv2.VideoCapture(self.paths[0])
-        # _, self.current_frame = self.cap_loader1.read()
-        # self.cap_loader2 = cv2.VideoCapture(self.paths[1])
-        # self.cap_loader3 = cv2.VideoCapture(self.paths[2])
-        
-        # self.selected_cam_num = 1
-        
-        self.run_video_thread = threading.Thread(target=self.run_video, args=(), daemon=False)
-        self.run_video_thread.start()
-        
-        self.update_frame()
 
-    def run_video(self):
-        # print('run video check2')
-        while True:
-            frame = self.drawing_result_ques.get()
-            self.current_frame = frame
-
-                
-            
-    
-    def update_frame(self):
-        # print('update frame')
-        frame = self.current_frame
-        frame = cv2.resize(frame, (int(1.5 * self.card_width), int(1.5 * self.card_height)))
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGBA)
-        img = Image.fromarray(frame)
-        # imgtk = customtkinter.CTkImage(img, size= (int(0.95 * self.card_width), int(0.95 * self.card_height)))
-        imgtk = ImageTk.PhotoImage(image=img)
-        # self.lbl.imgtk = ImageTk
-        self.lbl.configure(image=imgtk)
-        # self.lbl.update()
-        # self.after(64, self.update_frame)
-        self.lbl.after(64, self.update_frame)
-        

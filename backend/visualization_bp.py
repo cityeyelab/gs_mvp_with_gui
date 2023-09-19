@@ -14,7 +14,10 @@ height_car, width_car  = car_image.shape[:2]
 
 
 def draw_car_img(img ,ct_pt):
-    img[int(ct_pt[1]):int(ct_pt[1]+height_car), int(ct_pt[0]):int(ct_pt[0]+width_car)] = car_image
+    try:
+        img[int(ct_pt[1]):int(ct_pt[1]+height_car), int(ct_pt[0]):int(ct_pt[0]+width_car)] = car_image
+    except ValueError:
+        print('drawing car img value error. maybe, caused by whole size of img')
 
 def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que):
     # print('bp vis')

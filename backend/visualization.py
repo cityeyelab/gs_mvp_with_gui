@@ -124,16 +124,17 @@ def visualize(op_flag, img_q, proc_result_q, area_num_idx, drawing_result_ques, 
         cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         
         drawing_result_ques[area_num_idx].put(frame)
+        # drawing_result_ques[area_num_idx+3].put(frame.copy())
         # cv2.namedWindow('frame: area'+str(area_num), cv2.WINDOW_NORMAL)
         # cv2.imshow('frame: area'+str(area_num), frame)
         
         frame_cnt += 1
 
         if img_q.qsize() > 100:
-            print('img_q size = ' , img_q.qsize())
+            print(f'img_q size at place {area_num} = ' , img_q.qsize())
             if img_q.full():
                 while not img_q.empty():
                     _ = img_q.get() 
-                print('img_q is full. Clear img_q')
+                print(f'img_q is full at place {area_num}. Clear img_q')
     
     cv2.destroyAllWindows()
