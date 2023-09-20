@@ -9,6 +9,7 @@ import time
 import threading
 from multiprocessing import Process
 from .widgets.rtsp_cards import RtspCard, RtspMainView, BpView, RtspFrame
+from .widgets.zone_radio_button import ZoneRadioButton
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -60,32 +61,35 @@ class App(customtkinter.CTk):
         # self.sidebar_button_3.grid(row=4, column=0, padx=20, pady=10)
         
         
+        self.radiobutton_frame = ZoneRadioButton(self, 1000, 160, area_display_values=self.area_display_values)
+        # self.radiobutton_frame = customtkinter.CTkFrame(self, border_color='black', border_width=2)
+        self.radiobutton_frame.grid(row=5, column=2, padx=12, pady=12, sticky="nsew")
+        self.radio_button_callback = self.radiobutton_frame.set_selected_cam_num
+        
         
         # rtsp frame
-        self.rtsp_frame = RtspFrame(self, self.drawing_result_ques)
+        self.rtsp_frame = RtspFrame(self, self.drawing_result_ques, self.radio_button_callback)
         self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
         
         
         
         
-        self.radiobutton_frame = customtkinter.CTkFrame(self, border_color='black', border_width=4)
-        self.radiobutton_frame.grid(row=5, column=2, padx=12, pady=12, sticky="nsew")
-        self.label_radio_group = customtkinter.CTkLabel(master=self.radiobutton_frame, text="Area1 Zone Display",)
-        self.label_radio_group.grid(row=0, column=1, padx=10, pady=10, )
-        self.radio_var_area1 = tkinter.IntVar(value=0)
-        self.radio_button1 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='None', variable=self.radio_var_area1, value=0,
-                                                          command=self.radio_button_command)
-        self.radio_button1.grid(row=1, column=0, pady=8, padx=8)
-        self.radio_button2 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='1', variable=self.radio_var_area1, value=1,
-                                                          command=self.radio_button_command)
-        self.radio_button2.grid(row=1, column=1, pady=8, padx=8)
-        # self.radio_button2.grid(row=1, column=1, pady=4, padx=4, sticky="n")
-        self.radio_button3 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='2', variable=self.radio_var_area1, value=2,
-                                                          command=self.radio_button_command)
-        self.radio_button3.grid(row=1, column=2, pady=8, padx=8)
-        self.radio_button3 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='3', variable=self.radio_var_area1, value=3,
-                                                          command=self.radio_button_command)
-        self.radio_button3.grid(row=1, column=3, pady=8, padx=8)
+        # self.label_radio_group = customtkinter.CTkLabel(master=self.radiobutton_frame, text="Area1 Zone Display", fg_color='grey', corner_radius=8, )
+        # self.label_radio_group.grid(row=0, column=1, padx=10, pady=10, )
+        # self.radio_var_area1 = tkinter.IntVar(value=0)
+        # self.radio_button1 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='None', variable=self.radio_var_area1, value=0,
+        #                                                   command=self.radio_button_command)
+        # self.radio_button1.grid(row=1, column=0, pady=8, padx=8)
+        # self.radio_button2 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='1', variable=self.radio_var_area1, value=1,
+        #                                                   command=self.radio_button_command)
+        # self.radio_button2.grid(row=1, column=1, pady=8, padx=8)
+        # # self.radio_button2.grid(row=1, column=1, pady=4, padx=4, sticky="n")
+        # self.radio_button3 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='2', variable=self.radio_var_area1, value=2,
+        #                                                   command=self.radio_button_command)
+        # self.radio_button3.grid(row=1, column=2, pady=8, padx=8)
+        # self.radio_button3 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='3', variable=self.radio_var_area1, value=3,
+        #                                                   command=self.radio_button_command)
+        # self.radio_button3.grid(row=1, column=3, pady=8, padx=8)
         
         # self.frame_click_test = customtkinter.CTkFrame(self.rtsp_frame, corner_radius=0, fg_color='transparent')
         # self.frame_click_test.grid(row=3, column=0, rowspan=2, columnspan=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
@@ -152,22 +156,26 @@ class App(customtkinter.CTk):
     def whole_clicked(self, event):
         print('self clicked')
     
-    def select_rtsp_card(self, event, card_num):
-        # print('select event = ', args)
-        print('frame clicked! card num = ', card_num)
-        self.rtsp_card_1.make_unselected()
-        self.rtsp_card_2.make_unselected()
-        self.rtsp_card_3.make_unselected()
+    # def select_rtsp_card(self, event, card_num):
+    #     # print('select event = ', args)
+    #     print('frame clicked! card num = ', card_num)
+    #     self.rtsp_card_1.make_unselected()
+    #     self.rtsp_card_2.make_unselected()
+    #     self.rtsp_card_3.make_unselected()
         
-        if card_num == 1:
-            self.rtsp_card_1.make_selected()
-            self.rtsp_main_card.selected_cam_num = 1
-        elif card_num == 2:
-            self.rtsp_card_2.make_selected()
-            self.rtsp_main_card.selected_cam_num = 2
-        elif card_num == 3:
-            self.rtsp_card_3.make_selected()
-            self.rtsp_main_card.selected_cam_num = 3
+    #     # print('card num = ' , card_num)
+    #     if card_num == 1:
+    #         self.rtsp_card_1.make_selected()
+    #         self.rtsp_main_card.selected_cam_num = 1
+    #         self.radiobutton_frame.set_selected_cam_num(1)
+    #     elif card_num == 2:
+    #         self.rtsp_card_2.make_selected()
+    #         self.rtsp_main_card.selected_cam_num = 2
+    #         self.radiobutton_frame.set_selected_cam_num(2)
+    #     elif card_num == 3:
+    #         self.rtsp_card_3.make_selected()
+    #         self.rtsp_main_card.selected_cam_num = 3
+    #         self.radiobutton_frame.set_selected_cam_num(3)
     
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)

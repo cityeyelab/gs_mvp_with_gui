@@ -19,9 +19,9 @@ def cvimg_to_tkimg(frame, width, height):
 class RtspFrame(customtkinter.CTkFrame):
     # def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, **kwargs):
     #     super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
-    def __init__(self, parent, drawing_result_que):
+    def __init__(self, parent, drawing_result_que, radiobutton_callback):
         super().__init__(master=parent)
-        
+        self.radiobutton_callback = radiobutton_callback
         self.drawing_result_que = drawing_result_que
         # self.rtsp_card_1 = RtspCard(self, 85, self.drawing_result_ques[3])
         
@@ -37,17 +37,17 @@ class RtspFrame(customtkinter.CTkFrame):
         
         
         self.rtsp_card_1 = RtspCard(self, self.card_height)
-        self.rtsp_card_1.grid(row=0, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        self.rtsp_card_1.grid(row=0, column=0, padx=4, pady=4, sticky="nsew")
 
 
         # self.rtsp_card_2 = RtspCard(self, 85, self.drawing_result_ques[4]) 
         self.rtsp_card_2 = RtspCard(self, self.card_height)
-        self.rtsp_card_2.grid(row=0, column=1, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        self.rtsp_card_2.grid(row=0, column=1, padx=4, pady=4, sticky="nsew")
 
 
         # self.rtsp_card_3 = RtspCard(self, 85, self.drawing_result_ques[5])
         self.rtsp_card_3 = RtspCard(self, self.card_height)
-        self.rtsp_card_3.grid(row=0, column=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        self.rtsp_card_3.grid(row=0, column=2, padx=4, pady=4, sticky="nsew")
         
         
 
@@ -86,12 +86,15 @@ class RtspFrame(customtkinter.CTkFrame):
         if card_num == 1:
             self.rtsp_card_1.make_selected()
             self.rtsp_main_card.selected_cam_num = 1
+            self.radiobutton_callback(1)
         elif card_num == 2:
             self.rtsp_card_2.make_selected()
             self.rtsp_main_card.selected_cam_num = 2
+            self.radiobutton_callback(2)
         elif card_num == 3:
             self.rtsp_card_3.make_selected()
             self.rtsp_main_card.selected_cam_num = 3
+            self.radiobutton_callback(3)
             
     def run_video(self):
         # print('run video')
