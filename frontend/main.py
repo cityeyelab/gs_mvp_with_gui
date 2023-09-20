@@ -52,7 +52,7 @@ class App(customtkinter.CTk):
         self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text='button2', command=None)
         self.sidebar_button_2.grid(row=3, column=0, padx=20, pady=10)
         
-        self.op_button = customtkinter.CTkButton(self.sidebar_frame, text='run/pause', command=self.toggle_video_op_flag)
+        self.op_button = customtkinter.CTkButton(self.sidebar_frame, text='run / pause', command=self.toggle_video_op_flag)
         self.op_button.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
         
         # self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text='button3', command=None)

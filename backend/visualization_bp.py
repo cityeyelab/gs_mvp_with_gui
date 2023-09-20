@@ -22,8 +22,13 @@ def draw_car_img(img ,ct_pt):
 def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que):
     # print('bp vis')
     while True:
-        # if not op_flag.is_set():
-        #     cv2.destroyAllWindows()
+        if not op_flag.is_set():
+            while not drawing_result_que.empty():
+                _ = drawing_result_que.get()
+            background_img = blueprint.copy()
+            drawing_result_que.put(background_img)
+            # cv2.destroyAllWindows()
+            
         op_flag.wait()
         background_img = blueprint.copy()
 

@@ -59,70 +59,73 @@ def visualize(op_flag, img_q, proc_result_q, area_num_idx, drawing_result_ques, 
     available_key_lst = [ord(str(i)) for i in range(0, len(display_bool_lst)+1)]
 
     while True:
-        # if not op_flag.is_set():
-        #     cv2.destroyAllWindows()
-        op_flag.wait()
-        if eco_mode:
-            _ = proc_result_q.get()
-        proc_result = proc_result_q.get()
-        dets = proc_result['dets']
-        center_points_lst = proc_result['center_points_lst']
-        for i in range(0, len(cnts_lst)):
-            cnts_lst[i] = proc_result['cnt_lst'][i]
+        if not op_flag.is_set():
+            while not proc_result_q.empty():
+                _ = proc_result_q.get()
+            # cv2.destroyAllWindows()
+        
+        # op_flag.wait()
         
         
         
         if eco_mode:
             _ = img_q.get()
         frame = img_q.get()
-
         
+        if op_flag.is_set():
+            if eco_mode:
+                _ = proc_result_q.get()
+            proc_result = proc_result_q.get()
+            dets = proc_result['dets']
+            center_points_lst = proc_result['center_points_lst']
+            for i in range(0, len(cnts_lst)):
+                cnts_lst[i] = proc_result['cnt_lst'][i]
+            
+            for i in range(0, len(non_false_idx_lst)):
+                # non_false_idx = non_false_idx_lst[i]
+                map_img = map_imgs[i]
+                need_display = display_bool_lst[i]
+                if need_display:
+                    # frame[non_false_idx] = cv2.addWeighted(frame, 0.5, map_img, 0.5, 0)[non_false_idx]
+                    frame = cv2.addWeighted(frame, 0.6, map_img, 0.4, 0)
+                    break
+            
+            
+            cv2.putText(frame, 'frame cnt: '+str(frame_cnt), (80, 80), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+            for cnts_lst_idx in range(0, len(cnts_lst)):
+                cnt_str = cnts_lst_str[cnts_lst_idx]
+                cnt_value = cnts_lst[cnts_lst_idx]
+                cv2.putText(frame, cnt_str + ': ' + str(cnt_value), (80, 120 + 35*cnts_lst_idx), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
 
-        
-        for i in range(0, len(non_false_idx_lst)):
-            # non_false_idx = non_false_idx_lst[i]
-            map_img = map_imgs[i]
-            need_display = display_bool_lst[i]
-            if need_display:
-                # frame[non_false_idx] = cv2.addWeighted(frame, 0.5, map_img, 0.5, 0)[non_false_idx]
-                frame = cv2.addWeighted(frame, 0.6, map_img, 0.4, 0)
+            for data in dets:
+                det = data
+                p_x1, p_y1 = int(det[0]), int(det[1])
+                p_x2, p_y2 = int(det[2]), int(det[3])
+                frame = cv2.rectangle(frame, (p_x1, p_y1), (p_x2, p_y2), (255, 0, 0), 2)
+            for data in center_points_lst:
+                center_point = data[0]
+                cv2.line(frame, (int(center_point[0]), int(center_point[1])), (int(center_point[0]), int(center_point[1])), (0,255,0), thickness=12, lineType=None, shift=None)
+                cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
+                cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
+
+            
+            key  = cv2.waitKey(1) & 0xFF
+            if key == ord('q'):
                 break
+            elif key != 255: # not no input
+                if key in available_key_lst:
+                    for i in range(0, len(display_bool_lst)):
+                        displayed_zone_name = 'None'
+                        display_bool_lst[i] = False
+                    for i in range(0, len(display_bool_lst)):
+                        if key == ord(str(i+1)):
+                            displayed_zone_name = str(zone_name_strings[i])
+                            display_bool_lst[i] = True
+                            break
+            
+            cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         
-        
-        cv2.putText(frame, 'frame cnt: '+str(frame_cnt), (80, 80), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
-        for cnts_lst_idx in range(0, len(cnts_lst)):
-            cnt_str = cnts_lst_str[cnts_lst_idx]
-            cnt_value = cnts_lst[cnts_lst_idx]
-            cv2.putText(frame, cnt_str + ': ' + str(cnt_value), (80, 120 + 35*cnts_lst_idx), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
-
-        for data in dets:
-            det = data
-            p_x1, p_y1 = int(det[0]), int(det[1])
-            p_x2, p_y2 = int(det[2]), int(det[3])
-            frame = cv2.rectangle(frame, (p_x1, p_y1), (p_x2, p_y2), (255, 0, 0), 2)
-        for data in center_points_lst:
-            center_point = data[0]
-            cv2.line(frame, (int(center_point[0]), int(center_point[1])), (int(center_point[0]), int(center_point[1])), (0,255,0), thickness=12, lineType=None, shift=None)
-            cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
-            cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
-
-        
-        key  = cv2.waitKey(1) & 0xFF
-        if key == ord('q'):
-            break
-        elif key != 255: # not no input
-            if key in available_key_lst:
-                for i in range(0, len(display_bool_lst)):
-                    displayed_zone_name = 'None'
-                    display_bool_lst[i] = False
-                for i in range(0, len(display_bool_lst)):
-                    if key == ord(str(i+1)):
-                        displayed_zone_name = str(zone_name_strings[i])
-                        display_bool_lst[i] = True
-                        break
-        
-        cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
-        
+        # print('drawing result que put')
         drawing_result_ques[area_num_idx].put(frame)
         # drawing_result_ques[area_num_idx+3].put(frame.copy())
         # cv2.namedWindow('frame: area'+str(area_num), cv2.WINDOW_NORMAL)

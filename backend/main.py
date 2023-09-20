@@ -135,17 +135,19 @@ def video_load(op_flag, image_que1, image_que2, path, need_visualization):
         _, _ = cap_loader.read()
         ret, frame = cap_loader.read()
 
-        
-        if op_flag.is_set() and ret:
-            image_que1.put(frame)
+        # if op_flag.is_set() and ret:
+        if ret:
+            if op_flag.is_set():
+                image_que1.put(frame)
             if need_visualization:
+                # print('imgq2 put')
                 image_que2.put(frame)
         elif not ret:
             image_que1.put(None)
             if need_visualization:
                 image_que2.put(None)
             cap_loader.release()
-            print('loader break')
+            print('video loader break, put None')
             break
     else:
         time.sleep(0.01)

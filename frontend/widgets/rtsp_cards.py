@@ -25,6 +25,10 @@ class RtspFrame(customtkinter.CTkFrame):
         self.drawing_result_que = drawing_result_que
         # self.rtsp_card_1 = RtspCard(self, 85, self.drawing_result_ques[3])
         
+        self.grid_columnconfigure((0,1,2,3,4), weight=1)
+        self.grid_rowconfigure((0,1), weight=1)
+        
+        
         self.card_height = 85
         self.card_width = int(self.card_height * (16/9))
         
@@ -52,10 +56,11 @@ class RtspFrame(customtkinter.CTkFrame):
         self.rtsp_card_3.lbl.bind("<Button-1>", lambda e: self.select_rtsp_card(event=e, card_num=3))
 
         self.rtsp_main_card = RtspMainView(self, 300)
-        self.rtsp_main_card.grid(row=1, column=0, rowspan=2, columnspan=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        self.rtsp_main_card.grid(row=1, column=0, rowspan=2, columnspan=3, padx=4, pady=4, sticky="nsew")
 
         self.bp_view = BpView(self, 300)
-        self.bp_view.grid(row=0, column=3, rowspan=2, columnspan=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        # self.bp_view.grid(row=0, column=3, rowspan=2, columnspan=2, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        self.bp_view.grid(row=0, column=3, rowspan=2, columnspan=2, padx=4, pady=4)
         
         self.current_frame_1 = np.zeros((1080, 1920, 3), dtype=np.uint8)
         self.current_frame_2 = np.zeros((1080, 1920, 3), dtype=np.uint8)
@@ -94,7 +99,8 @@ class RtspFrame(customtkinter.CTkFrame):
             self.current_frame_1 = self.drawing_result_que[0].get()
             self.current_frame_2 = self.drawing_result_que[1].get()
             self.current_frame_3 = self.drawing_result_que[2].get()
-            self.current_frame_bp = self.drawing_result_que[3].get()
+            if not self.drawing_result_que[3].empty():
+                self.current_frame_bp = self.drawing_result_que[3].get()
         
     def update_frame(self):
         # print('update frame')
@@ -102,61 +108,36 @@ class RtspFrame(customtkinter.CTkFrame):
         frame2 = self.current_frame_2
         frame3 = self.current_frame_3
         frame_bp = self.current_frame_bp
-        # if not self.is_selected:
-        #     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         
         if self.rtsp_main_card.selected_cam_num == 1:
-            # frame = cv2.resize(frame1.copy(), (int(1.5 * self.main_view_width), int(1.5 * self.main_view_height)))
-            # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # img = Image.fromarray(frame)
-            # imgtk = ImageTk.PhotoImage(image=img)
+            frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+            frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
             imgtk = cvimg_to_tkimg(frame1, int(1.5 * self.main_view_width),  int(1.5 * self.main_view_height))
             self.rtsp_main_card.lbl.configure(image=imgtk)
         elif self.rtsp_main_card.selected_cam_num == 2:
-            # frame = cv2.resize(frame2.copy(), (int(1.5 * self.main_view_width), int(1.5 * self.main_view_height)))
-            # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # img = Image.fromarray(frame)
-            # imgtk = ImageTk.PhotoImage(image=img)
+            frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+            frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
             imgtk = cvimg_to_tkimg(frame2, int(1.5 * self.main_view_width),  int(1.5 * self.main_view_height))
             self.rtsp_main_card.lbl.configure(image=imgtk)
         elif self.rtsp_main_card.selected_cam_num == 3:
-            # frame = cv2.resize(frame3.copy(), (int(1.5 * self.main_view_width), int(1.5 * self.main_view_height)))
-            # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # img = Image.fromarray(frame)
-            # imgtk = ImageTk.PhotoImage(image=img)
+            frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+            frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
             imgtk = cvimg_to_tkimg(frame3, int(1.5 * self.main_view_width),  int(1.5 * self.main_view_height))
             self.rtsp_main_card.lbl.configure(image=imgtk)
         
-        
-        # frame1 = cv2.resize(frame1, (int(1.5 * self.card_width), int(1.5 * self.card_height)))
-        # frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2RGB)
-        # img1 = Image.fromarray(frame1)
-        # imgtk1 = ImageTk.PhotoImage(image=img1)
         imgtk1 = cvimg_to_tkimg(frame1, int(1.5 * self.card_width),  int(1.5 * self.card_height))
         self.rtsp_card_1.lbl.configure(image=imgtk1)
-        
-        # frame2 = cv2.resize(frame2, (int(1.5 * self.card_width), int(1.5 * self.card_height)))
-        # frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2RGB)
-        # img2 = Image.fromarray(frame2)
-        # imgtk2 = ImageTk.PhotoImage(image=img2)
+
         imgtk2 = cvimg_to_tkimg(frame2, int(1.5 * self.card_width),  int(1.5 * self.card_height))
         self.rtsp_card_2.lbl.configure(image=imgtk2)
-        
-        # frame3 = cv2.resize(frame3, (int(1.5 * self.card_width), int(1.5 * self.card_height)))
-        # frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2RGB)
-        # img3 = Image.fromarray(frame3)
-        # imgtk3 = ImageTk.PhotoImage(image=img3)
+
         imgtk3 = cvimg_to_tkimg(frame3, int(1.5 * self.card_width),  int(1.5 * self.card_height))
         self.rtsp_card_3.lbl.configure(image=imgtk3)
-        
-        # frame_bp = cv2.resize(frame_bp, (int(1.5 * self.main_view_width), int(1.5 * self.main_view_height)))
-        # frame_bp = cv2.cvtColor(frame_bp, cv2.COLOR_BGR2RGB)
-        # img_bp = Image.fromarray(frame_bp)
-        # imgtk_bp = ImageTk.PhotoImage(image=img_bp)
+
         imgtk_bp = cvimg_to_tkimg(frame_bp, int(1.5 * self.main_view_width),  int(1.7 * self.main_view_height))
         self.bp_view.lbl.configure(image=imgtk_bp)
 
-        self.after(16, self.update_frame)
+        self.after(32, self.update_frame)
         
 
 class RtspCard(customtkinter.CTkFrame):
