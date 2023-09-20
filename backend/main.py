@@ -21,8 +21,8 @@ import os
 os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 
 
-def create_backend(op_flag, drawing_result_ques):
-    gs_tracker_instance = gs_tracker(op_flag, drawing_result_ques)
+def create_backend(op_flags, drawing_result_ques):
+    gs_tracker_instance = gs_tracker(op_flags, drawing_result_ques)
     gs_tracker_instance.run()
 
 
@@ -46,6 +46,7 @@ class gs_tracker():
         self.visualization_eco_mode = False
         
         self.operation_flag = shared_variables['operation_flag']
+        self.area_display_values = shared_variables['area_display_values']
 
         # yolo_area1_flag = multiprocessing.Event()
         # yolo_area3_flag = multiprocessing.Event()
@@ -69,7 +70,8 @@ class gs_tracker():
             # self.yolo_inference_lst.append(inference(self.image_que_lst_proc[i], self.det_result_que_lst[i]))
             self.tracking_proc_lst.append(multiprocessing.Process(target=lst_of_trk_fns[i], args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i], self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],i), daemon=False))
             if self.need_visualization:
-                self.draw_proc_lst.append(multiprocessing.Process(target=visualize, args=(self.operation_flag, self.image_que_lst_draw[i], self.draw_proc_result_que_lst[i], i, self.drawing_result_ques[0:3], self.visualization_eco_mode), daemon=False))
+                self.draw_proc_lst.append(multiprocessing.Process(target=visualize, args=(self.operation_flag, self.area_display_values[i],
+                                                                self.image_que_lst_draw[i], self.draw_proc_result_que_lst[i], i, self.drawing_result_ques[0:3], self.visualization_eco_mode), daemon=False))
 
 
         # for i in range(0, len(paths)):

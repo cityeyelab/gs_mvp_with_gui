@@ -13,8 +13,8 @@ from .widgets.rtsp_cards import RtspCard, RtspMainView, BpView, RtspFrame
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
-def create_frontend(video_op_flag, drawing_result_ques):
-    app_instance = App(video_op_flag, drawing_result_ques)
+def create_frontend(op_flags, drawing_result_ques):
+    app_instance = App(op_flags, drawing_result_ques)
     app_instance.mainloop()
     # app_process.join()
 
@@ -25,6 +25,7 @@ class App(customtkinter.CTk):
         super().__init__()
         self.drawing_result_ques = drawing_result_ques
         self.operation_flag = shared_variables['operation_flag']
+        self.area_display_values = shared_variables['area_display_values']
 
         self.title("GS demonstration MVP GUI")
         self.geometry(f"{1400}x{800}")
@@ -65,6 +66,26 @@ class App(customtkinter.CTk):
         self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
         
         
+        
+        
+        self.radiobutton_frame = customtkinter.CTkFrame(self, border_color='black', border_width=4)
+        self.radiobutton_frame.grid(row=5, column=2, padx=12, pady=12, sticky="nsew")
+        self.label_radio_group = customtkinter.CTkLabel(master=self.radiobutton_frame, text="Area1 Zone Display",)
+        self.label_radio_group.grid(row=0, column=1, padx=10, pady=10, )
+        self.radio_var_area1 = tkinter.IntVar(value=0)
+        self.radio_button1 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='None', variable=self.radio_var_area1, value=0,
+                                                          command=self.radio_button_command)
+        self.radio_button1.grid(row=1, column=0, pady=8, padx=8)
+        self.radio_button2 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='1', variable=self.radio_var_area1, value=1,
+                                                          command=self.radio_button_command)
+        self.radio_button2.grid(row=1, column=1, pady=8, padx=8)
+        # self.radio_button2.grid(row=1, column=1, pady=4, padx=4, sticky="n")
+        self.radio_button3 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='2', variable=self.radio_var_area1, value=2,
+                                                          command=self.radio_button_command)
+        self.radio_button3.grid(row=1, column=2, pady=8, padx=8)
+        self.radio_button3 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='3', variable=self.radio_var_area1, value=3,
+                                                          command=self.radio_button_command)
+        self.radio_button3.grid(row=1, column=3, pady=8, padx=8)
         
         # self.frame_click_test = customtkinter.CTkFrame(self.rtsp_frame, corner_radius=0, fg_color='transparent')
         # self.frame_click_test.grid(row=3, column=0, rowspan=2, columnspan=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
@@ -111,7 +132,16 @@ class App(customtkinter.CTk):
         self.scaling_optionemenu.set("100%")
         
         print('frontend init end')
+
+    def radio_button_command(self):
+        radio_var1 = self.radio_var_area1.get()
+        print('radio var 1 = ' , radio_var1)
+        self.area_display_values[0].set(radio_var1)
+        print('self.area_display_values[0] = ', self.area_display_values[0])
+        # area1_zone_display_value.set()
+        # self.area_display_values = radio_var1
         
+    
     def toggle_video_op_flag(self):
         if self.operation_flag.is_set():
             self.operation_flag.clear()

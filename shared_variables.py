@@ -10,11 +10,17 @@ class SharedVariables():
         det_visualization_operation_flag = Event()
         bp_visualization_operation_flag = Event()
         
+        area1_display = self.manager.Value(int, 0)
+        area2_display = self.manager.Value(int, 0)
+        area4_display = self.manager.Value(int, 0)
+        area_display_values = [area1_display, area2_display, area4_display]
+        
         # self.my_bool = self.manager.Value(bool, True)
         # self.my_bool2 = self.manager.Value(bool, True)
         self.args = {'operation_flag': whole_operation_flag, 'video_loader_operation_flag': video_loader_operation_flag,
                      'yolo_operation_flag': yolo_operation_flag, 'tracker_loader_operation_flag': tracker_loader_operation_flag,
-                     'det_visualization_operation_flag': det_visualization_operation_flag, 'bp_visualization_operation_flag': bp_visualization_operation_flag
+                     'det_visualization_operation_flag': det_visualization_operation_flag, 'bp_visualization_operation_flag': bp_visualization_operation_flag,
+                     'area_display_values': area_display_values,
                      }
         
         self.drawing_result_ques = [Queue(200), Queue(200), Queue(200), Queue(200)]

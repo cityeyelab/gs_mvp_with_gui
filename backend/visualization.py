@@ -5,7 +5,7 @@ from .map_vars import area4_global_inout_map_non_false_idx, area4_car_wash_waiti
 from .util_functions import get_bbox_conf
 from .font import font
 
-def visualize(op_flag, img_q, proc_result_q, area_num_idx, drawing_result_ques, eco=False):
+def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, drawing_result_ques, eco=False):
     frame_cnt = 0
 
     area_num_lst = [1, 3, 4]
@@ -56,8 +56,9 @@ def visualize(op_flag, img_q, proc_result_q, area_num_idx, drawing_result_ques, 
         map_imgs = [area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img]
         zone_name_strings = ['Global In Out', 'Car Wash Waiting', 'Electric Charging Zone', 'Car Interior Washing Zone']
 
-    available_key_lst = [ord(str(i)) for i in range(0, len(display_bool_lst)+1)]
-
+    # available_key_lst = [ord(str(i)) for i in range(0, len(display_bool_lst)+1)]
+    prev_key = 0
+    
     while True:
         if not op_flag.is_set():
             while not proc_result_q.empty():
@@ -108,20 +109,32 @@ def visualize(op_flag, img_q, proc_result_q, area_num_idx, drawing_result_ques, 
                 cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
                 cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
-            
-            key  = cv2.waitKey(1) & 0xFF
-            if key == ord('q'):
-                break
-            elif key != 255: # not no input
-                if key in available_key_lst:
+            key = area_display_value.get()
+            if  key != prev_key:
+                for i in range(0, len(display_bool_lst)):
+                    displayed_zone_name = 'None'
+                    display_bool_lst[i] = False
+                if key != 0:
                     for i in range(0, len(display_bool_lst)):
-                        displayed_zone_name = 'None'
-                        display_bool_lst[i] = False
-                    for i in range(0, len(display_bool_lst)):
-                        if key == ord(str(i+1)):
+                        if i == key - 1:
                             displayed_zone_name = str(zone_name_strings[i])
                             display_bool_lst[i] = True
                             break
+                prev_key = key
+        
+            # key  = cv2.waitKey(1) & 0xFF
+            # if key == ord('q'):
+            #     break
+            # elif key != 255: # not no input
+            #     if key in available_key_lst:
+            #         for i in range(0, len(display_bool_lst)):
+            #             displayed_zone_name = 'None'
+            #             display_bool_lst[i] = False
+            #         for i in range(0, len(display_bool_lst)):
+            #             if key == ord(str(i+1)):
+            #                 displayed_zone_name = str(zone_name_strings[i])
+            #                 display_bool_lst[i] = True
+            #                 break
             
             cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         
