@@ -29,8 +29,8 @@ class App(customtkinter.CTk):
         self.area_display_values = shared_variables['area_display_values']
         self.yolo_inference_ready_flag_lst = [shared_variables['is_yolo_inference1_ready'], shared_variables['is_yolo_inference2_ready'],
                                          shared_variables['is_yolo_inference3_ready']]
-    
-
+        self.rtsp_ready_lst = [shared_variables['is_rtsp1_ready'], shared_variables['is_rtsp2_ready'], shared_variables['is_rtsp3_ready']]
+        
         self.title("GS demonstration MVP GUI")
         self.geometry(f"{1400}x{800}")
 
@@ -79,8 +79,13 @@ class App(customtkinter.CTk):
         
         
         # rtsp frame
+        self.wait_rtsp_frame = customtkinter.CTkFrame(self)
+        self.wait_rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew")
+        self.wait_rtsp_frame_lbl = customtkinter.CTkLabel(self.wait_rtsp_frame, text="Wait until rtsp protocol is ready...", width=385*(16/9), height=385)
+        self.wait_rtsp_frame_lbl.grid(row=0, column=0, rowspan=2, columnspan=5, padx=10, pady=10, sticky="nsew")
+        self.wait_rtsp_frame_task = self.wait_rtsp_frame.after(200, self.load_rtsp_frame)
         self.rtsp_frame = RtspFrame(self, self.drawing_result_ques, self.radio_button_callback)
-        self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
+        # self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
         
         # sized box
         self.empty_block = customtkinter.CTkFrame(self, corner_radius=0, fg_color='transparent')
@@ -136,7 +141,18 @@ class App(customtkinter.CTk):
             self.wait_op_button_frame_task = self.wait_op_button_frame.after(200, self.load_op_button)
         
         
-    
+    def load_rtsp_frame(self):
+        flag1 = self.rtsp_ready_lst[0].is_set()
+        flag2 = self.rtsp_ready_lst[1].is_set()
+        flag3 = self.rtsp_ready_lst[2].is_set()
+        
+        if flag1 and flag2 and flag3:
+            self.wait_rtsp_frame.grid_forget()
+            self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
+            self.wait_rtsp_frame.after_cancel(self.wait_rtsp_frame_task)
+            self.wait_rtsp_frame.destroy()
+        else:
+            self.wait_rtsp_frame_task = self.wait_rtsp_frame.after(200, self.load_rtsp_frame)
     
     # def radio_button_command(self):
     #     radio_var1 = self.radio_var_area1.get()

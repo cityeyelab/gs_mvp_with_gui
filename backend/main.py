@@ -50,6 +50,9 @@ class gs_tracker():
         
         self.yolo_inference_ready_flag_lst = [shared_variables['is_yolo_inference1_ready'], shared_variables['is_yolo_inference2_ready'],
                                          shared_variables['is_yolo_inference3_ready']]
+        
+        
+        self.rtsp_ready_lst = [shared_variables['is_rtsp1_ready'], shared_variables['is_rtsp2_ready'], shared_variables['is_rtsp3_ready']]
 
         # yolo_area1_flag = multiprocessing.Event()
         # yolo_area3_flag = multiprocessing.Event()
@@ -66,7 +69,7 @@ class gs_tracker():
             self.draw_proc_result_que_lst.append(Queue(200))
             self.visualize_bp_que_lst.append(Queue(200))
 
-            self.video_loader_lst.append(multiprocessing.Process(target=video_load, args=(self.operation_flag, self.image_que_lst_proc[i], self.image_que_lst_draw[i], paths[i], self.need_visualization), daemon=False))
+            self.video_loader_lst.append(multiprocessing.Process(target=video_load, args=(self.rtsp_ready_lst[i], self.operation_flag, self.image_que_lst_proc[i], self.image_que_lst_draw[i], paths[i], self.need_visualization), daemon=False))
             # self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.yolo_inference_flags[i],self.image_que_lst_proc[i], self.det_result_que_lst[i]), daemon=False))
             self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.yolo_inference_ready_flag_lst[i], self.operation_flag, self.image_que_lst_proc[i],
                                                                                                 self.det_result_que_lst[i]), daemon=False))
@@ -134,13 +137,14 @@ class gs_tracker():
         self.visualize_bp_proc.close()
 
 
-def video_load(op_flag, image_que1, image_que2, path, need_visualization):
+def video_load(rtsp_ready_flag, op_flag, image_que1, image_que2, path, need_visualization):
     cap_loader = cv2.VideoCapture(path)
+    # print('video loader ready')
+    rtsp_ready_flag.set()
     while True:
         # op_flag.wait()
         _, _ = cap_loader.read()
         ret, frame = cap_loader.read()
-
         # if op_flag.is_set() and ret:
         if ret:
             if op_flag.is_set():
