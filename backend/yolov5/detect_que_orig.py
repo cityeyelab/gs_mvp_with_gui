@@ -179,7 +179,7 @@ class inference():
 
     # self.yolo_inference_flags[i],self.image_que_lst_proc[i], self.det_result_que_lst[i]
     @smart_inference_mode()
-    def run(self, op_flag, image_que, result_que):
+    def run(self, ready_flag, op_flag, image_que, result_que):
     # def run(self):
         # image_que = self.img_que
         # result_que = self.det_que
@@ -196,13 +196,18 @@ class inference():
         
         # len_img_q  = len(image_q)
 
-        print('start making dets in det_que')
+        
         result_lst = []
         conf_thres=0.25
         iou_thres=0.45
         max_det=200 
         classes=None
         agnostic_nms=False
+        print('start making dets in det_que')
+        
+        # print('ready flag in detect = ', ready_flag.is_set())
+        ready_flag.set()
+        
         while True:
         # im0 = cv2.imread('intermediate_version/sample_img2.png')
             # if len_img_q == 1:

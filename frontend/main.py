@@ -27,6 +27,9 @@ class App(customtkinter.CTk):
         self.drawing_result_ques = drawing_result_ques
         self.operation_flag = shared_variables['operation_flag']
         self.area_display_values = shared_variables['area_display_values']
+        self.yolo_inference_ready_flag_lst = [shared_variables['is_yolo_inference1_ready'], shared_variables['is_yolo_inference2_ready'],
+                                         shared_variables['is_yolo_inference3_ready']]
+    
 
         self.title("GS demonstration MVP GUI")
         self.geometry(f"{1400}x{800}")
@@ -54,8 +57,16 @@ class App(customtkinter.CTk):
         self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text='button2', command=None)
         self.sidebar_button_2.grid(row=3, column=0, padx=20, pady=10)
         
-        self.op_button = customtkinter.CTkButton(self.sidebar_frame, text='run / pause', command=self.toggle_video_op_flag)
-        self.op_button.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
+        self.wait_op_button_frame = customtkinter.CTkFrame(self.sidebar_frame, corner_radius=4, fg_color='gray80', border_width=2, border_color='grey')
+        self.wait_op_button_frame.grid(row=4, column=0, padx=8, pady=8, sticky="nsew")
+        self.wait_op_button_lbl = customtkinter.CTkLabel(self.wait_op_button_frame, text="Wait until the model is ready...")
+        self.wait_op_button_lbl.grid(row=0, column=0, padx=4, pady=4, )
+        self.wait_op_button = customtkinter.CTkProgressBar(self.wait_op_button_frame)
+        self.wait_op_button.grid(row=1, column=0, padx=4, pady=4, )
+
+        self.wait_op_button_frame_task = self.wait_op_button_frame.after(200, self.load_op_button)
+        self.op_button = customtkinter.CTkButton(self.sidebar_frame, text='run / pause', command=self.toggle_op_flag)
+        # self.op_button.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
         
         # self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text='button3', command=None)
         # self.sidebar_button_3.grid(row=4, column=0, padx=20, pady=10)
@@ -70,35 +81,6 @@ class App(customtkinter.CTk):
         # rtsp frame
         self.rtsp_frame = RtspFrame(self, self.drawing_result_ques, self.radio_button_callback)
         self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
-        
-        
-        
-        
-        # self.label_radio_group = customtkinter.CTkLabel(master=self.radiobutton_frame, text="Area1 Zone Display", fg_color='grey', corner_radius=8, )
-        # self.label_radio_group.grid(row=0, column=1, padx=10, pady=10, )
-        # self.radio_var_area1 = tkinter.IntVar(value=0)
-        # self.radio_button1 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='None', variable=self.radio_var_area1, value=0,
-        #                                                   command=self.radio_button_command)
-        # self.radio_button1.grid(row=1, column=0, pady=8, padx=8)
-        # self.radio_button2 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='1', variable=self.radio_var_area1, value=1,
-        #                                                   command=self.radio_button_command)
-        # self.radio_button2.grid(row=1, column=1, pady=8, padx=8)
-        # # self.radio_button2.grid(row=1, column=1, pady=4, padx=4, sticky="n")
-        # self.radio_button3 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='2', variable=self.radio_var_area1, value=2,
-        #                                                   command=self.radio_button_command)
-        # self.radio_button3.grid(row=1, column=2, pady=8, padx=8)
-        # self.radio_button3 = customtkinter.CTkRadioButton(master = self.radiobutton_frame, text='3', variable=self.radio_var_area1, value=3,
-        #                                                   command=self.radio_button_command)
-        # self.radio_button3.grid(row=1, column=3, pady=8, padx=8)
-        
-        # self.frame_click_test = customtkinter.CTkFrame(self.rtsp_frame, corner_radius=0, fg_color='transparent')
-        # self.frame_click_test.grid(row=3, column=0, rowspan=2, columnspan=3, padx=(0, 0), pady=(0, 0), sticky="nsew")
-        # self.click_test_lbl = customtkinter.CTkLabel(self.frame_click_test, text='test')
-        # self.click_test_lbl.pack()
-        # self.frame_click_test._canvas.bind("<Button-1>", self.select_rtsp_card)
-        # self.frame_click_test.canva
-        
-        
         
         # sized box
         self.empty_block = customtkinter.CTkFrame(self, corner_radius=0, fg_color='transparent')
@@ -134,19 +116,38 @@ class App(customtkinter.CTk):
         
         
         self.scaling_optionemenu.set("100%")
+        self.wait_op_button.configure(mode="indeterminnate")
+        self.wait_op_button.start()
         
         print('frontend init end')
+        
 
-    def radio_button_command(self):
-        radio_var1 = self.radio_var_area1.get()
-        print('radio var 1 = ' , radio_var1)
-        self.area_display_values[0].set(radio_var1)
-        print('self.area_display_values[0] = ', self.area_display_values[0])
-        # area1_zone_display_value.set()
-        # self.area_display_values = radio_var1
+    def load_op_button(self):
+        flag1 = self.yolo_inference_ready_flag_lst[0].is_set()
+        flag2 = self.yolo_inference_ready_flag_lst[1].is_set()
+        flag3 = self.yolo_inference_ready_flag_lst[2].is_set()
+        
+        if flag1 and flag2 and flag3:
+            self.wait_op_button_frame.grid_forget()
+            self.op_button.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
+            self.wait_op_button.after_cancel(self.wait_op_button_frame_task)
+            self.wait_op_button_frame.destroy()
+        else:
+            self.wait_op_button_frame_task = self.wait_op_button_frame.after(200, self.load_op_button)
+        
         
     
-    def toggle_video_op_flag(self):
+    
+    # def radio_button_command(self):
+    #     radio_var1 = self.radio_var_area1.get()
+    #     print('radio var 1 = ' , radio_var1)
+    #     self.area_display_values[0].set(radio_var1)
+    #     print('self.area_display_values[0] = ', self.area_display_values[0])
+    #     # area1_zone_display_value.set()
+    #     # self.area_display_values = radio_var1
+        
+    
+    def toggle_op_flag(self):
         if self.operation_flag.is_set():
             self.operation_flag.clear()
             # cv2.destroyAllWindows()

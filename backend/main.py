@@ -47,6 +47,9 @@ class gs_tracker():
         
         self.operation_flag = shared_variables['operation_flag']
         self.area_display_values = shared_variables['area_display_values']
+        
+        self.yolo_inference_ready_flag_lst = [shared_variables['is_yolo_inference1_ready'], shared_variables['is_yolo_inference2_ready'],
+                                         shared_variables['is_yolo_inference3_ready']]
 
         # yolo_area1_flag = multiprocessing.Event()
         # yolo_area3_flag = multiprocessing.Event()
@@ -65,7 +68,8 @@ class gs_tracker():
 
             self.video_loader_lst.append(multiprocessing.Process(target=video_load, args=(self.operation_flag, self.image_que_lst_proc[i], self.image_que_lst_draw[i], paths[i], self.need_visualization), daemon=False))
             # self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.yolo_inference_flags[i],self.image_que_lst_proc[i], self.det_result_que_lst[i]), daemon=False))
-            self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.operation_flag, self.image_que_lst_proc[i], self.det_result_que_lst[i]), daemon=False))
+            self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.yolo_inference_ready_flag_lst[i], self.operation_flag, self.image_que_lst_proc[i],
+                                                                                                self.det_result_que_lst[i]), daemon=False))
             # self.yolo_inference_lst.append(inference(self.image_que_lst_proc[i], self.det_result_que_lst[i]))
             # self.yolo_inference_lst.append(inference(self.image_que_lst_proc[i], self.det_result_que_lst[i]))
             self.tracking_proc_lst.append(multiprocessing.Process(target=lst_of_trk_fns[i], args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i], self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],i), daemon=False))
@@ -160,11 +164,11 @@ def video_load(op_flag, image_que1, image_que2, path, need_visualization):
 
 
 
-def yolo_inference(op_flag, image_que, result_que):
+def yolo_inference(ready_flag, op_flag, image_que, result_que):
     inference_instance = inference()
     # if flag.is_set():
     y_s = time.time()
-    inference_instance.run(op_flag, image_que, result_que)
+    inference_instance.run(ready_flag, op_flag, image_que, result_que)
     print('yolo inference breaked!')
     y_e = time.time()
     y_elapsed_time = y_e - y_s

@@ -22,6 +22,7 @@ import tkinter
 #         self.radio_button3.grid(row=1, column=3, pady=8, padx=8)
 
 
+
 class ZoneRadioButton(customtkinter.CTkFrame):
     # def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, **kwargs):
     #     super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
@@ -83,6 +84,9 @@ class ZoneRadioButton(customtkinter.CTkFrame):
 
     def set_selected_cam_num(self, idx):
         self.radio_var.set(0)
+        self.area_display_values[0].set(0)
+        self.area_display_values[1].set(0)
+        self.area_display_values[2].set(0)
         self.selected_cam_num = idx
         # idx:1->4buttons, idx:2->3buttons, idx:3->5buttons
         if idx == 1:

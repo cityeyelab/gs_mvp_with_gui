@@ -84,14 +84,14 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
             for i in range(0, len(cnts_lst)):
                 cnts_lst[i] = proc_result['cnt_lst'][i]
             
-            for i in range(0, len(non_false_idx_lst)):
-                # non_false_idx = non_false_idx_lst[i]
-                map_img = map_imgs[i]
-                need_display = display_bool_lst[i]
-                if need_display:
-                    # frame[non_false_idx] = cv2.addWeighted(frame, 0.5, map_img, 0.5, 0)[non_false_idx]
-                    frame = cv2.addWeighted(frame, 0.6, map_img, 0.4, 0)
-                    break
+            # for i in range(0, len(non_false_idx_lst)):
+            #     # non_false_idx = non_false_idx_lst[i]
+            #     map_img = map_imgs[i]
+            #     need_display = display_bool_lst[i]
+            #     if need_display:
+            #         # frame[non_false_idx] = cv2.addWeighted(frame, 0.5, map_img, 0.5, 0)[non_false_idx]
+            #         frame = cv2.addWeighted(frame, 0.6, map_img, 0.4, 0)
+            #         break
             
             
             cv2.putText(frame, 'frame cnt: '+str(frame_cnt), (80, 80), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
@@ -111,18 +111,18 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
                 cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
                 cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
-            key = area_display_value.get()
-            if  key != prev_key:
-                for i in range(0, len(display_bool_lst)):
-                    displayed_zone_name = 'None'
-                    display_bool_lst[i] = False
-                if key != 0:
-                    for i in range(0, len(display_bool_lst)):
-                        if i == key - 1:
-                            displayed_zone_name = str(zone_name_strings[i])
-                            display_bool_lst[i] = True
-                            break
-                prev_key = key
+            # key = area_display_value.get()
+            # if  key != prev_key:
+            #     for i in range(0, len(display_bool_lst)):
+            #         displayed_zone_name = 'None'
+            #         display_bool_lst[i] = False
+            #     if key != 0:
+            #         for i in range(0, len(display_bool_lst)):
+            #             if i == key - 1:
+            #                 displayed_zone_name = str(zone_name_strings[i])
+            #                 display_bool_lst[i] = True
+            #                 break
+            #     prev_key = key
         
             # key  = cv2.waitKey(1) & 0xFF
             # if key == ord('q'):
@@ -138,7 +138,31 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
             #                 display_bool_lst[i] = True
             #                 break
             
-            cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+            # cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+        
+        for i in range(0, len(non_false_idx_lst)):
+            # non_false_idx = non_false_idx_lst[i]
+            need_display = display_bool_lst[i]
+            if need_display:
+                map_img = map_imgs[i]
+                # frame[non_false_idx] = cv2.addWeighted(frame, 0.5, map_img, 0.5, 0)[non_false_idx]
+                frame = cv2.addWeighted(frame, 0.6, map_img, 0.4, 0)
+                break
+            
+        
+        key = area_display_value.get()
+        if  key != prev_key:
+            for i in range(0, len(display_bool_lst)):
+                displayed_zone_name = 'None'
+                display_bool_lst[i] = False
+            if key != 0:
+                for i in range(0, len(display_bool_lst)):
+                    if i == key - 1:
+                        displayed_zone_name = str(zone_name_strings[i])
+                        display_bool_lst[i] = True
+                        break
+            prev_key = key
+        cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         
         # print('drawing result que put')
         drawing_result_ques[area_num_idx].put(frame)
@@ -157,9 +181,9 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
     
     cv2.destroyAllWindows()
     
-def cvimg_to_tkimg(frame, width, height):
-    frame = cv2.resize(frame.copy(), (int(width), int(height)))
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    img = Image.fromarray(frame)
-    imgtk = ImageTk.PhotoImage(image=img)
-    return imgtk
+# def cvimg_to_tkimg(frame, width, height):
+#     frame = cv2.resize(frame.copy(), (int(width), int(height)))
+#     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#     img = Image.fromarray(frame)
+#     imgtk = ImageTk.PhotoImage(image=img)
+#     return imgtk
