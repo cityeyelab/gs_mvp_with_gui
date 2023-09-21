@@ -140,7 +140,7 @@ class RtspFrame(customtkinter.CTkFrame):
         imgtk_bp = cvimg_to_tkimg(frame_bp, int(1.5 * self.main_view_width),  int(1.7 * self.main_view_height))
         self.bp_view.lbl.configure(image=imgtk_bp)
 
-        self.after(32, self.update_frame)
+        self.after(64, self.update_frame)
         
 
 class RtspCard(customtkinter.CTkFrame):

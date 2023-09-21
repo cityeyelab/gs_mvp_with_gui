@@ -5,6 +5,8 @@ from .map_vars import area4_global_inout_map_non_false_idx, area4_car_wash_waiti
 from .util_functions import get_bbox_conf
 from .font import font
 
+from PIL import Image, ImageTk
+
 def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, drawing_result_ques, eco=False):
     frame_cnt = 0
 
@@ -154,3 +156,10 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
                 print(f'img_q is full at place {area_num}. Clear img_q')
     
     cv2.destroyAllWindows()
+    
+def cvimg_to_tkimg(frame, width, height):
+    frame = cv2.resize(frame.copy(), (int(width), int(height)))
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    img = Image.fromarray(frame)
+    imgtk = ImageTk.PhotoImage(image=img)
+    return imgtk

@@ -30,33 +30,33 @@ class ZoneRadioButton(customtkinter.CTkFrame):
         self.area_display_values = area_display_values
         self.selected_cam_num = 1
         
-        self.rowconfigure(0, weight=1)
+        # self.rowconfigure(0, weight=1)
         
-        self.lbl = customtkinter.CTkLabel(master=self, text="Area1 Zone Display", fg_color='grey', corner_radius=8, )
+        self.lbl = customtkinter.CTkLabel(master=self, text="Area1 Zone Display", fg_color='grey', corner_radius=12,  width=180*5+50, height=30)
         # self.label_radio_group.grid(row=0, column=0, padx=10, pady=10, )
-        self.lbl.grid(row=0, column=0, columnspan=5, padx=10, pady=10, )
+        self.lbl.grid(row=0, column=0, columnspan=5, padx=10, pady=10, sticky="nsew")
         self.radio_var = tkinter.IntVar(value=0)
         
         self.radio_button1 = customtkinter.CTkRadioButton(master = self, text='None', variable=self.radio_var, value=0,
-                                                          command=self.radio_button_command)
-        self.radio_button1.grid(row=1, column=0, pady=8, padx=8)
+                                                          command=self.radio_button_command, width=180, height=30)
+        self.radio_button1.grid(row=1, column=0, pady=8, padx=8, sticky="nsew")
         
         self.radio_button2 = customtkinter.CTkRadioButton(master = self, text='Global In/Out', variable=self.radio_var, value=1,
-                                                          command=self.radio_button_command)
-        self.radio_button2.grid(row=1, column=1, pady=8, padx=8)
+                                                          command=self.radio_button_command, width=180, height=30)
+        self.radio_button2.grid(row=1, column=1, pady=8, padx=8, sticky="nsew")
         # self.radio_button2.grid(row=1, column=1, pady=4, padx=4, sticky="n")
         
         self.radio_button3 = customtkinter.CTkRadioButton(master = self, text='Car Wash Wait', variable=self.radio_var, value=2,
-                                                          command=self.radio_button_command)
-        self.radio_button3.grid(row=1, column=2, pady=8, padx=8)
+                                                          command=self.radio_button_command, width=180, height=30)
+        self.radio_button3.grid(row=1, column=2, pady=8, padx=8, sticky="nsew")
         
         self.radio_button4 = customtkinter.CTkRadioButton(master = self, text='3', variable=self.radio_var, value=3,
-                                                          command=self.radio_button_command)
-        self.radio_button4.grid(row=1, column=3, pady=8, padx=8)
+                                                          command=self.radio_button_command, width=180, height=30)
+        self.radio_button4.grid(row=1, column=3, pady=8, padx=8, sticky="nsew")
         
         self.radio_button5 = customtkinter.CTkRadioButton(master = self, text='4', variable=self.radio_var, value=4,
-                                                          command=self.radio_button_command)
-        self.radio_button5.grid(row=1, column=4, pady=8, padx=8)
+                                                          command=self.radio_button_command, width=180, height=30)
+        self.radio_button5.grid(row=1, column=4, pady=8, padx=8, sticky="nsew")
         
         self.set_selected_cam_num(1)
       

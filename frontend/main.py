@@ -8,7 +8,7 @@ from PIL import Image, ImageTk
 import time
 import threading
 from multiprocessing import Process
-from .widgets.rtsp_cards import RtspCard, RtspMainView, BpView, RtspFrame
+from .widgets.rtsp_cards import RtspFrame
 from .widgets.zone_radio_button import ZoneRadioButton
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
@@ -63,7 +63,7 @@ class App(customtkinter.CTk):
         
         self.radiobutton_frame = ZoneRadioButton(self, 1000, 160, area_display_values=self.area_display_values)
         # self.radiobutton_frame = customtkinter.CTkFrame(self, border_color='black', border_width=2)
-        self.radiobutton_frame.grid(row=5, column=2, padx=12, pady=12, sticky="nsew")
+        self.radiobutton_frame.grid(row=4, column=1, columnspan=3, padx=12, pady=12, sticky="nsew")
         self.radio_button_callback = self.radiobutton_frame.set_selected_cam_num
         
         
