@@ -209,42 +209,16 @@ class inference():
         ready_flag.set()
         
         while True:
-        # im0 = cv2.imread('intermediate_version/sample_img2.png')
-            # if len_img_q == 1:
-            #     im0 = image_q
-            # else:
-            #     im0 = image_q[i]
-            # cv2.imshow('im0', im0)
-            # cv2.waitKey(0)
-
-            # print('1')
-
             im0 = image_que.get()
-            
-            # print('im0 = ' , im0)
 
-            # cv2.namedWindow('im0', cv2.WINDOW_NORMAL)
-            # cv2.imshow('im0', im0)
-            # cv2.waitKey(1)
-
-            # print('im0 = ', im0)
-            # im0 = 
-            # fr_num = que_get['frame_num']
             if type(im0) != np.ndarray and im0 == None:
                 result_que.put(None)
                 break
-            # print('im0 = ' , im0)
-            # print('image que = ' , image_que)
+
             if type(im0) == np.ndarray:
                 im = letterbox(im0, self.imgsz, stride=self.stride, auto=self.pt)[0]  # padded resize
                 im = im.transpose((2, 0, 1))[::-1]  # HWC to CHW, BGR to RGB
                 im = np.ascontiguousarray(im)  # contiguous
-
-                
-                # cv2.namedWindow('im', cv2.WINDOW_NORMAL)
-                # cv2.imshow('im', im)
-                # cv2.waitKey(1)
-                # print('im = ',  im)
 
 
                 with self.dt[0]:
@@ -253,34 +227,15 @@ class inference():
                     im /= 255  # 0 - 255 to 0.0 - 1.0
                     if len(im.shape) == 3:
                         im = im[None]  # expand for batch dim
-                    # print('im = ' , im)
 
                     # Inference
                 with self.dt[1]:
-                    # visualize = increment_path(save_dir / Path(path).stem, mkdir=True) if visualize else False
-                    # print('visualize = ' , visualize)
-                    
-                    # pred = model(im, augment=augment, visualize=False)
                     pred = self.model.forward(im, augment=False, visualize=False)
-                    # print('prd = ' , pred)
-                    # model(im0=im, augment, vi)
-
-                # print('pred1 = ' , pred)
-
-                
-
-                # print('2')
 
                 # NMS
                 with self.dt[2]:
                     pred = non_max_suppression(pred, conf_thres, iou_thres, classes, agnostic_nms, max_det=max_det)
 
-                # print('pred = ' , pred)
-                # print('names = ' , names)
-
-                # print('3')
-
-                # gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]
 
                 for i, det in enumerate(pred): 
                     det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
@@ -312,6 +267,9 @@ class inference():
                     print('model output Q size = ' , result_que.qsize())
                 if result_que.full():
                     print('model output Queue is full!!')
+                    print('clearing Q')
+                    while not result_que.empty():
+                        _ = result_que.get()
 
 
 

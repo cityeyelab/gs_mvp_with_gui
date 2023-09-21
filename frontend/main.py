@@ -61,8 +61,8 @@ class App(customtkinter.CTk):
         self.wait_op_button_frame.grid(row=4, column=0, padx=8, pady=8, sticky="nsew")
         self.wait_op_button_lbl = customtkinter.CTkLabel(self.wait_op_button_frame, text="Wait until the model is ready...")
         self.wait_op_button_lbl.grid(row=0, column=0, padx=4, pady=4, )
-        self.wait_op_button = customtkinter.CTkProgressBar(self.wait_op_button_frame)
-        self.wait_op_button.grid(row=1, column=0, padx=4, pady=4, )
+        self.wait_op_button_bar = customtkinter.CTkProgressBar(self.wait_op_button_frame)
+        self.wait_op_button_bar.grid(row=1, column=0, padx=4, pady=4, )
 
         self.wait_op_button_frame_task = self.wait_op_button_frame.after(200, self.load_op_button)
         self.op_button = customtkinter.CTkButton(self.sidebar_frame, text='run / pause', command=self.toggle_op_flag)
@@ -79,10 +79,13 @@ class App(customtkinter.CTk):
         
         
         # rtsp frame
-        self.wait_rtsp_frame = customtkinter.CTkFrame(self)
+        self.wait_rtsp_frame = customtkinter.CTkFrame(self, width=400*(16/9), height=400)
         self.wait_rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10, sticky="nsew")
         self.wait_rtsp_frame_lbl = customtkinter.CTkLabel(self.wait_rtsp_frame, text="Wait until rtsp protocol is ready...", width=385*(16/9), height=385)
-        self.wait_rtsp_frame_lbl.grid(row=0, column=0, rowspan=2, columnspan=5, padx=10, pady=10, sticky="nsew")
+        # self.wait_rtsp_frame_lbl = customtkinter.CTkLabel(self.wait_rtsp_frame, text="Wait until rtsp protocol is ready...",)
+        self.wait_rtsp_frame_lbl.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        self.wait_rtsp_frame_bar = customtkinter.CTkProgressBar(self.wait_rtsp_frame)
+        self.wait_rtsp_frame_bar.grid(row=1, column=0, padx=10, pady=10,)
         self.wait_rtsp_frame_task = self.wait_rtsp_frame.after(200, self.load_rtsp_frame)
         self.rtsp_frame = RtspFrame(self, self.drawing_result_ques, self.radio_button_callback)
         # self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
@@ -121,8 +124,10 @@ class App(customtkinter.CTk):
         
         
         self.scaling_optionemenu.set("100%")
-        self.wait_op_button.configure(mode="indeterminnate")
-        self.wait_op_button.start()
+        self.wait_op_button_bar.configure(mode="indeterminnate")
+        self.wait_op_button_bar.start()
+        self.wait_rtsp_frame_bar.configure(mode="indeterminnate")
+        self.wait_rtsp_frame_bar.start()
         
         print('frontend init end')
         
@@ -135,7 +140,7 @@ class App(customtkinter.CTk):
         if flag1 and flag2 and flag3:
             self.wait_op_button_frame.grid_forget()
             self.op_button.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
-            self.wait_op_button.after_cancel(self.wait_op_button_frame_task)
+            self.wait_op_button_bar.after_cancel(self.wait_op_button_frame_task)
             self.wait_op_button_frame.destroy()
         else:
             self.wait_op_button_frame_task = self.wait_op_button_frame.after(200, self.load_op_button)

@@ -34,4 +34,7 @@ class SharedVariables():
                      }
         
         self.drawing_result_ques = [Queue(200), Queue(200), Queue(200), Queue(200)]
+        self.model_proc_result_ques = [Queue(200), Queue(200), Queue(200),
+                                       Queue(200), Queue(200), Queue(200),
+                                       Queue(200), Queue(200), Queue(200), ] # imgx3, resultx3, result_bpx3
 
