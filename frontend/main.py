@@ -31,7 +31,7 @@ class App(customtkinter.CTk):
         self.title("GS demonstration MVP GUI")
         self.geometry(f"{1400}x{800}")
 
-        self.grid_rowconfigure(4, weight=1)
+        self.grid_rowconfigure(5, weight=1)
 
         # create sidebar frame with widgets
         self.sidebar_frame = customtkinter.CTkFrame(self, corner_radius=8, fg_color='white', border_width=4, border_color='grey')
@@ -63,7 +63,7 @@ class App(customtkinter.CTk):
         
         self.radiobutton_frame = ZoneRadioButton(self, 1000, 160, area_display_values=self.area_display_values)
         # self.radiobutton_frame = customtkinter.CTkFrame(self, border_color='black', border_width=2)
-        self.radiobutton_frame.grid(row=4, column=1, columnspan=3, padx=12, pady=12, sticky="nsew")
+        self.radiobutton_frame.grid(row=4, column=1, columnspan=3, padx=12, pady=12, sticky="nw")
         self.radio_button_callback = self.radiobutton_frame.set_selected_cam_num
         
         

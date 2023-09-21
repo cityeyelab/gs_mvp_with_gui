@@ -2,7 +2,7 @@ from backend.main import gs_tracker
 from backend.main import create_backend
 from frontend.main import create_frontend
 from shared_variables import SharedVariables
-from multiprocessing import Process, Queue
+from multiprocessing import Process
 # import multiprocessing
 
 

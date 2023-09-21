@@ -77,8 +77,25 @@ def mult_const_lst_vec(lst, const):
     lst = lst.copy()
     return [(const*lst[i]) for i in range(0, len(lst))]
 
+# def get_center_pt(box_info):
+#     return [(box_info[0]+box_info[2])/2, (box_info[1]+box_info[3])/2]
+
+WH_RATIO_X_THR = 0.7
+Y2_PORTION = 0.8
+SLOPE = -2*(10*Y2_PORTION-1)
+Y_INTERCEPT = 2*10*Y2_PORTION - 1
 def get_center_pt(box_info):
-    return [(box_info[0]+box_info[2])/2, (box_info[1]+box_info[3])/2]
+    width = box_info[2] - box_info[0]
+    height = box_info[3] - box_info[1]
+    wh_ratio = height/width
+    if wh_ratio < WH_RATIO_X_THR:
+        ct_pt = [(box_info[0]+box_info[2])/2, ((1- Y2_PORTION)*box_info[1] + Y2_PORTION*box_info[3])]
+    elif WH_RATIO_X_THR < wh_ratio <= 1.0:
+        cal_num = SLOPE*wh_ratio + Y_INTERCEPT
+        ct_pt = [(box_info[0]+box_info[2])/2, (1*box_info[1] + cal_num*box_info[3])/(1 + cal_num)]
+    else:
+        ct_pt = [(box_info[0]+box_info[2])/2, (box_info[1] + box_info[3])/2]
+    return ct_pt
 
 
 def filter_out_low_conf(dets, conf_thr):
