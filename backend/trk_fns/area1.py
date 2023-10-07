@@ -1,22 +1,21 @@
-import numpy as np
-from dataclasses import dataclass, field
-from typing import List
+# import numpy as np
+# from dataclasses import dataclass, field
+# from typing import List
 
 from ..util_functions import filter_out_low_conf, eliminate_dup, magnify_bbox, get_center_pt, get_bbox_conf
 from ..map_vars import area1_global_inout_map, area1_car_wash_waiting_map, area1_place0_map
 
+# import sys
+
+# @dataclass()
+# class CarDetInfo:
+#     area: int
+#     id: int
+#     age: int = 0
+#     events: List = field(default_factory=list)
 
 
-
-@dataclass
-class CarDetInfo:
-    area: int
-    id: int
-    age: int = 0
-    events: List = field(default_factory=list)
-
-
-def tracker_area1(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, proc_num):
+def tracker_area1(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, exit_event, proc_num):
 
     center_points_lst = []
     frame_cnt = 0
@@ -25,11 +24,19 @@ def tracker_area1(op_flag, det_result_que, trk_result_que, draw_proc_result_que,
     previous_put_data = {}
 
     while True:
-        dets = det_result_que.get()
-        
-        if dets == None:
-            print('tracker None input break!')
+        if exit_event.is_set():
             break
+        
+        dets = det_result_que.get()
+        if type(dets) == type(None):
+            trk_result_que.put(None)
+            visualize_bp_que.put(None)
+            # sys.exit()
+            break
+        
+        # if dets == None:
+        #     print('tracker None input break!')
+        #     break
         dets = filter_out_low_conf(dets, 0.25)
         eliminate_dup(dets)
         put_data = {}
@@ -102,3 +109,4 @@ def tracker_area1(op_flag, det_result_que, trk_result_que, draw_proc_result_que,
             print('Q size = ' , det_result_que.qsize())
             if det_result_que.full():
                 print('Queue is full!!')
+    print('area1 tracker end')

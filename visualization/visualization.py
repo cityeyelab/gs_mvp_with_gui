@@ -7,7 +7,11 @@ from .font import font
 
 from PIL import Image, ImageTk
 
-def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, drawing_result_ques, eco=False):
+import sys
+
+
+
+def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, drawing_result_ques, exit_event, eco=False, ):
     frame_cnt = 0
 
     area_num_lst = [1, 3, 4]
@@ -46,22 +50,25 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
         car_wash_waiting_cnt = 0
         electric_vehicle_charging_waiting_cnt = 0
         car_interior_washing_waiting_cnt = 0
-        cnts_lst = [glb_in_cnt, car_wash_waiting_cnt, electric_vehicle_charging_waiting_cnt, car_interior_washing_waiting_cnt]
-        cnts_lst_str = ['global in', 'car wash wait', 'elctric charging', 'car interior wash']
+        cnts_lst = [glb_in_cnt, car_wash_waiting_cnt, electric_vehicle_charging_waiting_cnt, car_interior_washing_waiting_cnt] # *
+        cnts_lst_str = ['global in', 'car wash wait', 'elctric charging', 'car interior wash'] # *
         area4_view_global_map = False
         area4_view_car_wash_waiting_map = False
         area4_view_electric_charging_map = False
         area4_view_car_interior_wash_map = False
-        display_bool_lst = [area4_view_global_map, area4_view_car_wash_waiting_map, area4_view_electric_charging_map, area4_view_car_interior_wash_map]
-        slope = 0.22451456310679613
-        non_false_idx_lst = [area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx]
-        map_imgs = [area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img]
-        zone_name_strings = ['Global In Out', 'Car Wash Waiting', 'Electric Charging Zone', 'Car Interior Washing Zone']
+        display_bool_lst = [area4_view_global_map, area4_view_car_wash_waiting_map, area4_view_electric_charging_map, area4_view_car_interior_wash_map] # *
+        slope = 0.22451456310679613 # *
+        non_false_idx_lst = [area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx] # *
+        map_imgs = [area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img] # *
+        zone_name_strings = ['Global In Out', 'Car Wash Waiting', 'Electric Charging Zone', 'Car Interior Washing Zone'] # *
 
     # available_key_lst = [ord(str(i)) for i in range(0, len(display_bool_lst)+1)]
     prev_key = 0
     
     while True:
+        if exit_event.is_set():
+            break
+        
         if not op_flag.is_set():
             while not proc_result_q.empty():
                 _ = proc_result_q.get()
@@ -74,6 +81,10 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
         if eco_mode:
             _ = img_q.get()
         frame = img_q.get()
+        if type(frame) == type(None):
+            drawing_result_ques[area_num_idx].put(None)
+            sys.exit()
+            break
         
         if op_flag.is_set():
             if eco_mode:
@@ -179,7 +190,7 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
                 while not img_q.empty():
                     _ = img_q.get() 
                 print(f'img_q is full at place {area_num}. Clear img_q')
-    
+    print('visualization end')
     cv2.destroyAllWindows()
     
 # def cvimg_to_tkimg(frame, width, height):

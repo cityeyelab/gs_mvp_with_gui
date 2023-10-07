@@ -8,16 +8,24 @@ from PIL import Image, ImageTk
 import time
 import threading
 from multiprocessing import Process
+import os
+
 from .widgets.rtsp_cards import RtspFrame
 from .widgets.zone_radio_button import ZoneRadioButton
+
+import sys
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
-def create_frontend(op_flags, drawing_result_ques):
+def create_frontend(op_flags, drawing_result_ques, exit_event):
     app_instance = App(op_flags, drawing_result_ques)
     app_instance.mainloop()
-    # app_process.join()
+    exit_event.set()
+    print('exit frontend')
+    del app_instance
+    sys.exit()
+
 
 
 class App(customtkinter.CTk):
@@ -207,9 +215,8 @@ class App(customtkinter.CTk):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
         customtkinter.set_widget_scaling(new_scaling_float)
 
-    
-    def run(self):
-        self.mainloop()
+
+        
         
     # def rtsp_frame(self, path):
     #     frame = customtkinter.CTkFrame(self, width=180, height=180)

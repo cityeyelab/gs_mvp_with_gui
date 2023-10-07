@@ -2,8 +2,9 @@ import numpy as np
 from ..util_functions import filter_out_low_conf, eliminate_dup, magnify_bbox, get_center_pt, get_bbox_conf
 from ..map_vars import area3_global_inout_map, area3_car_wash_waiting_map
 
+import sys
 
-def tracker_area3(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, proc_num):
+def tracker_area3(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, exit_event, proc_num):
 
     center_points_lst = []
     frame_cnt = 0
@@ -12,10 +13,15 @@ def tracker_area3(op_flag, det_result_que, trk_result_que, draw_proc_result_que,
     previous_put_data = {}
 
     while True:
+        if exit_event.is_set():
+            break
         dets = det_result_que.get()
         
-        if dets == None:
-            print('tracker None input break!')
+        if type(dets) == type(None):
+            trk_result_que.put(None)
+            visualize_bp_que.put(None)
+            # print('tracker None input break!')
+            sys.exit()
             break
         dets = filter_out_low_conf(dets, 0.25)
         eliminate_dup(dets)
@@ -88,3 +94,4 @@ def tracker_area3(op_flag, det_result_que, trk_result_que, draw_proc_result_que,
             if det_result_que.full():
                 print('Queue is full!!')
 
+    print('area3 tracker end')

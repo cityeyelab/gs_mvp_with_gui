@@ -55,7 +55,7 @@ import pickle
 from multiprocessing import Process
 from torch.multiprocessing import Process as TorchMP
 
-
+import sys
 
 
 
@@ -179,13 +179,14 @@ class inference():
 
     # self.yolo_inference_flags[i],self.image_que_lst_proc[i], self.det_result_que_lst[i]
     @smart_inference_mode()
-    def run(self, ready_flag, op_flag, image_que, result_que):
+    def run(self, ready_flag, op_flag, image_que, result_que, exit_event):
     # def run(self):
         # image_que = self.img_que
         # result_que = self.det_que
         # print('run init')
 
         # print('model = ' , self.model)
+        
         det_cnt = 0
         preds = []
 
@@ -209,7 +210,16 @@ class inference():
         ready_flag.set()
         
         while True:
+            if exit_event.is_set(): # maybe useless
+                break
+            
+            
             im0 = image_que.get()
+            if type(im0) == type(None):
+                result_que.put(None)
+                sys.exit()
+                break
+                
 
             if type(im0) != np.ndarray and im0 == None:
                 result_que.put(None)

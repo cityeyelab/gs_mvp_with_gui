@@ -1,0 +1,459 @@
+Mon Sep 25 22:38:05 2023    profile_results
+
+         21061 function calls (20972 primitive calls) in 165.701 seconds
+
+   Random listing order was used
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       52    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\hmac.py:56(<lambda>)
+       26    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\hmac.py:33(__init__)
+       26    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\hmac.py:94(update)
+       26    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\hmac.py:111(_current)
+       26    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\hmac.py:120(digest)
+       26    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\hmac.py:136(new)
+       52    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\hashlib.py:146(__hash_new)
+      102    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:37(current_process)
+        1    0.000    0.000    4.440    4.440 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:49(Manager)
+       27    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:65(Lock)
+       13    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:75(Condition)
+       52    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:80(Semaphore)
+       14    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:85(BoundedSemaphore)
+       13    0.000    0.000    0.003    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:90(Event)
+       14    0.000    0.000    0.003    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:100(Queue)
+      106    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:187(get_context)
+       93    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:197(get_start_method)
+        3    0.000    0.000    1.174    0.391 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:222(_Popen)
+       31    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:233(get_context)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:249(get_start_method)
+        4    0.000    0.000    1.180    0.295 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:324(_Popen)
+      833    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:351(get_spawning_popen)
+        8    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:354(set_spawning_popen)
+      312    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\context.py:357(assert_spawning)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:61(_cleanup)
+        8    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:94(<genexpr>)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:80(__init__)
+       13    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:99(_check_closed)
+        4    0.000    0.000    1.180    0.295 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:110(start)
+        4    0.000    0.000    0.002    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:128(terminate)
+        2    0.000    0.000    1.057    0.528 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:142(join)
+        3    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:153(is_alive)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:189(name)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:193(name)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:205(daemon)
+        5    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:213(authkey)
+       18    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\process.py:344(__reduce__)
+       21    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\reduction.py:38(__init__)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\reduction.py:43(register)
+       13    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\reduction.py:48(dumps)
+        8    0.000    0.000    0.003    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\reduction.py:58(dump)
+      247    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\reduction.py:71(duplicate)
+       53    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\reduction.py:106(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\reduction.py:206(_reduce_method)
+        5    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:44(sub_debug)
+      116    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:48(debug)
+        3    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:52(info)
+        6    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:171(register_after_fork)
+        8    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:186(__init__)
+        5    0.000    0.000    1.085    0.217 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:205(__call__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:369(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:373(_reset)
+        3    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:378(__enter__)
+        3    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:381(__exit__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\util.py:386(__init__)
+       13    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:59(_init_timeout)
+       15    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:69(arbitrary_address)
+       13    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:83(_validate_family)
+       13    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:95(address_type)
+       43    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:117(__init__)
+       43    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:130(__del__)
+      158    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:134(_check_closed)
+       53    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:138(_check_readable)
+       52    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:142(_check_writable)
+      106    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:158(readable)
+      106    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:163(writable)
+       53    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:168(fileno)
+        6    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:173(close)
+       39    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:181(send_bytes)
+       13    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:202(send)
+       39    0.000    0.000    0.035    0.001 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:208(recv_bytes)
+       14    0.000    0.000    4.436    0.317 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:246(recv)
+       43    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:276(_close)
+       52    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:279(_send_bytes)
+       53    0.000    0.000    4.470    0.084 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:294(_recv_bytes)
+       13    0.000    0.000    0.039    0.003 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:493(Client)
+       15    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:535(Pipe)
+       13    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:695(PipeClient)
+       13    0.000    0.000    0.002    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:732(deliver_challenge)
+       13    0.000    0.000    0.036    0.003 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:747(answer_challenge)
+       53    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\connection.py:956(reduce_pipe_connection)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\site-packages\six.py:194(find_spec)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\site-packages\urllib3\packages\six.py:190(find_spec)
+        1    0.000    0.000    4.465    4.465 C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\shared_variables.py:4(__init__)
+        1    0.000    0.000    0.000    0.000 <string>:1(<module>)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:49(<listcomp>)
+        3    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:66(__init__)
+        9    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:69(__getstate__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:60(Token)
+       13    0.000    0.000    0.006    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:83(dispatch)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:108(RemoteError)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:137(Server)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:490(State)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:516(__init__)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:577(<genexpr>)
+        1    0.000    0.000    4.437    4.437 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:552(start)
+        3    0.000    0.000    0.008    0.003 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:618(_create)
+        1    0.001    0.001    1.062    1.062 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:675(_finalize_manager)
+        3    0.000    0.000    0.018    0.006 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:738(temp)
+       17    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:711(register)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:509(BaseManager)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:756(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:755(ProcessLocalSet)
+        3    0.000    0.000    0.005    0.002 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:772(__init__)
+        3    0.000    0.000    0.005    0.002 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:858(_incref)
+        3    0.000    0.000    0.022    0.007 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:878(_decref)
+        9    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:911(__reduce__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:765(BaseProxy)
+        4    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:965(MakeProxyType)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1016(Namespace)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1028(Value)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1047(IteratorProxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1061(AcquirerProxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1074(ConditionProxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1101(EventProxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1113(BarrierProxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1132(NamespaceProxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1151(ValueProxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1166(ListProxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1201(PoolProxy)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1211(SyncManager)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1248(_SharedMemoryTracker)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1285(SharedMemoryServer)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:1341(SharedMemoryManager)
+        1    0.000    0.000    0.002    0.002 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\managers.py:11(<module>)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\shared_memory.py:48(SharedMemory)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\shared_memory.py:246(ShareableList)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\shared_memory.py:1(<module>)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:22(_path_eq)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:28(_close_handles)
+       20    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:57(<genexpr>)
+        4    1.160    0.290    1.178    0.295 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:44(__init__)
+      247    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:97(duplicate_for_child)
+       11    0.000    0.000    1.057    0.096 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:101(wait)
+        9    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:117(poll)
+        4    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:120(terminate)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:38(Popen)
+        1    0.000    0.000    0.001    0.001 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\popen_spawn_win32.py:1(<module>)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\spawn.py:45(get_executable)
+       12    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\spawn.py:87(<genexpr>)
+        4    0.001    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\spawn.py:78(get_command_line)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\spawn.py:132(_check_not_importing_main)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\spawn.py:150(get_preparation_data)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\spawn.py:11(<module>)
+       93    0.001    0.000    0.002    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:50(__init__)
+       93    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:90(_make_methods)
+      158    0.001    0.000    1.117    0.007 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:94(__enter__)
+      158    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:97(__exit__)
+      247    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:100(__getstate__)
+       93    0.000    0.000    0.002    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:114(_make_name)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:46(SemLock)
+       52    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:125(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:123(Semaphore)
+       14    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:144(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:142(BoundedSemaphore)
+       27    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:161(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:159(Lock)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:184(RLock)
+       13    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:212(__init__)
+       39    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:219(__getstate__)
+      158    0.002    0.000    1.119    0.007 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:229(__enter__)
+      158    0.001    0.000    0.002    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:232(__exit__)
+       13    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:235(_make_methods)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:210(Condition)
+       13    0.000    0.000    0.002    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:323(__init__)
+      158    0.008    0.000    1.131    0.007 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:327(is_set)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:321(Event)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:360(Barrier)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\synchronize.py:11(<module>)
+       14    0.000    0.000    0.002    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\queues.py:36(__init__)
+       26    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\queues.py:57(__getstate__)
+       14    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\queues.py:67(_after_fork)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\queues.py:34(Queue)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\queues.py:289(JoinableQueue)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\queues.py:332(SimpleQueue)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\multiprocessing\queues.py:10(<module>)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:35(_new_module)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:58(__init__)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:78(acquire)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:103(release)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:143(__init__)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:147(__enter__)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:151(__exit__)
+       30    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:64(_relax_case)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:176(cb)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:157(_get_module_lock)
+      8/4    0.000    0.000    0.004    0.001 <frozen importlib._bootstrap>:211(_call_with_frames_removed)
+      156    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:222(_verbose_message)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:342(__init__)
+       12    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:376(cached)
+      182    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:389(parent)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:397(has_location)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:477(_init_module_attrs)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:549(module_from_spec)
+      6/4    0.000    0.000    0.006    0.001 <frozen importlib._bootstrap>:650(_load_unlocked)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:725(find_spec)
+       10    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:800(find_spec)
+       18    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:79(_unpack_uint32)
+       42    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:863(__enter__)
+       42    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap>:867(__exit__)
+       10    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap>:890(_find_spec)
+     10/8    0.000    0.000    0.008    0.001 <frozen importlib._bootstrap>:956(_find_and_load_unlocked)
+     10/8    0.000    0.000    0.009    0.001 <frozen importlib._bootstrap>:986(_find_and_load)
+    16/13    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap>:1017(_handle_fromlist)
+      150    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:114(<listcomp>)
+      150    0.001    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:91(_path_join)
+       36    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:129(<genexpr>)
+       12    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:127(_path_split)
+       42    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:135(_path_stat)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:145(_path_is_mode_type)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:154(_path_isfile)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:167(_path_isabs)
+       12    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:354(cache_from_source)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:484(_get_cached)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:516(_check_name_wrapper)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:553(_classify_pyc)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:586(_validate_timestamp_pyc)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:638(_compile_bytecode)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:689(spec_from_file_location)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:839(create_module)
+      6/4    0.000    0.000    0.006    0.001 <frozen importlib._bootstrap_external>:842(exec_module)
+        6    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap_external>:914(get_code)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1004(__init__)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1029(get_filename)
+        6    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:1034(get_data)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1075(path_stats)
+       34    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1330(_path_importer_cache)
+       10    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:1367(_get_spec)
+       10    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:1399(find_spec)
+        6    0.000    0.000    0.000    0.000 <frozen importlib._bootstrap_external>:1493(_get_spec)
+       30    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:1498(find_spec)
+        8    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\ntpath.py:214(basename)
+       12    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\ntpath.py:34(_get_bothseps)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\ntpath.py:61(isabs)
+       15    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\ntpath.py:77(join)
+       46    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\ntpath.py:124(splitdrive)
+        8    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\ntpath.py:180(split)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\ntpath.py:450(normpath)
+        5    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\weakref.py:103(remove)
+        6    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\weakref.py:159(__setitem__)
+        6    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\weakref.py:323(__new__)
+        6    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\weakref.py:328(__init__)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\_weakrefset.py:38(_remove)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\_weakrefset.py:81(add)
+       16    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\re.py:203(sub)
+       16    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\re.py:289(_compile)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\re.py:315(_compile_repl)
+        8    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\re.py:331(filter)
+       16    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\re.py:325(_subx)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\enum.py:313(__call__)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\enum.py:631(__new__)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:65(_combine_flags)
+      6/2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:71(_compile)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\enum.py:938(__and__)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:423(_simple)
+        3    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:453(_get_iscased)
+      2/1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:461(_get_literal_prefix)
+        1    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:492(_get_charset_prefix)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:536(_compile_info)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:595(isstring)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:598(_code)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_compile.py:759(compile)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:76(__init__)
+        8    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:81(groups)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:84(opengroup)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:96(closegroup)
+        6    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:111(__init__)
+       10    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:160(__len__)
+       24    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:164(__getitem__)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:168(__setitem__)
+        6    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:172(append)
+      8/4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:174(getwidth)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:224(__init__)
+       22    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:233(__next)
+       10    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:249(match)
+       16    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:254(get)
+        8    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:286(tell)
+        3    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:355(_escape)
+      4/2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:435(_parse_sub)
+      4/2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:493(_parse)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:921(fix_flags)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:937(parse)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:978(addgroup)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:969(parse_template)
+        8    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\sre_parse.py:1054(expand_template)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\copyreg.py:99(_slotnames)
+       40    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydevd_bundle\pydevd_constants.py:496(<lambda>)
+       44    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydevd_bundle\pydevd_constants.py:497(<genexpr>)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydevd_bundle\pydevd_constants.py:495(sorted_dict_repr)
+        8    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydevd_bundle\pydevd_constants.py:778(get_protocol)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydevd_bundle\pydevd_constants.py:793(get_global_debugger)
+       14    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\threading.py:222(__init__)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\threading.py:246(__enter__)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\threading.py:249(__exit__)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\threading.py:261(_is_owned)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\threading.py:341(notify)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\queue.py:121(put)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\queue.py:212(_put)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\random.py:94(__init__)
+        2    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\random.py:123(seed)
+      864    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\random.py:250(_randbelow_with_getrandbits)
+      864    0.001    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\random.py:285(choice)
+       15    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\tempfile.py:75(_exists)
+      108    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\tempfile.py:133(rng)
+      108    0.000    0.000    0.002    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\tempfile.py:147(<listcomp>)
+      108    0.000    0.000    0.002    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\tempfile.py:144(__next__)
+       15    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\tempfile.py:224(_get_candidate_names)
+       15    0.000    0.000    0.001    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\tempfile.py:374(mktemp)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\site-packages\pkg_resources\extern\__init__.py:24(_module_matches_namespace)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\site-packages\pkg_resources\extern\__init__.py:57(find_spec)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\pydevd.py:3082(dispatch)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\pydevd.py:1922(send_process_created_message)
+        8    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_log.py:211(debug)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:37(_get_apply_arg_patching)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:41(_get_setup_updated_with_protocol_and_ppid)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:182(_get_python_c_args)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:210(_get_host_port)
+      100    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:240(_get_str_type_compatible)
+        8    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:268(is_python)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:285(remove_quotes_from_args)
+       64    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:318(<lambda>)
+       16    0.000    0.000    0.001    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:317(quote_arg_win32)
+        4    0.000    0.000    0.001    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:350(quote_args)
+        4    0.000    0.000    0.001    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:357(patch_args)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:581(str_to_args_windows)
+        4    0.000    0.000    0.002    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:664(patch_arg_str_win)
+        4    0.000    0.000    0.015    0.004 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:891(new_CreateProcess)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydev_bundle\pydev_monkey.py:967(send_process_created_message)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydevd_bundle\pydevd_comm.py:355(add_command)
+        4    0.000    0.000    0.000    0.000 c:\Users\EunKyue Sohn\.vscode\extensions\ms-python.python-2023.16.0\pythonFiles\lib\python\debugpy\_vendored\pydevd\_pydevd_bundle\pydevd_net_command_factory_json.py:421(make_process_created_message)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\subprocess.py:263(_optim_args_from_interpreter_flags)
+        4    0.000    0.000    0.000    0.000 C:\Users\EunKyue Sohn\AppData\Local\Programs\Python\Python38\lib\subprocess.py:273(_args_from_interpreter_flags)
+        1    0.012    0.012  164.615  164.615 C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\main.py:57(main_run)
+        6    0.000    0.000    0.000    0.000 {built-in method __new__ of type object at 0x00007FF9C05BB810}
+        4    0.000    0.000    0.000    0.000 {method 'append' of 'collections.deque' objects}
+        4    0.000    0.000    0.000    0.000 {method 'remove' of 'collections.deque' objects}
+       21    0.001    0.000    0.003    0.000 {method 'dump' of '_pickle.Pickler' objects}
+       14    0.000    0.000    0.000    0.000 {built-in method _pickle.loads}
+        2    0.000    0.000    0.000    0.000 {function Random.seed at 0x0000022BDF903820}
+     1510    0.000    0.000    0.000    0.000 {method 'getrandbits' of '_random.Random' objects}
+       16    0.000    0.000    0.000    0.000 {method 'sub' of 're.Pattern' objects}
+       16    0.000    0.000    0.000    0.000 {method 'group' of 're.Match' objects}
+        2    0.000    0.000    0.000    0.000 {built-in method _sre.compile}
+        5    0.000    0.000    0.000    0.000 {built-in method _weakref._remove_dead_weakref}
+       42    0.001    0.000    0.001    0.000 {built-in method nt.stat}
+        4    0.000    0.000    0.000    0.000 {built-in method nt.getcwd}
+       15    0.000    0.000    0.000    0.000 {built-in method nt.lstat}
+      224    0.000    0.000    0.000    0.000 {built-in method nt.getpid}
+        6    0.000    0.000    0.000    0.000 {built-in method nt._path_splitroot}
+       13    0.000    0.000    0.000    0.000 {built-in method nt.urandom}
+       95    0.000    0.000    0.000    0.000 {built-in method nt.fspath}
+        5    0.000    0.000    0.000    0.000 {method 'acquire' of '_thread.lock' objects}
+        5    0.000    0.000    0.000    0.000 {method 'release' of '_thread.lock' objects}
+        7    0.000    0.000    0.000    0.000 {method '__enter__' of '_thread.lock' objects}
+        7    0.000    0.000    0.000    0.000 {method '__exit__' of '_thread.lock' objects}
+       35    0.000    0.000    0.000    0.000 {built-in method _thread.allocate_lock}
+       20    0.000    0.000    0.000    0.000 {built-in method _thread.get_ident}
+      157  157.832    1.005  157.832    1.005 {built-in method time.sleep}
+       13    0.000    0.000    0.000    0.000 {built-in method time.monotonic}
+       53    0.000    0.000    0.000    0.000 {method 'write' of '_io.BytesIO' objects}
+       27    0.000    0.000    0.000    0.000 {method 'getbuffer' of '_io.BytesIO' objects}
+       39    0.000    0.000    0.000    0.000 {method 'getvalue' of '_io.BytesIO' objects}
+        6    0.000    0.000    0.000    0.000 {method 'read' of '_io.BufferedReader' objects}
+        4    0.000    0.000    0.000    0.000 {built-in method io.open}
+        6    0.002    0.000    0.002    0.000 {built-in method io.open_code}
+      120    0.000    0.000    0.000    0.000 {method 'GetOverlappedResult' of '_winapi.Overlapped' objects}
+       53    0.000    0.000    0.000    0.000 {method 'getbuffer' of '_winapi.Overlapped' objects}
+      102    0.000    0.000    0.000    0.000 {built-in method _winapi.CloseHandle}
+       15    0.000    0.000    0.000    0.000 {built-in method _winapi.ConnectNamedPipe}
+       28    0.000    0.000    0.000    0.000 {built-in method _winapi.CreateFile}
+       15    0.000    0.000    0.000    0.000 {built-in method _winapi.CreateNamedPipe}
+        4    0.000    0.000    0.000    0.000 {built-in method _winapi.CreatePipe}
+        4    0.011    0.003    0.011    0.003 {built-in method _winapi.CreateProcess}
+      300    0.000    0.000    0.000    0.000 {built-in method _winapi.DuplicateHandle}
+      300    0.000    0.000    0.000    0.000 {built-in method _winapi.GetCurrentProcess}
+        1    0.000    0.000    0.000    0.000 {built-in method _winapi.GetExitCodeProcess}
+       53    0.000    0.000    0.000    0.000 {built-in method _winapi.OpenProcess}
+       53    0.000    0.000    0.000    0.000 {built-in method _winapi.ReadFile}
+       28    0.000    0.000    0.000    0.000 {built-in method _winapi.SetNamedPipeHandleState}
+        4    0.001    0.000    0.001    0.000 {built-in method _winapi.TerminateProcess}
+       13    0.000    0.000    0.000    0.000 {built-in method _winapi.WaitNamedPipe}
+       48    4.469    0.093    4.469    0.093 {built-in method _winapi.WaitForMultipleObjects}
+       10    1.057    0.106    1.057    0.106 {built-in method _winapi.WaitForSingleObject}
+       52    0.000    0.000    0.000    0.000 {built-in method _winapi.WriteFile}
+       26    0.000    0.000    0.000    0.000 {method 'ljust' of 'bytes' objects}
+       52    0.000    0.000    0.000    0.000 {method 'translate' of 'bytes' objects}
+        2    0.000    0.000    0.000    0.000 {method 'setter' of 'property' objects}
+        4    0.000    0.000    0.000    0.000 {method 'get' of 'mappingproxy' objects}
+       42    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+       18    0.000    0.000    0.000    0.000 {method 'pop' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'keys' of 'dict' objects}
+       17    0.000    0.000    0.000    0.000 {method 'items' of 'dict' objects}
+        1    0.000    0.000    0.000    0.000 {method 'values' of 'dict' objects}
+       25    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
+       30    0.000    0.000    0.000    0.000 {method 'copy' of 'dict' objects}
+        4    0.000    0.000    0.000    0.000 {method 'copy' of 'list' objects}
+      346    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+       10    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+        4    0.000    0.000    0.000    0.000 {method 'index' of 'list' objects}
+      864    0.000    0.000    0.000    0.000 {method 'bit_length' of 'int' objects}
+       18    0.000    0.000    0.000    0.000 {built-in method from_bytes}
+       11    0.000    0.000    0.000    0.000 {method 'add' of 'set' objects}
+        6    0.000    0.000    0.000    0.000 {method 'discard' of 'set' objects}
+       16    0.000    0.000    0.000    0.000 {method 'intersection' of 'set' objects}
+       45    0.000    0.000    0.000    0.000 {method 'replace' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {method 'split' of 'str' objects}
+      304    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+       38    0.000    0.000    0.000    0.000 {method 'find' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {method 'partition' of 'str' objects}
+       10    0.000    0.000    0.000    0.000 {method 'lower' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {method 'lstrip' of 'str' objects}
+       24    0.000    0.000    0.000    0.000 {method 'rfind' of 'str' objects}
+      470    0.000    0.000    0.000    0.000 {method 'rstrip' of 'str' objects}
+      240    0.000    0.000    0.000    0.000 {method 'rpartition' of 'str' objects}
+      367    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+      504    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+        6    0.000    0.000    0.000    0.000 {method 'format' of 'str' objects}
+        4    0.000    0.000    0.000    0.000 {built-in method msvcrt.open_osfhandle}
+       36    0.001    0.000    0.001    0.000 {built-in method builtins.__build_class__}
+        2    0.000    0.000    0.002    0.001 {built-in method builtins.__import__}
+       26    0.000    0.000    0.000    0.000 {built-in method builtins.callable}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.chr}
+     56/1    0.002    0.000  165.701  165.701 {built-in method builtins.exec}
+     1077    0.000    0.000    0.000    0.000 {built-in method builtins.getattr}
+       91    0.000    0.000    0.000    0.000 {built-in method builtins.hasattr}
+        6    0.000    0.000    0.000    0.000 {built-in method builtins.id}
+      415    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+1505/1499    0.000    0.000    0.000    0.000 {built-in method builtins.len}
+       22    0.000    0.000    0.000    0.000 {built-in method builtins.max}
+       52    0.000    0.000    0.000    0.000 {built-in method builtins.min}
+      141    0.000    0.000    0.002    0.000 {built-in method builtins.next}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.ord}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.print}
+       21    0.000    0.000    0.000    0.000 {built-in method builtins.setattr}
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.sorted}
+       62    0.000    0.000    0.000    0.000 {built-in method _imp.acquire_lock}
+       62    0.000    0.000    0.000    0.000 {built-in method _imp.release_lock}
+        4    0.000    0.000    0.000    0.000 {built-in method _imp.is_builtin}
+       10    0.000    0.000    0.000    0.000 {built-in method _imp.is_frozen}
+        6    0.000    0.000    0.000    0.000 {built-in method _imp._fix_co_filename}
+        6    0.000    0.000    0.000    0.000 {built-in method marshal.loads}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+      158    0.002    0.000    0.002    0.000 {method 'acquire' of '_multiprocessing.SemLock' objects}
+        1    0.000    0.000    0.000    0.000 {method 'release' of '_multiprocessing.SemLock' objects}
+      158    1.116    0.007    1.116    0.007 {method '__enter__' of '_multiprocessing.SemLock' objects}
+      158    0.001    0.000    0.001    0.000 {method '__exit__' of '_multiprocessing.SemLock' objects}
+      104    0.000    0.000    0.000    0.000 {method 'update' of '_hashlib.HASH' objects}
+       52    0.000    0.000    0.000    0.000 {method 'digest' of '_hashlib.HASH' objects}
+       26    0.000    0.000    0.000    0.000 {method 'copy' of '_hashlib.HASH' objects}
+       52    0.000    0.000    0.000    0.000 {built-in method _hashlib.new}
+
+

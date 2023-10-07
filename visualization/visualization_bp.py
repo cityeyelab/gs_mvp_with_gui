@@ -1,6 +1,7 @@
 import cv2
 from ._2d_to_2d_mapping import mapping, load_matrices
 from functools import partial
+import sys
 
 blueprint = cv2.imread('visualization/assets/blueprint.png')
 height_bp, width_bp  = blueprint.shape[:2]
@@ -30,9 +31,14 @@ mapping_area3 = partial(mapping, loaded_matrices=area3_matrices)
 mapping_area4 = partial(mapping, loaded_matrices=area4_matrices)
 
 
-def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que):
+def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que, exit_event):
     # print('bp vis')
     while True:
+        if exit_event.is_set():
+            drawing_result_que.put(None)
+            sys.exit()
+            break
+        
         if not op_flag.is_set():
             while not drawing_result_que.empty():
                 _ = drawing_result_que.get()
@@ -46,6 +52,9 @@ def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que):
         area1_ct_pts_lst = que_area1.get()
         area3_ct_pts_lst = que_area3.get()
         area4_ct_pts_lst = que_area4.get()
+        
+        if type(area1_ct_pts_lst) == type(None) or type(area3_ct_pts_lst) == type(None) or type(area4_ct_pts_lst) == type(None):
+            break
 
         # mapped_pts_area1 = mapping(area1_matrices, area1_ct_pts_lst)
         # mapped_pts_area3 = mapping(area3_matrices, area3_ct_pts_lst)
@@ -74,3 +83,4 @@ def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que):
         # cv2.namedWindow('blueprint', cv2.WINDOW_NORMAL)
         # cv2.imshow('blueprint', background_img)
         # cv2.waitKey(1)
+    print('visualization bp end')

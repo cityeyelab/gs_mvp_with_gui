@@ -71,10 +71,11 @@ class RtspFrame(customtkinter.CTkFrame):
         self.rtsp_main_card.selected_cam_num = 1
         
         self.run_video_thread = threading.Thread(target=self.run_video, args=(), daemon=False)
-        # self.run_video_thread = Process(target=self.run_video, args=(), daemon=False)
         self.run_video_thread.start()
+        # self.run_video_proc = Process(target=self.run_video, args=(), daemon=True)
+        # self.run_video_proc.start()
         
-        self.update_frame()
+        self.update_frame_task = self.update_frame()
         
         
     def select_rtsp_card(self, event, card_num):
@@ -104,9 +105,14 @@ class RtspFrame(customtkinter.CTkFrame):
             self.current_frame_3 = self.drawing_result_que[2].get()
             if not self.drawing_result_que[3].empty():
                 self.current_frame_bp = self.drawing_result_que[3].get()
+            # if type(self.current_frame_1) == type(None) or type(self.current_frame_2) == type(None) or type(self.current_frame_3) == type(None) or type(self.current_frame_bp) == type(None):
+            #     print('run video None type')
+            #     self.after_cancel(self.update_frame_task)
+            #     break
+        # print('run video in gui end')
         
     def update_frame(self):
-        # print('update frame')
+        # print('update frame gui rtsp')
         frame1 = self.current_frame_1
         frame2 = self.current_frame_2
         frame3 = self.current_frame_3
@@ -140,7 +146,7 @@ class RtspFrame(customtkinter.CTkFrame):
         imgtk_bp = cvimg_to_tkimg(frame_bp, int(1.5 * self.main_view_width),  int(1.7 * self.main_view_height))
         self.bp_view.lbl.configure(image=imgtk_bp)
 
-        self.after(80, self.update_frame)
+        self.update_frame_task = self.after(80, self.update_frame)
         
 
 class RtspCard(customtkinter.CTkFrame):

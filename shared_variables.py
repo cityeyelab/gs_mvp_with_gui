@@ -37,4 +37,8 @@ class SharedVariables():
         self.model_proc_result_ques = [Queue(200), Queue(200), Queue(200),
                                        Queue(200), Queue(200), Queue(200),
                                        Queue(200), Queue(200), Queue(200), ] # imgx3, resultx3, result_bpx3
+        
+        
+        self.exit_event = Event()
+        self.process_que = Queue(5)
 

@@ -14,6 +14,7 @@ from multiprocessing import Queue
 from .trk_fns.area1 import tracker_area1
 from .trk_fns.area3 import tracker_area3
 from .trk_fns.area4 import tracker_area4
+from .trk_fns.trk_fn import tracker
 from .control_center import control_center
 # from .visualization_bp import visualize_bp
 
@@ -21,20 +22,22 @@ import os
 os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 
 
-def create_backend(op_flags, drawing_result_ques):
-    gs_tracker_instance = gs_tracker(op_flags, drawing_result_ques)
+def create_backend(op_flags, drawing_result_ques, exit_event):
+    gs_tracker_instance = gs_tracker(op_flags, drawing_result_ques, exit_event)
     gs_tracker_instance.run()
+    print('backend ends')
 
 
 
 class gs_tracker():
-    def __init__(self, args, model_proc_result_ques) -> None:
+    def __init__(self, args, model_proc_result_ques, exit_event) -> None:
         print('backend created')
         # self.drawing_result_ques = drawing_result_ques
         self.model_proc_result_ques = model_proc_result_ques
         self.image_que_lst_draw = self.model_proc_result_ques[0:3]
         self.draw_proc_result_que_lst = self.model_proc_result_ques[3:6]
         self.visualize_bp_que_lst = self.model_proc_result_ques[6:9]
+        self.exit_event = exit_event
         
         self.image_que_lst_proc = []
         # self.image_que_lst_draw = []
@@ -71,12 +74,19 @@ class gs_tracker():
             self.det_result_que_lst.append(Queue(200))
             self.trk_result_que_lst.append(Queue(200))
 
-            self.video_loader_lst.append(multiprocessing.Process(target=video_load, args=(self.rtsp_ready_lst[i], self.operation_flag, self.image_que_lst_proc[i], self.image_que_lst_draw[i], paths[i], self.need_visualization), daemon=False))
+            self.video_loader_lst.append(multiprocessing.Process(target=video_load, args=(self.rtsp_ready_lst[i], self.operation_flag, self.image_que_lst_proc[i],
+                                                                                          self.image_que_lst_draw[i], paths[i], self.need_visualization,
+                                                                                          self.exit_event), daemon=False))
             self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.yolo_inference_ready_flag_lst[i], self.operation_flag, self.image_que_lst_proc[i],
-                                                                                                self.det_result_que_lst[i]), daemon=False))
-            self.tracking_proc_lst.append(multiprocessing.Process(target=lst_of_trk_fns[i], args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i], self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],i), daemon=False))
-
-        self.post_proc = multiprocessing.Process(target=control_center, args=(self.operation_flag, self.trk_result_que_lst[0], self.trk_result_que_lst[1], self.trk_result_que_lst[2]), daemon=False)
+                                                                                                self.det_result_que_lst[i], self.exit_event), daemon=False))
+            # self.tracking_proc_lst.append(multiprocessing.Process(target=lst_of_trk_fns[i], args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i],
+            #                                                                                       self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],
+            #                                                                                       self.exit_event, i), daemon=False))
+            self.tracking_proc_lst.append(multiprocessing.Process(target=tracker, args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i],
+                                                                                                  self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],
+                                                                                                  self.exit_event, i), daemon=False))
+        self.post_proc = multiprocessing.Process(target=control_center, args=(self.operation_flag, self.trk_result_que_lst[0], self.trk_result_que_lst[1],
+                                                                              self.trk_result_que_lst[2], self.exit_event), daemon=False)
 
         print('backend init end')
 
@@ -112,10 +122,15 @@ class gs_tracker():
         self.post_proc.close()
 
 
-def video_load(rtsp_ready_flag, op_flag, image_que1, image_que2, path, need_visualization):
+def video_load(rtsp_ready_flag, op_flag, image_que1, image_que2, path, need_visualization, exit_event):
     cap_loader = cv2.VideoCapture(path)
     rtsp_ready_flag.set()
     while True:
+        if exit_event.is_set():
+            image_que1.put(None)
+            image_que2.put(None)
+            cap_loader.release()
+            break
         _, _ = cap_loader.read()
         ret, frame = cap_loader.read()
         if ret:
@@ -136,11 +151,11 @@ def video_load(rtsp_ready_flag, op_flag, image_que1, image_que2, path, need_visu
 
 
 
-def yolo_inference(ready_flag, op_flag, image_que, result_que):
+def yolo_inference(ready_flag, op_flag, image_que, result_que, exit_event):
     inference_instance = inference()
     # if flag.is_set():
     y_s = time.time()
-    inference_instance.run(ready_flag, op_flag, image_que, result_que)
+    inference_instance.run(ready_flag, op_flag, image_que, result_que, exit_event)
     print('yolo inference breaked!')
     y_e = time.time()
     y_elapsed_time = y_e - y_s
