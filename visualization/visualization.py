@@ -1,9 +1,11 @@
 import cv2
+
 from .map_vars import area1_global_inout_map_non_false_idx, area1_car_wash_waiting_map_non_false_idx, area1_place0_map_non_false_idx, area1_global_inout_map_img, area1_car_wash_waiting_map_img, area1_place0_map_img
 from .map_vars import area3_global_inout_map_non_false_idx, area3_car_wash_waiting_map_non_false_idx, area3_global_inout_map_img, area3_car_wash_waiting_map_img
 from .map_vars import area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx, area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img
 from .util_functions import get_bbox_conf
 from .font import font
+from .visualization_args import VisualizationArgs
 
 from PIL import Image, ImageTk
 
@@ -19,51 +21,62 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
     displayed_zone_name = 'None'
     eco_mode = eco
     
-    if area_num == 1:
-        glb_in_cnt = 0
-        car_wash_waiting_cnt = 0
-        place0_cnt = 0
-        cnts_lst = [glb_in_cnt, car_wash_waiting_cnt, place0_cnt]
-        cnts_lst_str = ['global in', 'car wash wait', 'place0']
-        area1_view_global_map = False
-        area1_view_car_wash_waiting_map = False
-        area1_view_place0_map = False
-        display_bool_lst = [area1_view_global_map, area1_view_car_wash_waiting_map, area1_view_place0_map]
-        slope = -0.5353805073431241
-        non_false_idx_lst = [area1_global_inout_map_non_false_idx, area1_car_wash_waiting_map_non_false_idx, area1_place0_map_non_false_idx]
-        map_imgs = [area1_global_inout_map_img, area1_car_wash_waiting_map_img, area1_place0_map_img]
-        zone_name_strings = ['Global In Out', 'Car Wash Waiting', 'Place0']
-    elif area_num == 3:
-        glb_in_cnt = 0
-        car_wash_waiting_cnt = 0
-        cnts_lst = [glb_in_cnt, car_wash_waiting_cnt]
-        cnts_lst_str = ['global in', 'car wash wait']
-        area3_view_global_map = False
-        area3_view_car_wash_waiting_map = False
-        display_bool_lst = [area3_view_global_map, area3_view_car_wash_waiting_map]
-        slope = 0.657103825136612
-        non_false_idx_lst = [area3_global_inout_map_non_false_idx, area3_car_wash_waiting_map_non_false_idx]
-        map_imgs = [area3_global_inout_map_img, area3_car_wash_waiting_map_img]
-        zone_name_strings = ['Global In Out', 'Car Wash Waiting']
-    elif area_num == 4:
-        glb_in_cnt = 0
-        car_wash_waiting_cnt = 0
-        electric_vehicle_charging_waiting_cnt = 0
-        car_interior_washing_waiting_cnt = 0
-        cnts_lst = [glb_in_cnt, car_wash_waiting_cnt, electric_vehicle_charging_waiting_cnt, car_interior_washing_waiting_cnt] # *
-        cnts_lst_str = ['global in', 'car wash wait', 'elctric charging', 'car interior wash'] # *
-        area4_view_global_map = False
-        area4_view_car_wash_waiting_map = False
-        area4_view_electric_charging_map = False
-        area4_view_car_interior_wash_map = False
-        display_bool_lst = [area4_view_global_map, area4_view_car_wash_waiting_map, area4_view_electric_charging_map, area4_view_car_interior_wash_map] # *
-        slope = 0.22451456310679613 # *
-        non_false_idx_lst = [area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx] # *
-        map_imgs = [area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img] # *
-        zone_name_strings = ['Global In Out', 'Car Wash Waiting', 'Electric Charging Zone', 'Car Interior Washing Zone'] # *
+    visualization_args = VisualizationArgs(area_num)
+    
+
+    cnts_lst = visualization_args.cnts_lst
+    cnts_lst_str = visualization_args.cnts_lst_str
+    display_bool_lst = visualization_args.display_bool_lst
+    slope = visualization_args.slope
+    non_false_idx_lst = visualization_args.non_false_idx_lst
+    map_imgs = visualization_args.map_imgs
+    zone_name_strings = visualization_args.zone_name_strings
+    
+    # if area_num == 1:
+    #     glb_in_cnt = 0
+    #     car_wash_waiting_cnt = 0
+    #     place0_cnt = 0
+    #     cnts_lst = [glb_in_cnt, car_wash_waiting_cnt, place0_cnt]
+    #     cnts_lst_str = ['global in', 'car wash wait', 'place0']
+    #     area1_view_global_map = False
+    #     area1_view_car_wash_waiting_map = False
+    #     area1_view_place0_map = False
+    #     display_bool_lst = [area1_view_global_map, area1_view_car_wash_waiting_map, area1_view_place0_map]
+    #     slope = -0.5353805073431241
+    #     non_false_idx_lst = [area1_global_inout_map_non_false_idx, area1_car_wash_waiting_map_non_false_idx, area1_place0_map_non_false_idx]
+    #     map_imgs = [area1_global_inout_map_img, area1_car_wash_waiting_map_img, area1_place0_map_img]
+    #     zone_name_strings = ['Global In Out', 'Car Wash Waiting', 'Place0']
+    # elif area_num == 3:
+    #     glb_in_cnt = 0
+    #     car_wash_waiting_cnt = 0
+    #     cnts_lst = [glb_in_cnt, car_wash_waiting_cnt]
+    #     cnts_lst_str = ['global in', 'car wash wait']
+    #     area3_view_global_map = False
+    #     area3_view_car_wash_waiting_map = False
+    #     display_bool_lst = [area3_view_global_map, area3_view_car_wash_waiting_map]
+    #     slope = 0.657103825136612
+    #     non_false_idx_lst = [area3_global_inout_map_non_false_idx, area3_car_wash_waiting_map_non_false_idx]
+    #     map_imgs = [area3_global_inout_map_img, area3_car_wash_waiting_map_img]
+    #     zone_name_strings = ['Global In Out', 'Car Wash Waiting']
+    # elif area_num == 4:
+    #     glb_in_cnt = 0
+    #     car_wash_waiting_cnt = 0
+    #     electric_vehicle_charging_waiting_cnt = 0
+    #     car_interior_washing_waiting_cnt = 0
+    #     cnts_lst = [glb_in_cnt, car_wash_waiting_cnt, electric_vehicle_charging_waiting_cnt, car_interior_washing_waiting_cnt] # *
+    #     cnts_lst_str = ['global in', 'car wash wait', 'elctric charging', 'car interior wash'] # *
+    #     area4_view_global_map = False
+    #     area4_view_car_wash_waiting_map = False
+    #     area4_view_electric_charging_map = False
+    #     area4_view_car_interior_wash_map = False
+    #     display_bool_lst = [area4_view_global_map, area4_view_car_wash_waiting_map, area4_view_electric_charging_map, area4_view_car_interior_wash_map] # *
+    #     slope = 0.22451456310679613 # *
+    #     non_false_idx_lst = [area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx] # *
+    #     map_imgs = [area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img] # *
+    #     zone_name_strings = ['Global In Out', 'Car Wash Waiting', 'Electric Charging Zone', 'Car Interior Washing Zone'] # *
 
     # available_key_lst = [ord(str(i)) for i in range(0, len(display_bool_lst)+1)]
-    prev_key = 0
+    prev_key = 0 # operation key
     
     while True:
         if exit_event.is_set():

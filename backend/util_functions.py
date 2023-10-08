@@ -77,26 +77,51 @@ def mult_const_lst_vec(lst, const):
     lst = lst.copy()
     return [(const*lst[i]) for i in range(0, len(lst))]
 
-# def get_center_pt(box_info):
-#     return [(box_info[0]+box_info[2])/2, (box_info[1]+box_info[3])/2]
-
-WH_RATIO_X_THR = 0.7
-Y2_PORTION = 0.8
-SLOPE = -2*(10*Y2_PORTION-1)
-Y_INTERCEPT = 2*10*Y2_PORTION - 1
 def get_center_pt(box_info):
+    return [(box_info[0]+box_info[2])/2, (box_info[1]+box_info[3])/2]
+
+
+wh_ratio_x_thr_a1 = 0.7
+y2_portion_a1 = 0.8
+slope_a1 = -2*(10*y2_portion_a1-1)
+y_intercept_a1 = 2*10*y2_portion_a1 - 1
+def get_center_pt_a1(box_info):
     width = box_info[2] - box_info[0]
     height = box_info[3] - box_info[1]
     wh_ratio = height/width
-    if wh_ratio < WH_RATIO_X_THR:
-        ct_pt = [(box_info[0]+box_info[2])/2, ((1- Y2_PORTION)*box_info[1] + Y2_PORTION*box_info[3])]
-    elif WH_RATIO_X_THR < wh_ratio <= 1.0:
-        cal_num = SLOPE*wh_ratio + Y_INTERCEPT
+    if wh_ratio < wh_ratio_x_thr_a1:
+        ct_pt = [(box_info[0]+box_info[2])/2, ((1- y2_portion_a1)*box_info[1] + y2_portion_a1*box_info[3])]
+    elif wh_ratio_x_thr_a1 < wh_ratio <= 1.0:
+        cal_num = slope_a1*wh_ratio + y_intercept_a1
         ct_pt = [(box_info[0]+box_info[2])/2, (1*box_info[1] + cal_num*box_info[3])/(1 + cal_num)]
     else:
         ct_pt = [(box_info[0]+box_info[2])/2, (box_info[1] + box_info[3])/2]
     return ct_pt
 
+
+area3_y2_portion = 0.9
+def get_center_pt_a3(box_info):
+    ct_pt = [(box_info[0]+box_info[2])/2, ((1- area3_y2_portion)*box_info[1] + area3_y2_portion*box_info[3])]
+    return ct_pt
+
+wh_ratio_x_thr_a4 = 0.7
+y2_portion_a4 = 0.8
+slope_a4 = -2*(10*y2_portion_a4-1)
+y_intercept_a4 = 2*10*y2_portion_a4 - 1
+def get_center_pt_a4(box_info):
+    width = box_info[2] - box_info[0]
+    height = box_info[3] - box_info[1]
+    wh_ratio = height/width
+    if wh_ratio < wh_ratio_x_thr_a4:
+        ct_pt = [(box_info[0]+box_info[2])/2, ((1- y2_portion_a4)*box_info[1] + y2_portion_a4*box_info[3])]
+    elif wh_ratio_x_thr_a4 < wh_ratio <= 1.0:
+        cal_num = slope_a4*wh_ratio + y_intercept_a4
+        ct_pt = [(box_info[0]+box_info[2])/2, (1*box_info[1] + cal_num*box_info[3])/(1 + cal_num)]
+    else:
+        ct_pt = [(box_info[0]+box_info[2])/2, (box_info[1] + box_info[3])/2]
+    return ct_pt
+
+trk_fn_get_ct_pt_lst = [get_center_pt_a1, get_center_pt_a3, get_center_pt_a4]
 
 def filter_out_low_conf(dets, conf_thr):
     return [dets[j] for j in range(0, len(dets))  if (dets[j][4] >  conf_thr)] 

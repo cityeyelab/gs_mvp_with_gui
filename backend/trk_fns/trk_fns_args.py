@@ -4,12 +4,6 @@ from ..map_vars import area3_global_inout_map, area3_car_wash_waiting_map
 from ..map_vars import area4_global_inout_map, area4_car_wash_waiting_map, area4_electric_vehicle_charging_map, area4_car_interior_washing_map
 
 
-# slope = -0.5353805073431241
-# glb_inout_map = area1_global_inout_map
-# maps_names = ['car_wash_waiting', 'place0']
-# non_global_maps = [area1_car_wash_waiting_map, area1_place0_map]
-# zone_cnt_vars = [0 for i in range(0, len(maps_names))]
-
 
 area1_data_dict = {
     'area_number': 1,

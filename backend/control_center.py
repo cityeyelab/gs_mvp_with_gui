@@ -4,6 +4,10 @@ import numpy as np
 from .firebase import firebase_upload
 import sys
 
+
+# Queue로 넘어온 데이터를 get하는 과정에서 string으로 불러오는건 의존성이 trk_fns_data에서의 strings와 의존성이 있기 때문에 공통 string을 설정하는 것이 좋겠다.
+# area별 arguments는 list로 관리하는 것이 좀 더 일반화에 좋겠다.
+
 def control_center(op_flag, que1, que2, que3, exit_event):
     # print('cc check!')
     area1_global_cnt = 0
@@ -43,7 +47,7 @@ def control_center(op_flag, que1, que2, que3, exit_event):
         if not que1.empty(): # area1
             qdata1 = que1.get()
             if type(qdata1) == type(None):
-                sys.exit()
+                # sys.exit()
                 break
             # qdata1 =  {'pos_data': [], 'area': 1, 'global_cnt': 0, 'car_washing_waiting_cnt': 0, 'place0_cnt': 0}
             area1_global_cnt = qdata1['global_cnt']
@@ -56,7 +60,7 @@ def control_center(op_flag, que1, que2, que3, exit_event):
         if not que2.empty(): # area3
             qdata2 = que2.get()
             if type(qdata2) == type(None):
-                sys.exit()
+                # sys.exit()
                 break
             # qdata2 =  {'pos_data': [], 'area': 3, 'global_cnt': 0, 'car_washing_waiting_cnt': 0}
             area3_global_cnt = qdata2['global_cnt']
@@ -68,7 +72,7 @@ def control_center(op_flag, que1, que2, que3, exit_event):
         if not que3.empty(): #area4
             qdata3 = que3.get()
             if type(qdata3) == type(None):
-                sys.exit()
+                # sys.exit()
                 break
             # qdata3 =  {'pos_data': [], 'area': 4, 'global_cnt': 3, 'car_washing_waiting_cnt': 0,
             #               'car_interior_washing_waiting_cnt': 2, 'electric_vehicle_charging_waiting_cnt': 0}

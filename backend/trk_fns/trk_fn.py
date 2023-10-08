@@ -1,6 +1,6 @@
-from ..util_functions import filter_out_low_conf, eliminate_dup, magnify_bbox, get_center_pt, get_bbox_conf
+from ..util_functions import filter_out_low_conf, eliminate_dup, magnify_bbox, trk_fn_get_ct_pt_lst, get_bbox_conf
 from ..map_vars import area1_global_inout_map, area1_car_wash_waiting_map, area1_place0_map
-from .trk_fns_data import TrackingVariables, area1_data_dict, area3_data_dict, area4_data_dict
+from .trk_fns_args import TrackingVariables, area1_data_dict, area3_data_dict, area4_data_dict
 
 # slope: float
 # global_inout_map: map
@@ -14,12 +14,14 @@ from .trk_fns_data import TrackingVariables, area1_data_dict, area3_data_dict, a
 
 data_dicts_lst = [area1_data_dict, area3_data_dict, area4_data_dict]
 
+
 def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, exit_event, proc_num):
 
     #data load
     # proc_num_to_area_num = [1, 3, 4]
     data_dict = data_dicts_lst[proc_num]
     tracking_varialbes = TrackingVariables(data_dict)
+    get_ct_pt_fn = trk_fn_get_ct_pt_lst[proc_num]
     
     area_number = tracking_varialbes.area_number
     slope = tracking_varialbes.slope
@@ -67,7 +69,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
                         pass
 
         for det in dets:
-            ct_pt = get_center_pt(det[0:4]) # [x, y]
+            ct_pt = get_ct_pt_fn(det[0:4]) # [x, y]
             if glb_inout_map[int(ct_pt[1]), int(ct_pt[0])] == True: # *
                 center_points_lst.append([ct_pt, det[0:4], 0])
 

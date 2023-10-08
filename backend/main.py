@@ -11,9 +11,9 @@ from multiprocessing import Queue
 
 # from .util_functions import *
 # from .visualization import visualize
-from .trk_fns.area1 import tracker_area1
-from .trk_fns.area3 import tracker_area3
-from .trk_fns.area4 import tracker_area4
+# from .trk_fns.area1 import tracker_area1
+# from .trk_fns.area3 import tracker_area3
+# from .trk_fns.area4 import tracker_area4
 from .trk_fns.trk_fn import tracker
 from .control_center import control_center
 # from .visualization_bp import visualize_bp
@@ -166,7 +166,7 @@ paths = ['rtsp://admin:self1004@@118.37.223.147:8522/live/main7',
          'rtsp://admin:self1004@@118.37.223.147:8522/live/main6', 
          'rtsp://admin:self1004@@118.37.223.147:8522/live/main8']
 
-lst_of_trk_fns = [tracker_area1, tracker_area3, tracker_area4]
+# lst_of_trk_fns = [tracker_area1, tracker_area3, tracker_area4]
 
 
 if __name__ == '__main__':
