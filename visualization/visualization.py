@@ -13,6 +13,9 @@ import sys
 
 
 
+spinner_text_lst = [' |',' /',' -'," \\"]
+spinner_period = 3
+
 def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_q, area_num_idx, drawing_result_ques, exit_event, eco=False, ):
     frame_cnt = 0
 
@@ -32,6 +35,10 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
     map_imgs = visualization_args.map_imgs
     zone_name_strings = visualization_args.zone_name_strings
     
+    
+    drawing_result_que = drawing_result_ques[area_num_idx]
+    
+    spinner_cnt = 0
     # if area_num == 1:
     #     glb_in_cnt = 0
     #     car_wash_waiting_cnt = 0
@@ -193,17 +200,32 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
         # print('area num idx = ' , area_num_idx)
         if selected_cam_num.get() != area_num_idx:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # else:
+        #     print('selected_cam_num = ' , selected_cam_num)
+        #     print('area num idx = ' , area_num_idx)
+        
+        
+        if 0 <= spinner_cnt < spinner_period:
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[0], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+        elif spinner_period <= spinner_cnt < 2*spinner_period:
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[1], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+        elif 2*spinner_period <= spinner_cnt < 3*spinner_period:
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[2], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+        elif 3*spinner_period<= spinner_cnt < 4*spinner_period:
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[3], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         else:
-            print('selected_cam_num = ' , selected_cam_num)
-            print('area num idx = ' , area_num_idx)
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[3], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+            spinner_cnt = 0
         
         # print('drawing result que put')
-        drawing_result_ques[area_num_idx].put(frame)
+        # drawing_result_ques[area_num_idx].put(frame)
+        drawing_result_que.put(frame)
         # drawing_result_ques[area_num_idx+3].put(frame.copy())
         # cv2.namedWindow('frame: area'+str(area_num), cv2.WINDOW_NORMAL)
         # cv2.imshow('frame: area'+str(area_num), frame)
         
         frame_cnt += 1
+        spinner_cnt += 1
 
         if img_q.qsize() > 100:
             print(f'img_q size at place {area_num} = ' , img_q.qsize())

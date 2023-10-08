@@ -9,14 +9,14 @@ import time
 # import os
 # from functools import partial
 
-import sys
+# import sys
 
-from cProfile import Profile
-from pstats import Stats
-import pstats
-import cProfile
-import re
-import datetime
+# from cProfile import Profile
+# from pstats import Stats
+# import pstats
+# import cProfile
+# import re
+# import datetime
 
         
 # def exit_app(p2, p3):
@@ -69,15 +69,7 @@ def main_run():
     p1.start()
     p2.start()
     p3.start()
-    
-    # exit_app_callback = partial(exit_app, p1, p2)
-    # p4 = Process(target = check_exit, args=(shared_variables.exit_event, exit_app_callback))
-    # p4.start()
 
-  
-    
-
-    
     while True:
         if shared_variables.exit_event.is_set():
             # print('sys exit!!')
