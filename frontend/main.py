@@ -35,6 +35,7 @@ class App(customtkinter.CTk):
         self.drawing_result_ques = drawing_result_ques
         self.operation_flag = shared_variables['operation_flag']
         self.area_display_values = shared_variables['area_display_values']
+        self.selected_cam_num = shared_variables['selected_cam_num']
         self.yolo_inference_ready_flag_lst = [shared_variables['is_yolo_inference1_ready'], shared_variables['is_yolo_inference2_ready'],
                                          shared_variables['is_yolo_inference3_ready']]
         self.rtsp_ready_lst = [shared_variables['is_rtsp1_ready'], shared_variables['is_rtsp2_ready'], shared_variables['is_rtsp3_ready']]
@@ -79,6 +80,10 @@ class App(customtkinter.CTk):
         # self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text='button3', command=None)
         # self.sidebar_button_3.grid(row=4, column=0, padx=20, pady=10)
         
+        # self.status_text = '-'
+        self.status_label = customtkinter.CTkLabel(self.sidebar_frame, text='Status: -')
+        self.status_label.grid(row=5, column=0, padx=20, pady=20)
+        
         
         self.radiobutton_frame = ZoneRadioButton(self, 1000, 160, area_display_values=self.area_display_values)
         # self.radiobutton_frame = customtkinter.CTkFrame(self, border_color='black', border_width=2)
@@ -95,7 +100,7 @@ class App(customtkinter.CTk):
         self.wait_rtsp_frame_bar = customtkinter.CTkProgressBar(self.wait_rtsp_frame)
         self.wait_rtsp_frame_bar.grid(row=1, column=0, padx=10, pady=10,)
         self.wait_rtsp_frame_task = self.wait_rtsp_frame.after(200, self.load_rtsp_frame)
-        self.rtsp_frame = RtspFrame(self, self.drawing_result_ques, self.radio_button_callback)
+        self.rtsp_frame = RtspFrame(self, self.drawing_result_ques, self.radio_button_callback, self.selected_cam_num)
         # self.rtsp_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=10, pady=10)
         
         # sized box
@@ -179,9 +184,12 @@ class App(customtkinter.CTk):
     def toggle_op_flag(self):
         if self.operation_flag.is_set():
             self.operation_flag.clear()
+            # self.status_text = '-'
+            self.status_label.configure(text='Status: -')
             # cv2.destroyAllWindows()
         else:
             self.operation_flag.set()
+            self.status_label.configure(text='Status: Running..')
         
     def whole_clicked(self, event):
         print('self clicked')

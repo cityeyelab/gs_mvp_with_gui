@@ -15,6 +15,8 @@ class SharedVariables():
         area4_display = self.manager.Value(int, 0)
         area_display_values = [area1_display, area2_display, area4_display]
         
+        selected_cam_num = self.manager.Value(int, 0)
+        
         is_rtsp1_ready = Event()
         is_rtsp2_ready = Event()
         is_rtsp3_ready = Event()
@@ -28,7 +30,7 @@ class SharedVariables():
         self.args = {'operation_flag': whole_operation_flag, 'video_loader_operation_flag': video_loader_operation_flag,
                      'yolo_operation_flag': yolo_operation_flag, 'tracker_loader_operation_flag': tracker_loader_operation_flag,
                      'det_visualization_operation_flag': det_visualization_operation_flag, 'bp_visualization_operation_flag': bp_visualization_operation_flag,
-                     'area_display_values': area_display_values,
+                     'area_display_values': area_display_values, 'selected_cam_num': selected_cam_num,
                      'is_rtsp1_ready': is_rtsp1_ready, 'is_rtsp2_ready': is_rtsp2_ready, 'is_rtsp3_ready': is_rtsp3_ready,
                      'is_yolo_inference1_ready': is_yolo_inference1_ready, 'is_yolo_inference2_ready': is_yolo_inference2_ready, 'is_yolo_inference3_ready': is_yolo_inference3_ready
                      }

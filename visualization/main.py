@@ -20,6 +20,7 @@ class VisualizationMain():
         
         self.operation_flag = self.args['operation_flag']
         self.area_display_values = args['area_display_values']
+        self.selected_cam_num = args['selected_cam_num']
         
         self.image_que_lst_draw = self.model_proc_result_ques[0:3]
         self.draw_proc_result_que_lst = self.model_proc_result_ques[3:6]
@@ -31,7 +32,7 @@ class VisualizationMain():
         
         
         for i in range(0, 3):
-            self.draw_proc_lst.append(Process(target=visualize, args=(self.operation_flag, self.area_display_values[i],
+            self.draw_proc_lst.append(Process(target=visualize, args=(self.operation_flag, self.area_display_values[i], self.selected_cam_num,
                                                                 self.image_que_lst_draw[i], self.draw_proc_result_que_lst[i], i,
                                                                 self.drawing_result_ques[0:3], self.exit_event),
                                               daemon=False))

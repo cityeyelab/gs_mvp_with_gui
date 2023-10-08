@@ -13,7 +13,7 @@ import sys
 
 
 
-def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, drawing_result_ques, exit_event, eco=False, ):
+def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_q, area_num_idx, drawing_result_ques, exit_event, eco=False, ):
     frame_cnt = 0
 
     area_num_lst = [1, 3, 4]
@@ -96,7 +96,7 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
         frame = img_q.get()
         if type(frame) == type(None):
             drawing_result_ques[area_num_idx].put(None)
-            sys.exit()
+            # sys.exit()
             break
         
         if op_flag.is_set():
@@ -188,6 +188,14 @@ def visualize(op_flag, area_display_value, img_q, proc_result_q, area_num_idx, d
             prev_key = key
         # cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (1920 - 800, 80), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+        
+        # print('selected_cam_num = ' , selected_cam_num)
+        # print('area num idx = ' , area_num_idx)
+        if selected_cam_num.get() != area_num_idx:
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        else:
+            print('selected_cam_num = ' , selected_cam_num)
+            print('area num idx = ' , area_num_idx)
         
         # print('drawing result que put')
         drawing_result_ques[area_num_idx].put(frame)

@@ -19,10 +19,11 @@ def cvimg_to_tkimg(frame, width, height):
 class RtspFrame(customtkinter.CTkFrame):
     # def __init__(self, master: any, width: int = 200, height: int = 200, corner_radius: int | str | None = None, border_width: int | str | None = None, bg_color: str | Tuple[str, str] = "transparent", fg_color: str | Tuple[str, str] | None = None, border_color: str | Tuple[str, str] | None = None, background_corner_colors: Tuple[str | Tuple[str, str]] | None = None, overwrite_preferred_drawing_method: str | None = None, **kwargs):
     #     super().__init__(master, width, height, corner_radius, border_width, bg_color, fg_color, border_color, background_corner_colors, overwrite_preferred_drawing_method, **kwargs)
-    def __init__(self, parent, drawing_result_que, radiobutton_callback):
+    def __init__(self, parent, drawing_result_que, radiobutton_callback, selected_cam_num):
         super().__init__(master=parent)
         self.radiobutton_callback = radiobutton_callback
         self.drawing_result_que = drawing_result_que
+        self.selected_cam_num = selected_cam_num
         # self.rtsp_card_1 = RtspCard(self, 85, self.drawing_result_ques[3])
         
         self.grid_columnconfigure((0,1,2,3,4), weight=1)
@@ -69,6 +70,7 @@ class RtspFrame(customtkinter.CTkFrame):
         
         self.rtsp_card_1.make_selected()
         self.rtsp_main_card.selected_cam_num = 1
+        self.selected_cam_num.set(0)
         
         self.run_video_thread = threading.Thread(target=self.run_video, args=(), daemon=False)
         self.run_video_thread.start()
@@ -87,14 +89,17 @@ class RtspFrame(customtkinter.CTkFrame):
         if card_num == 1:
             self.rtsp_card_1.make_selected()
             self.rtsp_main_card.selected_cam_num = 1
+            self.selected_cam_num.set(0)
             self.radiobutton_callback(1)
         elif card_num == 2:
             self.rtsp_card_2.make_selected()
             self.rtsp_main_card.selected_cam_num = 2
+            self.selected_cam_num.set(1)
             self.radiobutton_callback(2)
         elif card_num == 3:
             self.rtsp_card_3.make_selected()
             self.rtsp_main_card.selected_cam_num = 3
+            self.selected_cam_num.set(2)
             self.radiobutton_callback(3)
             
     def run_video(self):
@@ -119,18 +124,18 @@ class RtspFrame(customtkinter.CTkFrame):
         frame_bp = self.current_frame_bp
         
         if self.rtsp_main_card.selected_cam_num == 1:
-            frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
-            frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
+            # frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+            # frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
             imgtk = cvimg_to_tkimg(frame1, int(1.5 * self.main_view_width),  int(1.5 * self.main_view_height))
             self.rtsp_main_card.lbl.configure(image=imgtk)
         elif self.rtsp_main_card.selected_cam_num == 2:
-            frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
-            frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
+            # frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+            # frame3 = cv2.cvtColor(frame3, cv2.COLOR_BGR2GRAY)
             imgtk = cvimg_to_tkimg(frame2, int(1.5 * self.main_view_width),  int(1.5 * self.main_view_height))
             self.rtsp_main_card.lbl.configure(image=imgtk)
         elif self.rtsp_main_card.selected_cam_num == 3:
-            frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
-            frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+            # frame1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+            # frame2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
             imgtk = cvimg_to_tkimg(frame3, int(1.5 * self.main_view_width),  int(1.5 * self.main_view_height))
             self.rtsp_main_card.lbl.configure(image=imgtk)
         
