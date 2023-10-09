@@ -39,50 +39,7 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
     drawing_result_que = drawing_result_ques[area_num_idx]
     
     spinner_cnt = 0
-    # if area_num == 1:
-    #     glb_in_cnt = 0
-    #     car_wash_waiting_cnt = 0
-    #     place0_cnt = 0
-    #     cnts_lst = [glb_in_cnt, car_wash_waiting_cnt, place0_cnt]
-    #     cnts_lst_str = ['global in', 'car wash wait', 'place0']
-    #     area1_view_global_map = False
-    #     area1_view_car_wash_waiting_map = False
-    #     area1_view_place0_map = False
-    #     display_bool_lst = [area1_view_global_map, area1_view_car_wash_waiting_map, area1_view_place0_map]
-    #     slope = -0.5353805073431241
-    #     non_false_idx_lst = [area1_global_inout_map_non_false_idx, area1_car_wash_waiting_map_non_false_idx, area1_place0_map_non_false_idx]
-    #     map_imgs = [area1_global_inout_map_img, area1_car_wash_waiting_map_img, area1_place0_map_img]
-    #     zone_name_strings = ['Global In Out', 'Car Wash Waiting', 'Place0']
-    # elif area_num == 3:
-    #     glb_in_cnt = 0
-    #     car_wash_waiting_cnt = 0
-    #     cnts_lst = [glb_in_cnt, car_wash_waiting_cnt]
-    #     cnts_lst_str = ['global in', 'car wash wait']
-    #     area3_view_global_map = False
-    #     area3_view_car_wash_waiting_map = False
-    #     display_bool_lst = [area3_view_global_map, area3_view_car_wash_waiting_map]
-    #     slope = 0.657103825136612
-    #     non_false_idx_lst = [area3_global_inout_map_non_false_idx, area3_car_wash_waiting_map_non_false_idx]
-    #     map_imgs = [area3_global_inout_map_img, area3_car_wash_waiting_map_img]
-    #     zone_name_strings = ['Global In Out', 'Car Wash Waiting']
-    # elif area_num == 4:
-    #     glb_in_cnt = 0
-    #     car_wash_waiting_cnt = 0
-    #     electric_vehicle_charging_waiting_cnt = 0
-    #     car_interior_washing_waiting_cnt = 0
-    #     cnts_lst = [glb_in_cnt, car_wash_waiting_cnt, electric_vehicle_charging_waiting_cnt, car_interior_washing_waiting_cnt] # *
-    #     cnts_lst_str = ['global in', 'car wash wait', 'elctric charging', 'car interior wash'] # *
-    #     area4_view_global_map = False
-    #     area4_view_car_wash_waiting_map = False
-    #     area4_view_electric_charging_map = False
-    #     area4_view_car_interior_wash_map = False
-    #     display_bool_lst = [area4_view_global_map, area4_view_car_wash_waiting_map, area4_view_electric_charging_map, area4_view_car_interior_wash_map] # *
-    #     slope = 0.22451456310679613 # *
-    #     non_false_idx_lst = [area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx] # *
-    #     map_imgs = [area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img] # *
-    #     zone_name_strings = ['Global In Out', 'Car Wash Waiting', 'Electric Charging Zone', 'Car Interior Washing Zone'] # *
-
-    # available_key_lst = [ord(str(i)) for i in range(0, len(display_bool_lst)+1)]
+    
     prev_key = 0 # operation key
     
     while True:
@@ -115,21 +72,11 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
             for i in range(0, len(cnts_lst)):
                 cnts_lst[i] = proc_result['cnt_lst'][i]
             
-            # for i in range(0, len(non_false_idx_lst)):
-            #     # non_false_idx = non_false_idx_lst[i]
-            #     map_img = map_imgs[i]
-            #     need_display = display_bool_lst[i]
-            #     if need_display:
-            #         # frame[non_false_idx] = cv2.addWeighted(frame, 0.5, map_img, 0.5, 0)[non_false_idx]
-            #         frame = cv2.addWeighted(frame, 0.6, map_img, 0.4, 0)
-            #         break
-            
-            
-            # cv2.putText(frame, 'frame cnt: '+str(frame_cnt), (80, 80), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+
             for cnts_lst_idx in range(0, len(cnts_lst)):
                 cnt_str = cnts_lst_str[cnts_lst_idx]
                 cnt_value = cnts_lst[cnts_lst_idx]
-                cv2.putText(frame, cnt_str + ': ' + str(cnt_value), (80, 120 + 35*cnts_lst_idx), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+                cv2.putText(frame, cnt_str + ': ' + str(cnt_value), (80, 120 + 35*(cnts_lst_idx+1)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
 
             for data in dets:
                 det = data
@@ -142,35 +89,7 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
                 cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
                 cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
-            # key = area_display_value.get()
-            # if  key != prev_key:
-            #     for i in range(0, len(display_bool_lst)):
-            #         displayed_zone_name = 'None'
-            #         display_bool_lst[i] = False
-            #     if key != 0:
-            #         for i in range(0, len(display_bool_lst)):
-            #             if i == key - 1:
-            #                 displayed_zone_name = str(zone_name_strings[i])
-            #                 display_bool_lst[i] = True
-            #                 break
-            #     prev_key = key
-        
-            # key  = cv2.waitKey(1) & 0xFF
-            # if key == ord('q'):
-            #     break
-            # elif key != 255: # not no input
-            #     if key in available_key_lst:
-            #         for i in range(0, len(display_bool_lst)):
-            #             displayed_zone_name = 'None'
-            #             display_bool_lst[i] = False
-            #         for i in range(0, len(display_bool_lst)):
-            #             if key == ord(str(i+1)):
-            #                 displayed_zone_name = str(zone_name_strings[i])
-            #                 display_bool_lst[i] = True
-            #                 break
-            
-            # cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
-        
+
         for i in range(0, len(non_false_idx_lst)):
             # non_false_idx = non_false_idx_lst[i]
             need_display = display_bool_lst[i]
@@ -196,25 +115,20 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
         # cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (80, 120 + 35*(len(cnts_lst))), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         cv2.putText(frame, 'Displayed Zone: ' + displayed_zone_name, (1920 - 800, 80), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         
-        # print('selected_cam_num = ' , selected_cam_num)
-        # print('area num idx = ' , area_num_idx)
+
         if selected_cam_num.get() != area_num_idx:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        # else:
-        #     print('selected_cam_num = ' , selected_cam_num)
-        #     print('area num idx = ' , area_num_idx)
-        
-        
+
         if 0 <= spinner_cnt < spinner_period:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[0], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[0], (80, 120 ), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         elif spinner_period <= spinner_cnt < 2*spinner_period:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[1], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[1], (80, 120), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         elif 2*spinner_period <= spinner_cnt < 3*spinner_period:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[2], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[2], (80, 120), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         elif 3*spinner_period<= spinner_cnt < 4*spinner_period:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[3], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[3], (80, 120), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
         else:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[3], (80, 120 + 35*len(cnts_lst)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
+            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[3], (80, 120), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
             spinner_cnt = 0
         
         # print('drawing result que put')
