@@ -16,6 +16,22 @@ import sys
 
 spinner_text_lst = [' |',' /',' -'," \\"]
 spinner_period = 3
+def get_spinner_text(spinner_cnt, frame):
+    if 0 <= spinner_cnt < spinner_period:
+        spinner_text = spinner_text_lst[0]
+    elif spinner_period <= spinner_cnt < 2*spinner_period:
+        spinner_text = spinner_text_lst[1]
+    elif 2*spinner_period <= spinner_cnt < 3*spinner_period:
+        spinner_text = spinner_text_lst[2]
+    elif 3*spinner_period<= spinner_cnt < 4*spinner_period:
+        spinner_text = spinner_text_lst[3]
+    else:
+        spinner_text = spinner_text_lst[3]
+        spinner_cnt = 0
+    cv2.putText(frame, 'progress indicator: ' + spinner_text, (80, 120), font, 2, (0, 0, 255), 2)
+    return spinner_cnt
+    
+
 
 def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_q, area_num_idx, drawing_result_ques, exit_event, eco=False, ):
     frame_cnt = 0
@@ -133,17 +149,7 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
         if selected_cam_num.get() != area_num_idx:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        if 0 <= spinner_cnt < spinner_period:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[0], (80, 120 ), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
-        elif spinner_period <= spinner_cnt < 2*spinner_period:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[1], (80, 120), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
-        elif 2*spinner_period <= spinner_cnt < 3*spinner_period:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[2], (80, 120), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
-        elif 3*spinner_period<= spinner_cnt < 4*spinner_period:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[3], (80, 120), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
-        else:
-            cv2.putText(frame, 'progress indicator: ' + spinner_text_lst[3], (80, 120), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
-            spinner_cnt = 0
+        spinner_cnt = get_spinner_text(spinner_cnt, frame)
         
         # print('drawing result que put')
         # drawing_result_ques[area_num_idx].put(frame)
@@ -160,13 +166,7 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
             if img_q.full():
                 while not img_q.empty():
                     _ = img_q.get() 
-                print(f'img_q is full at place {area_num}. Clear img_q')
+                print(f'img_q is full at place {area_num} in visualize fn. Clear img_q')
     print('visualization end')
     cv2.destroyAllWindows()
-    
-# def cvimg_to_tkimg(frame, width, height):
-#     frame = cv2.resize(frame.copy(), (int(width), int(height)))
-#     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-#     img = Image.fromarray(frame)
-#     imgtk = ImageTk.PhotoImage(image=img)
-#     return imgtk
+
