@@ -7,6 +7,7 @@ from .util_functions import get_bbox_conf
 from .font import font
 from .visualization_args import VisualizationArgs
 
+import numpy as np
 from PIL import Image, ImageTk
 
 import sys
@@ -83,8 +84,21 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
                 p_x1, p_y1 = int(det[0]), int(det[1])
                 p_x2, p_y2 = int(det[2]), int(det[3])
                 frame = cv2.rectangle(frame, (p_x1, p_y1), (p_x2, p_y2), (255, 0, 0), 2)
-            for data in center_points_lst:
-                center_point = data[0]
+            
+            for pts in center_points_lst:
+                # for i in range(0, len(pts)-1):
+                #     former_pt = pts[i]
+                #     next_pt = pts[i+1]
+                #     cv2.line(frame, (int(former_pt[0]), int(former_pt[1])), (int(next_pt[0]), int(next_pt[1])), (0,255,255), thickness=4)
+                # print('pts = ' , pts)
+                inted_pts = np.int32([pts[0::4]])
+                # polylines_template = frame.copy()
+                # cv2.polylines(polylines_template, inted_pts, False, (200, 255, 40), 6, lineType=cv2.LINE_AA)
+                # cv2.polylines(polylines_template, inted_pts, False, (200, 255, 40), 6, lineType=8)
+                cv2.polylines(frame, inted_pts, False, (200, 255, 40), 6, lineType=8)
+                # frame = cv2.addWeighted(frame, 0.6, polylines_template, 0.4, 0)
+                center_point = pts[-1]
+                # print('center point = ', center_point)
                 cv2.line(frame, (int(center_point[0]), int(center_point[1])), (int(center_point[0]), int(center_point[1])), (0,255,0), thickness=12, lineType=None, shift=None)
                 cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
                 cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)

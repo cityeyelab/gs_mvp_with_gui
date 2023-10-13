@@ -1,4 +1,3 @@
-from backend.main import gs_tracker
 from backend.main import create_backend
 from frontend.main import create_frontend
 from visualization.main import create_visualization
@@ -36,4 +35,3 @@ def main_run():
 
 if __name__ == '__main__':
     main_run()
-

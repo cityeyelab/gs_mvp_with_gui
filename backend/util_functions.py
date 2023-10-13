@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 def get_bbox_conf(data):
-    thr = 5
+    thr = 10
     if 0<= data < thr:
         result = 1
     elif thr< data <=2*thr:
@@ -36,6 +36,36 @@ def cal_min_IoU(box1, box2):
 
     return iou
 
+
+def cal_IoU_elt_lst(box1, box_lst):
+    # box = (x1, y1, x2, y2)
+    box1_area = (box1[2] - box1[0] + 0.1) * (box1[3] - box1[1] + 0.1)
+    
+    iou_lst = []
+    
+    for box2 in box_lst:
+        box2_area = (box2[2] - box2[0] + 0.1) * (box2[3] - box2[1] + 0.1)
+
+        # obtain x1, y1, x2, y2 of the intersection
+        x1 = max(box1[0], box2[0])
+        y1 = max(box1[1], box2[1])
+        x2 = min(box1[2], box2[2])
+        y2 = min(box1[3], box2[3])
+
+        # compute the width and height of the intersection
+        w = max(0, x2 - x1 + 0.1)
+        h = max(0, y2 - y1 + 0.1)
+
+        inter = w * h
+        
+        if box1_area == 0 or box2_area == 0:
+            iou = 0
+        else:
+            iou = inter / (box1_area + box2_area - inter)
+            
+        iou_lst.append(iou)
+
+    return iou_lst
 
 
 def cal_IoU(box1, box2):
@@ -90,18 +120,18 @@ def get_center_pt_a1(box_info):
     height = box_info[3] - box_info[1]
     wh_ratio = height/width
     if wh_ratio < wh_ratio_x_thr_a1:
-        ct_pt = [(box_info[0]+box_info[2])/2, ((1- y2_portion_a1)*box_info[1] + y2_portion_a1*box_info[3])]
+        ct_pt = [int((box_info[0]+box_info[2])/2), int((1- y2_portion_a1)*box_info[1] + y2_portion_a1*box_info[3])]
     elif wh_ratio_x_thr_a1 < wh_ratio <= 1.0:
         cal_num = slope_a1*wh_ratio + y_intercept_a1
-        ct_pt = [(box_info[0]+box_info[2])/2, (1*box_info[1] + cal_num*box_info[3])/(1 + cal_num)]
+        ct_pt = [int((box_info[0]+box_info[2])/2), int(1*box_info[1] + cal_num*box_info[3])/(1 + cal_num)]
     else:
-        ct_pt = [(box_info[0]+box_info[2])/2, (box_info[1] + box_info[3])/2]
+        ct_pt = [int((box_info[0]+box_info[2])/2), int((box_info[1] + box_info[3])/2)]
     return ct_pt
 
 
 area3_y2_portion = 0.9
 def get_center_pt_a3(box_info):
-    ct_pt = [(box_info[0]+box_info[2])/2, ((1- area3_y2_portion)*box_info[1] + area3_y2_portion*box_info[3])]
+    ct_pt = [int((box_info[0]+box_info[2])/2), int(((1- area3_y2_portion)*box_info[1] + area3_y2_portion*box_info[3]))]
     return ct_pt
 
 wh_ratio_x_thr_a4 = 0.7
@@ -113,12 +143,12 @@ def get_center_pt_a4(box_info):
     height = box_info[3] - box_info[1]
     wh_ratio = height/width
     if wh_ratio < wh_ratio_x_thr_a4:
-        ct_pt = [(box_info[0]+box_info[2])/2, ((1- y2_portion_a4)*box_info[1] + y2_portion_a4*box_info[3])]
+        ct_pt = [int((box_info[0]+box_info[2])/2), int((1- y2_portion_a4)*box_info[1] + y2_portion_a4*box_info[3])]
     elif wh_ratio_x_thr_a4 < wh_ratio <= 1.0:
         cal_num = slope_a4*wh_ratio + y_intercept_a4
-        ct_pt = [(box_info[0]+box_info[2])/2, (1*box_info[1] + cal_num*box_info[3])/(1 + cal_num)]
+        ct_pt = [int((box_info[0]+box_info[2])/2), int(1*box_info[1] + cal_num*box_info[3])/(1 + cal_num)]
     else:
-        ct_pt = [(box_info[0]+box_info[2])/2, (box_info[1] + box_info[3])/2]
+        ct_pt = [int((box_info[0]+box_info[2])/2), int((box_info[1] + box_info[3])/2)]
     return ct_pt
 
 trk_fn_get_ct_pt_lst = [get_center_pt_a1, get_center_pt_a3, get_center_pt_a4]
