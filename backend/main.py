@@ -16,6 +16,7 @@ from multiprocessing import Queue
 # from .trk_fns.area4 import tracker_area4
 from .trk_fns.trk_fn import tracker
 from .control_center import control_center
+from .collision_analysis.analysis import analyze
 # from .visualization_bp import visualize_bp
 
 import os
@@ -46,6 +47,7 @@ class gs_tracker():
         self.video_loader_lst = []
         self.yolo_inference_lst = []
         self.tracking_proc_lst = []
+        self.collision_anlysis_que = []
         # self.draw_proc_lst = []
         # self.draw_proc_result_que_lst = []
         # self.visualize_bp_que_lst = []
@@ -73,6 +75,7 @@ class gs_tracker():
             self.image_que_lst_proc.append(Queue(200))
             self.det_result_que_lst.append(Queue(200))
             self.trk_result_que_lst.append(Queue(200))
+            self.collision_anlysis_que.append(Queue(200))
 
             self.video_loader_lst.append(multiprocessing.Process(target=video_load, args=(self.rtsp_ready_lst[i], self.operation_flag, self.image_que_lst_proc[i],
                                                                                           self.image_que_lst_draw[i], paths[i], self.need_visualization,
@@ -83,10 +86,12 @@ class gs_tracker():
             #                                                                                       self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],
             #                                                                                       self.exit_event, i), daemon=False))
             self.tracking_proc_lst.append(multiprocessing.Process(target=tracker, args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i],
-                                                                                                  self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],
+                                                                                                  self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i], self.collision_anlysis_que[i],
                                                                                                   self.exit_event, i), daemon=False))
         self.post_proc = multiprocessing.Process(target=control_center, args=(self.operation_flag, self.trk_result_que_lst[0], self.trk_result_que_lst[1],
                                                                               self.trk_result_que_lst[2], self.exit_event), daemon=False)
+        
+        self.collision_proc = multiprocessing.Process(target=analyze, args=(self.collision_anlysis_que[0], self.collision_anlysis_que[1], self.collision_anlysis_que[2]), daemon=False)
 
         print('backend init end')
 
@@ -103,12 +108,14 @@ class gs_tracker():
             self.yolo_inference_lst[i].start()
             
         self.post_proc.start()
+        self.collision_proc.start()
 
         for i in range(0, len(paths)):
             self.video_loader_lst[i].join()
             self.yolo_inference_lst[i].join()
             self.tracking_proc_lst[i].join()
         self.post_proc.join()
+        self.collision_proc.join()
 
     def close(self): # need feature refactoring using cue sign
 

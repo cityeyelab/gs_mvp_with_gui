@@ -1,8 +1,10 @@
+import datetime
+
 from ..util_functions import filter_out_low_conf, eliminate_dup, magnify_bbox, trk_fn_get_ct_pt_lst, get_bbox_conf, get_center_pt, cal_IoU_elt_lst
 from ..map_vars import area1_global_inout_map, area1_car_wash_waiting_map, area1_place0_map
 from .trk_fns_args import TrackingVariables, area1_data_dict, area3_data_dict, area4_data_dict
 from .trk_data import TrackingData
-
+from .filter_blacklist import filter_blacklist_fn_callback_lst
 # slope: float
 # global_inout_map: map
 # non_global_maps: list of maps
@@ -16,7 +18,7 @@ from .trk_data import TrackingData
 data_dicts_lst = [area1_data_dict, area3_data_dict, area4_data_dict]
 
 
-def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, exit_event, proc_num):
+def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, collision_que, exit_event, proc_num):
 
     #data load
     # proc_num_to_area_num = [1, 3, 4]
@@ -37,6 +39,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
     previous_put_data = {}
     trk_data_lst = []
     tracking_id = 0
+    filter_blacklist_fn = filter_blacklist_fn_callback_lst[proc_num]
     
     while True:
         if exit_event.is_set():
@@ -52,6 +55,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         # if dets == None:
         #     print('tracker None input break!')
         #     break
+        filter_blacklist_fn(dets)
         dets = filter_out_low_conf(dets, 0.25)
         eliminate_dup(dets)
         put_data = {}
@@ -69,7 +73,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         unmatched_dets_idx = [i for i in range(0, column_num)]
         for i in range(0, row_num):
             trk_data = trk_data_lst_orig[i]
-            last_bbox = trk_data.bboxes_orig[-1]
+            last_bbox = trk_data.bboxes[-1]
             iou_lst_wrt_trk_data = cal_IoU_elt_lst(last_bbox, dets)
             iou_lst = iou_lst + iou_lst_wrt_trk_data
         
@@ -91,7 +95,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         for mapping_data in trk_data_to_det_mapping_lst:
             this_cls = trk_data_lst[mapping_data[0]]
             to_be_appended = dets[mapping_data[1]]
-            this_cls.bboxes_orig.append(to_be_appended)
+            this_cls.bboxes.append(to_be_appended)
             this_cls.center_points_lst.append(get_ct_pt_fn(to_be_appended))
             this_cls.frame_record.append(frame_cnt)
         
@@ -99,12 +103,14 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         # create new data cls
         for new_idx in unmatched_dets_idx:
             det = dets[new_idx]
-            new_cls = TrackingData(area_num=area_number, id=tracking_id)
-            new_cls.bboxes_orig.append(det)
-            new_cls.center_points_lst.append(get_ct_pt_fn(det))
-            new_cls.frame_record.append(frame_cnt)
-            trk_data_lst.append(new_cls)
-            tracking_id+=1
+            center_point = get_ct_pt_fn(det)
+            if glb_inout_map[int(center_point[1]), int(center_point[0])] == True:
+                new_cls = TrackingData(area_num=area_number, id=tracking_id)
+                new_cls.bboxes.append(det)
+                new_cls.center_points_lst.append(center_point)
+                new_cls.frame_record.append(frame_cnt)
+                trk_data_lst.append(new_cls)
+                tracking_id+=1
         
 
         # center_points_lst_orig = center_points_lst.copy()
@@ -140,14 +146,16 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         center_point_lst = []
         # if area_number == 4:
             # print('trk_data_lst_orig : ',trk_data_lst_orig)
-        for data_cls in trk_data_lst_orig:
+        for i, data_cls in enumerate(trk_data_lst_orig):
             # print('diff = ', frame_cnt - data_cls.frame_record[-1])
             # conf = get_bbox_conf(frame_cnt - data_cls.frame_record[-1])
             # print('conf = ' , conf)
             # if conf <= 0 :
             if frame_cnt - data_cls.frame_record[-1] > 30:
                 try:
-                    pass
+                    # pass
+                    data_cls.removed_at = datetime.datetime.now()
+                    collision_que.put(data_cls)
                     trk_data_lst.remove(data_cls)
                     # if area_number == 4:
                     #     print('removed!')
