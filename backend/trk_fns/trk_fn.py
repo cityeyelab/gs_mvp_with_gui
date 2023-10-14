@@ -58,7 +58,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         #     print('tracker None input break!')
         #     break
         filter_blacklist_fn(dets)
-        dets = filter_out_low_conf(dets, 0.25)
+        dets = filter_out_low_conf(dets, 0.30)
         eliminate_dup(dets)
         put_data = {}
 
@@ -181,16 +181,16 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
                 # print('center point list = ' , center_point_lst)
                 # if area_number == 4:
                 #     print('center point = ', center_point)
-                if glb_inout_map[int(center_point[1]), int(center_point[0])] == True: # *
-                        glb_in_cnt += 1
-                        # center_point_lst.append(center_point)
-                        center_point_lst.append(data_cls.center_points_lst[-36:])
-                        for i in range(0, len(non_global_maps)):
-                            map = non_global_maps[i]
-                            if map[int(center_point[1]), int(center_point[0])] == True: # *
-                                zone_cnt_vars[i] += 1
-                                pos_data.append(round((center_point[1] - slope *(center_point[0])), 2))
-                                break
+                # if glb_inout_map[int(center_point[1]), int(center_point[0])] == True: # *
+                glb_in_cnt += 1
+                # center_point_lst.append(center_point)
+                center_point_lst.append(data_cls.center_points_lst[-36:])
+                for i in range(0, len(non_global_maps)):
+                    map = non_global_maps[i]
+                    if map[int(center_point[1]), int(center_point[0])] == True: # *
+                        zone_cnt_vars[i] += 1
+                        pos_data.append(round((center_point[1] - slope *(center_point[0])), 2))
+                        break
         
         # if area_number == 4:
         #     print('cls list = ' , trk_data_lst)
