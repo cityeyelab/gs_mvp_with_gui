@@ -1,6 +1,6 @@
-from .map_vars import area1_global_inout_map_non_false_idx, area1_car_wash_waiting_map_non_false_idx, area1_place0_map_non_false_idx, area1_global_inout_map_img, area1_car_wash_waiting_map_img, area1_place0_map_img
-from .map_vars import area3_global_inout_map_non_false_idx, area3_car_wash_waiting_map_non_false_idx, area3_global_inout_map_img, area3_car_wash_waiting_map_img
-from .map_vars import area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx, area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img
+from .map_vars import area1_global_inout_map_non_false_idx, area1_car_wash_waiting_map_non_false_idx, area1_place0_map_non_false_idx, area1_global_inout_map_img, area1_car_wash_waiting_map_img, area1_place0_map_img, area1_inner_map_img, area1_inner_map__non_false_idx
+from .map_vars import area3_global_inout_map_non_false_idx, area3_car_wash_waiting_map_non_false_idx, area3_global_inout_map_img, area3_car_wash_waiting_map_img, area3_inner_map, area3_inner_map__non_false_idx
+from .map_vars import area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx, area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img, area4_inner_map_img, area4_inner_map__non_false_idx
 
 
 class VisualizationArgs():
@@ -15,6 +15,7 @@ class VisualizationArgs():
             self.area1_view_global_map = False
             self.area1_view_car_wash_waiting_map = False
             self.area1_view_place0_map = False
+            self.area1_view_inner_map = False
             self.display_bool_lst = [self.area1_view_global_map, self.area1_view_car_wash_waiting_map, self.area1_view_place0_map]
             self.slope = -0.5353805073431241
             self.non_false_idx_lst = [area1_global_inout_map_non_false_idx, area1_car_wash_waiting_map_non_false_idx, area1_place0_map_non_false_idx]
@@ -27,6 +28,7 @@ class VisualizationArgs():
             self.cnts_lst_str = ['global in', 'car wash wait']
             self.area3_view_global_map = False
             self.area3_view_car_wash_waiting_map = False
+            self.area3_view_inner_map = False #######################
             self.display_bool_lst = [self.area3_view_global_map, self.area3_view_car_wash_waiting_map]
             self.slope = 0.657103825136612
             self.non_false_idx_lst = [area3_global_inout_map_non_false_idx, area3_car_wash_waiting_map_non_false_idx]
@@ -43,6 +45,7 @@ class VisualizationArgs():
             self.area4_view_car_wash_waiting_map = False
             self.area4_view_electric_charging_map = False
             self.area4_view_car_interior_wash_map = False
+            self.area4_view_inner_map = False
             self.display_bool_lst = [self.area4_view_global_map, self.area4_view_car_wash_waiting_map, self.area4_view_electric_charging_map, self.area4_view_car_interior_wash_map] # *
             self.slope = 0.22451456310679613 # *
             self.non_false_idx_lst = [area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx] # *

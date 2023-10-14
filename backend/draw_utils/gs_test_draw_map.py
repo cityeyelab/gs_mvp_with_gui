@@ -77,9 +77,9 @@ def shape_selection(event, x, y, flags, param):
 
 # load the image, clone it, and setup the mouse callback function
 # image = cv2.imread(args["image"])
-path = 'rtsp://admin:self1004@@118.37.223.147:8522/live/main8' # area4
+# path = 'rtsp://admin:self1004@@118.37.223.147:8522/live/main8' # area4
 # path = 'rtsp://admin:self1004@@118.37.223.147:8522/live/main7' # area1
-# path = 'rtsp://admin:self1004@@118.37.223.147:8522/live/main6' #area3
+path = 'rtsp://admin:self1004@@118.37.223.147:8522/live/main6' #area3
 cap_loader = cv2.VideoCapture(path)
 
 

@@ -1,7 +1,7 @@
 import datetime
 
 from ..util_functions import filter_out_low_conf, eliminate_dup, magnify_bbox, trk_fn_get_ct_pt_lst, get_bbox_conf, get_center_pt, cal_IoU_elt_lst
-from ..map_vars import area1_global_inout_map, area1_car_wash_waiting_map, area1_place0_map
+# from ..map_vars import area1_global_inout_map, area1_car_wash_waiting_map, area1_place0_map
 from .trk_fns_args import TrackingVariables, area1_data_dict, area3_data_dict, area4_data_dict
 from .trk_data import TrackingData
 from .filter_blacklist import filter_blacklist_fn_callback_lst
@@ -29,6 +29,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
     area_number = tracking_varialbes.area_number
     slope = tracking_varialbes.slope
     glb_inout_map = tracking_varialbes.glb_inout_map
+    inner_map = tracking_varialbes.inner_map
     non_global_maps_names = tracking_varialbes.non_global_maps_names
     non_global_maps = tracking_varialbes.non_global_maps
     zone_cnt_vars = [0 for i in range(0, len(non_global_maps_names))]
@@ -49,6 +50,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         if type(dets) == type(None):
             trk_result_que.put(None)
             visualize_bp_que.put(None)
+            collision_que.put(None)
             # sys.exit()
             break
         
@@ -92,12 +94,15 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
             trk_data_to_det_mapping_lst.append(mapping_tup)
 
         #append data
+        # -> cp pt 가 global inout에 포함될 경우만
         for mapping_data in trk_data_to_det_mapping_lst:
             this_cls = trk_data_lst[mapping_data[0]]
             to_be_appended = dets[mapping_data[1]]
-            this_cls.bboxes.append(to_be_appended)
-            this_cls.center_points_lst.append(get_ct_pt_fn(to_be_appended))
-            this_cls.frame_record.append(frame_cnt)
+            center_point = get_ct_pt_fn(to_be_appended)
+            if glb_inout_map[int(center_point[1]), int(center_point[0])] == True:
+                this_cls.bboxes.append(to_be_appended)
+                this_cls.center_points_lst.append(center_point)
+                this_cls.frame_record.append(frame_cnt)
         
         # print('unmatched_dets_idx = ', unmatched_dets_idx)
         # create new data cls
@@ -105,6 +110,8 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
             det = dets[new_idx]
             center_point = get_ct_pt_fn(det)
             if glb_inout_map[int(center_point[1]), int(center_point[0])] == True:
+                if inner_map[int(center_point[1]), int(center_point[0])] == True:
+                    print('maybe blacklist elt appear!')
                 new_cls = TrackingData(area_num=area_number, id=tracking_id)
                 new_cls.bboxes.append(det)
                 new_cls.center_points_lst.append(center_point)
@@ -147,11 +154,18 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         # if area_number == 4:
             # print('trk_data_lst_orig : ',trk_data_lst_orig)
         for i, data_cls in enumerate(trk_data_lst_orig):
+            center_point = data_cls.center_points_lst[-1]
             # print('diff = ', frame_cnt - data_cls.frame_record[-1])
             # conf = get_bbox_conf(frame_cnt - data_cls.frame_record[-1])
             # print('conf = ' , conf)
             # if conf <= 0 :
-            if frame_cnt - data_cls.frame_record[-1] > 30:
+            if inner_map[int(center_point[1]), int(center_point[0])] == True:
+                remove_thr = 90
+            else:
+                remove_thr = 15
+                
+            if frame_cnt - data_cls.frame_record[-1] > remove_thr:
+                
                 try:
                     # pass
                     data_cls.removed_at = datetime.datetime.now()
@@ -162,7 +176,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
                 except:
                     pass
             else:
-                center_point = data_cls.center_points_lst[-1]
+                # center_point = data_cls.center_points_lst[-1]
                 # center_point_lst.append(data_cls.center_points_lst[-15:])
                 # print('center point list = ' , center_point_lst)
                 # if area_number == 4:

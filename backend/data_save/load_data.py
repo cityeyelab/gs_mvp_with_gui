@@ -1,13 +1,6 @@
-from dataclasses import dataclass, field
-from typing import List
+import pickle
+import os
 import datetime
-
-# @dataclass()
-# class CarDetInfo:
-#     area: int
-#     id: int
-#     age: int = 0
-#     events: List = field(default_factory=list)
 
 class TrackingData():
     __slots__ = ['area_num', 'id', 'age', 'bboxes', 'center_points_lst', 'frame_record', 'created_at', 'removed_at']
@@ -27,5 +20,37 @@ class TrackingData():
         # return f"obj_id:{id(self)}, area_num: {self.area_num}, id: {self.id}, bboxes_orig: {self.bboxes_orig}, frame_rec : {self.frame_record}"
         return f"(obj_id:{id(self)}, area_num: {self.area_num}, id: {self.id}, created_at: {self.created_at}, removed_at: {self.removed_at})"
 
-# inst_car_det = CarDetInfo2(2, 3)
-# print(inst_car_det.__dict__)
+
+
+# if '__name__' == '__main__':
+#     data = []
+#     filename = 'collision_raw_data'
+#     print('cwd = ' , os.getcwd())
+#     with open(filename, 'rb') as f:
+#         data.append(pickle.load(f))
+
+#     # with open(filename, 'rb') as f:
+#     #     try:
+#     #         while True:
+#     #             data.append(pickle.load(f))
+#     #     except EOFError:
+#     #         pass
+
+#     print(data)
+
+data = []
+filename = 'collision_raw_data'
+print('cwd = ' , os.getcwd())
+
+# with open(filename, 'rb') as f:
+#     data.append(pickle.load(f))
+
+with open(filename, 'rb') as f:
+    try:
+        while True:
+            data.append(pickle.load(f))
+    except EOFError:
+        pass
+
+print(data)
+print(data[0].bboxes)

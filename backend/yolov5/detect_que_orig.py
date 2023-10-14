@@ -218,7 +218,7 @@ class inference():
             if type(im0) == type(None):
                 result_que.put(None)
                 sys.exit()
-                break
+                # break
                 
 
             if type(im0) != np.ndarray and im0 == None:

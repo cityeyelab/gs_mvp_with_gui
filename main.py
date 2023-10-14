@@ -24,6 +24,7 @@ def main_run():
     while True:
         if shared_variables.exit_event.is_set():
             # print('sys exit!!')
+            time.sleep(2)
             p1.terminate()
             p2.terminate()
             p3.terminate()
