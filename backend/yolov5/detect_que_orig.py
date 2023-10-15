@@ -261,6 +261,7 @@ class inference():
                 # det_result = 
                 # preds.append(det_result)
                 # print('before rsult que = ' , det_result)
+                det_result = tuple(det_result)
                 result_que.put(det_result)
                 # result_lst.append(det_result)
                 # result_que.get()

@@ -1,8 +1,8 @@
 import cv2
 
-from .map_vars import area1_global_inout_map_non_false_idx, area1_car_wash_waiting_map_non_false_idx, area1_place0_map_non_false_idx, area1_global_inout_map_img, area1_car_wash_waiting_map_img, area1_place0_map_img
-from .map_vars import area3_global_inout_map_non_false_idx, area3_car_wash_waiting_map_non_false_idx, area3_global_inout_map_img, area3_car_wash_waiting_map_img
-from .map_vars import area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx, area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img
+# from .map_vars import area1_global_inout_map_non_false_idx, area1_car_wash_waiting_map_non_false_idx, area1_place0_map_non_false_idx, area1_global_inout_map_img, area1_car_wash_waiting_map_img, area1_place0_map_img
+# from .map_vars import area3_global_inout_map_non_false_idx, area3_car_wash_waiting_map_non_false_idx, area3_global_inout_map_img, area3_car_wash_waiting_map_img
+# from .map_vars import area4_global_inout_map_non_false_idx, area4_car_wash_waiting_map_non_false_idx, area4_electric_vehicle_charging_map_non_false_idx, area4_car_interior_washing_map_non_false_idx, area4_global_inout_map_img, area4_car_wash_waiting_map_img, area4_electric_vehicle_charging_map_img, area4_car_interior_washing_map_img
 from .util_functions import get_bbox_conf
 from .font import font
 from .visualization_args import VisualizationArgs
@@ -10,7 +10,7 @@ from .visualization_args import VisualizationArgs
 import numpy as np
 from PIL import Image, ImageTk
 
-import sys
+import time
 
 
 
@@ -80,7 +80,7 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
             # sys.exit()
             break
         
-        if op_flag.is_set():
+        if op_flag.is_set(): #det result drawing only when op_flag is on
             if eco_mode:
                 _ = proc_result_q.get()
             proc_result = proc_result_q.get()
@@ -167,7 +167,8 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
             print(f'img_q size at place {area_num} = ' , img_q.qsize())
             if img_q.full():
                 while not img_q.empty():
-                    _ = img_q.get() 
+                    _ = img_q.get()
+                    time.sleep(0.005)
                 print(f'img_q is full at place {area_num} in visualize fn. Clear img_q')
     print('visualization end')
     cv2.destroyAllWindows()

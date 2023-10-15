@@ -47,7 +47,7 @@ class gs_tracker():
         self.video_loader_lst = []
         self.yolo_inference_lst = []
         self.tracking_proc_lst = []
-        self.collision_anlysis_que = []
+        self.data_save_que = []
         # self.draw_proc_lst = []
         # self.draw_proc_result_que_lst = []
         # self.visualize_bp_que_lst = []
@@ -75,7 +75,7 @@ class gs_tracker():
             self.image_que_lst_proc.append(Queue(200))
             self.det_result_que_lst.append(Queue(200))
             self.trk_result_que_lst.append(Queue(200))
-            self.collision_anlysis_que.append(Queue(200))
+            self.data_save_que.append(Queue(200))
 
             self.video_loader_lst.append(multiprocessing.Process(target=video_load, args=(self.rtsp_ready_lst[i], self.operation_flag, self.image_que_lst_proc[i],
                                                                                           self.image_que_lst_draw[i], paths[i], self.need_visualization,
@@ -86,12 +86,12 @@ class gs_tracker():
             #                                                                                       self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],
             #                                                                                       self.exit_event, i), daemon=False))
             self.tracking_proc_lst.append(multiprocessing.Process(target=tracker, args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i],
-                                                                                                  self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i], self.collision_anlysis_que[i],
+                                                                                                  self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i], self.data_save_que[i],
                                                                                                   self.exit_event, i), daemon=False))
         self.post_proc = multiprocessing.Process(target=control_center, args=(self.operation_flag, self.trk_result_que_lst[0], self.trk_result_que_lst[1],
                                                                               self.trk_result_que_lst[2], self.exit_event), daemon=False)
         
-        self.collision_proc = multiprocessing.Process(target=collect_data, args=(self.collision_anlysis_que[0], self.collision_anlysis_que[1], self.collision_anlysis_que[2]), daemon=False)
+        self.collision_proc = multiprocessing.Process(target=collect_data, args=(self.data_save_que[0], self.data_save_que[1], self.data_save_que[2]), daemon=False)
 
         print('backend init end')
 

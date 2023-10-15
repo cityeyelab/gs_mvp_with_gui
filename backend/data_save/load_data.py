@@ -58,6 +58,7 @@ import dill
 
 data = []
 filename = 'data/2023-10-14_raw_data'
+filename = 'data/2023-10-15_raw_data'
 # print('cwd = ' , os.getcwd())
 
 # with open(filename, 'rb') as f:
@@ -72,4 +73,4 @@ with open(filename, 'rb') as f:
         pass
 
 print(data)
-print(data[0].bboxes)
+print(len(data))
