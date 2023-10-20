@@ -10,8 +10,8 @@ from .analysis.analysis import analyze
 # filename = 'data/2023-10-18_raw_data'
 # filename = 'data/2023-10-19_raw_data'
 
-def create_collision_analysis():
-    analysis_instance = CollisionAnalysis()
+def create_collision_analysis(que, rt_que):
+    analysis_instance = CollisionAnalysis(que, rt_que)
     analysis_instance.run()
 
 
@@ -59,8 +59,8 @@ def analyze_rt(center_points_lst_que):
 
 
 class CollisionAnalysis():
-    def __init__(self) -> None:
-        self.analysis_proc = Process(target = analyze)
+    def __init__(self, que, rt_que) -> None:
+        self.analysis_proc = Process(target = analyze, args=(que,))
         # self.analysis_rt_proc = Process(target = analyze_rt)
         
     

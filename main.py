@@ -15,9 +15,10 @@ def main_run():
 
     p1 = Process(target = create_frontend, args= (shared_variables.args, shared_variables.drawing_result_ques, shared_variables.exit_event), daemon=False)
     p2 = Process(target = create_backend, args= (shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.exit_event), daemon=False)
-    p3 = Process(target = create_visualization, args=(shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.drawing_result_ques, shared_variables.exit_event))
+    p3 = Process(target = create_visualization, args=(shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.drawing_result_ques, shared_variables.exit_event,
+                                                    shared_variables.collision_analysis_queue, shared_variables.collision_analysis_rt_queue))
     # p4 = Process(target = check_exit, args=(shared_variables.exit_event, p2, p3))
-    p4 = Process(target= create_collision_analysis)
+    p4 = Process(target= create_collision_analysis, args=(shared_variables.collision_analysis_queue, shared_variables.collision_analysis_rt_queue))
     
     p1.start()
     p2.start()

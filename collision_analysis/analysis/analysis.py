@@ -221,7 +221,7 @@ def refine_points_lst_by_moving_distance(points_lst, dist_thr = 10):
                     is_complete = True
                     break
         refined_pts_lst.append(new_lst)
-        contained_nodes_numbers_lst.append(contained_nodes_numbers_lst)
+        contained_nodes_numbers_lst.append(contained_nodes_numbers)
     return refined_pts_lst, contained_nodes_numbers_lst
 
 
@@ -297,7 +297,41 @@ def detect_collisons_partly(old_points_lst, new_points_lst, angle_thr=math.pi/6)
     return results
 
 
-def analyze():
+def draw_stay_time(cvs, center_points_lst, contained_points_lst):
+    # print('contained pt lst = ' , contained_points_lst)
+    # print(len(center_points_lst))
+    # print(len(contained_points_lst))
+    for i, pts in enumerate(center_points_lst):
+        # print('check st : ', i)
+        add_values = contained_points_lst[i]
+        # print('add values = ', add_values)
+        for j in range(0, len(pts)-1):
+            # print('st j = ', j)
+            add_value = add_values[j]
+            # print('add value = ', add_value)
+            # print('add value[0] = ' , add_value[0])
+            # print('1')
+            tf_template = np.full((h, w), False)
+            # print('2')
+            draw_template = np.zeros((h, w), dtype=np.uint8)
+            # print('3')
+            prev_pt = pts[j]
+            next_pt = pts[j+1]
+            # print('4')
+            ct_pt = ((prev_pt[0]+next_pt[0])/2, (prev_pt[1]+next_pt[1])/2)
+            # print('5')
+            cv2.circle(draw_template, (int(ct_pt[0]), int(ct_pt[1])), 30, (255, 255, 255), -1)
+            # print('6')
+            tf_template[draw_template != 0 ] = True
+            # print('7')
+            # for _ in range(0, add_value):
+            #     cvs += tf_template
+            cvs += add_value*tf_template
+            # print('8')
+    
+
+
+def analyze(que):
     time_interval = 10
     # filename="_raw_data"
     now = datetime.datetime.now()
@@ -306,6 +340,7 @@ def analyze():
     # filename = 'data/2023-10-19_raw_data'
 
     glb_cvs = np.zeros((h, w), dtype=np.int64)
+    stay_time_cvs = np.zeros((h, w), dtype=np.int64)
     # prev_cvs = np.zeros((h, w), dtype=np.int64)
     
     while True:
@@ -356,116 +391,26 @@ def analyze():
                 print('len new data = ' , len(new_data))
                 start = time.time()
                 cls_lst = new_data
-                
-                # smoothed_center_points_lst = []
-                # for data_cls in data:
-                #     center_points = data_cls.center_points_lst
-                #     smoothed_center_points = smooth_center_points(center_points.copy())
-                #     smoothed_center_points_lst.append(smoothed_center_points)
-                
+ 
                 smoothed_center_points_lst = smooth_center_points_lst_from_cls_lst(cls_lst)
-                    
-                    
-                # mapped_pts = []
-                # for i, smoothed_ct_pt in enumerate(smoothed_center_points_lst):
-                #     area_num = data[i].area_num
-                #     if area_num == 4:
-                #         mapped_pts_area4 = mapping_area4(pts_lst=smoothed_ct_pt)
-                #         mapped_pts.append(mapped_pts_area4)
-                #     if area_num == 1:
-                #         mapped_pts_area1 = mapping_area1(pts_lst=smoothed_ct_pt)
-                #         mapped_pts.append(mapped_pts_area1)
-                #     if area_num == 3:
-                #         mapped_pts_area3 = mapping_area3(pts_lst=smoothed_ct_pt)
-                #         mapped_pts.append(mapped_pts_area3)
+
                 mapped_pts = map_points(smoothed_center_points_lst, cls_lst)
 
-
-                # mapped_pt_filtered = []
-                # for mapped_pt in mapped_pts:
-                #     first_pt = mapped_pt[0]
-                #     end_pt = mapped_pt[-1]
-                #     dist = ((first_pt[0]-end_pt[0])**2 + (first_pt[1]-end_pt[1])**2)**(1/2)
-                #     if dist > 200:
-                #         mapped_pt_filtered.append(mapped_pt)
-                # mapped_pts = mapped_pt_filtered
                 filtered_points_lst = filter_out_no_movement(mapped_pts, 200)
 
 
-
-                # refined_pts_lst = []
-                # for pts in mapped_pts:
-                #     # print('len pts = ' , len(pts))
-                #     new_lst = []
-                #     contained_nodes_number_lst = []
-                #     index_record = []
-                #     new_lst.append(pts[0])
-                #     last_idx = 0
-                #     is_complete = False
-                #     while True:
-                #         if is_complete:
-                #             break
-                #         last_pt = pts[last_idx]
-                #         for j in range(last_idx+1, len(pts)):
-                #             dist = get_distane(last_pt, pts[j])
-                #             if dist > 10:
-                #                 contained_nodes_number = j - last_idx
-                #                 contained_nodes_number_lst.append(contained_nodes_number)
-                #                 index_record.append(j)
-                #                 last_idx = j
-                #                 new_lst.append(pts[j])
-                #                 if j == len(pts)-1:
-                #                     is_complete = True
-                #                     # contained_nodes_number_lst[-1] += 1 # 좌측 closed, 우측 open interval이라서 보정. -> 중간에 노드갯수 셀때는 각 수치에서 하나씩 빼서 쓰면 되서, (마지막점 빼고) 보정안하고 그냥 써도 될 듯
-                #                 break
-                #             elif j == len(pts)-1:
-                #                 contained_nodes_number = j - last_idx
-                #                 contained_nodes_number_lst.append(contained_nodes_number)
-                #                 index_record.append(j)
-                #                 new_lst.append(pts[j])
-                #                 is_complete = True
-                #                 break
-                #     refined_pts_lst.append(new_lst)
-
-                refined_pts_lst, _ = refine_points_lst_by_moving_distance(filtered_points_lst)
-
-                # h, w, c = bp_background.shape
-                # glb_cvs = np.zeros((h, w), dtype=np.int64)
-                
-                
-                
-                # results = []
-                # for i in range(0, len(refined_pts_lst)):
-                #     pts = refined_pts_lst[i]
-                    
-                #     for j in range(0, len(pts)-1):
-                #         prev_pt = pts[j]
-                #         next_pt = pts[j+1]
-                #         for k in range(i+1, len(refined_pts_lst)):
-                #             other_pts = refined_pts_lst[k]
-                #             for l in range(0, len(other_pts)-1):
-                #                 other_prev_pt = other_pts[l]
-                #                 other_next_pt = other_pts[l+1]
-                #                 result = intersect(prev_pt, next_pt, other_prev_pt, other_next_pt)
-                #                 if type(result) != type(None):
-                #                     v1_x = prev_pt[0] - next_pt[0]
-                #                     v1_y = prev_pt[1] - next_pt[1]
-                #                     v2_x = other_prev_pt[0] - other_next_pt[0]
-                #                     v2_y = other_prev_pt[1] - other_next_pt[1]
-                #                     v1 = (v1_x, v1_y)
-                #                     v2 = (v2_x, v2_y)
-                #                     angle = get_angle(v1, v2)
-                #                     if angle > math.pi/6:
-                #                         results.append((result, prev_pt, next_pt, other_prev_pt, other_next_pt))
+                refined_pts_lst, contained_pts_lst = refine_points_lst_by_moving_distance(filtered_points_lst)
 
                 # collison_events_lst = detect_collisions(refined_pts_lst)
                 collison_events_lst = detect_collisons_partly(prev_data, refined_pts_lst)
                 
                 # print('len collision events lst = ', len(collison_events_lst))
+                
+                
 
                 #############################################################
-
-
+                print('start draw stay time')
+                draw_stay_time(stay_time_cvs, refined_pts_lst, contained_pts_lst)
 
 
                 
@@ -543,18 +488,35 @@ def analyze():
                 # result = cv2.addWeighted(bp_background.copy(), 0.5, glb_result, 0.5, 0)
                 bg_ratio = 0.6
                 result = cv2.addWeighted(bp_background.copy(), bg_ratio, res_show, 1-bg_ratio, 0)
-                draw_colorbar(result)
-                cv2.imshow('result1', result)
+                # draw_colorbar(result)
+                # cv2.imshow('result1', result)
                 # non_zero_idx = glb_result != 0
-                result[glb_result == 0] = bp_background[glb_result == 0]
-                draw_colorbar(result)
-                cv2.imshow('result2', result)
-                cv2.waitKey(600)
+                
+                # result[glb_result == 0] = bp_background[glb_result == 0]
+                # draw_colorbar(result)
+                
+                # cv2.imshow('result2', result)
+                # cv2.waitKey(600)
+                que.put(result)
                 
                 prev_data = prev_data + refined_pts_lst
                 # print('prev data = ', prev_data)
                 # prev_cvs = glb_cvs.copy()
                 print('glb cvs total sum',np.sum(glb_cvs))
+                
+                
+                ###############################
+                # stay_time_cvs
+                st_max_val = np.max(stay_time_cvs)
+                scaled_st_cvs = 254*(stay_time_cvs/st_max_val)
+                st_result = np.uint8(scaled_st_cvs)
+                
+                st_res = cv2.applyColorMap(st_result, cv2.COLORMAP_JET)
+                st_res = cv2.GaussianBlur(st_res, (13,13), 11)
+                st_result = cv2.addWeighted(bp_background.copy(), bg_ratio, st_res, 1-bg_ratio, 0)
+                cv2.imshow('st', st_result)
+                cv2.waitKey(500)
+                
                 end = time.time()
                 print('collision analysis elapsed time = ' , end - start)
                 time.sleep(time_interval)

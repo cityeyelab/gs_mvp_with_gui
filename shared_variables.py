@@ -44,6 +44,9 @@ class SharedVariables():
         self.exit_event = Event()
         self.process_que = Queue(5)
         
+        self.collision_analysis_queue = Queue(200)
+        self.collision_analysis_rt_queue = Queue(200)
+        
         # print('q100 size = ', sys.getsizeof(Queue(100)))
         # print('q200 size = ', sys.getsizeof(Queue(200)))
 
