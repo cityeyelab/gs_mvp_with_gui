@@ -117,7 +117,7 @@ class App(customtkinter.CTk):
         self.appearance_mode_optionemenu.grid(row=1, column=0, padx=20, pady=(10, 10))
         self.scaling_label = customtkinter.CTkLabel(self.bottom_ui_setting_bar, text="UI Scaling:", anchor="w")
         self.scaling_label.grid(row=2, column=0, padx=20, pady=(10, 0))
-        self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.bottom_ui_setting_bar, values=["60%", "80%", "100%", "120%", "140%"],
+        self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.bottom_ui_setting_bar, values=["60%", "80%", "100%", "120%"],
                                                                command=self.change_scaling_event)
         self.scaling_optionemenu.grid(row=3, column=0, padx=20, pady=(10, 20))
         

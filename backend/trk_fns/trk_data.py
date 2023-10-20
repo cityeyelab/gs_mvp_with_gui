@@ -15,7 +15,7 @@ class TrackingData():
     def __init__(self, area_num, id) -> None:
         self.area_num = area_num
         self.id = id
-        self.age = 0
+        # self.age = 0
         self.bboxes = []
         self.center_points_lst = []
         # self.time_stamp = []

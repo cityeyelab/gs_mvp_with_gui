@@ -36,7 +36,7 @@ def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que, e
     while True:
         if exit_event.is_set():
             drawing_result_que.put(None)
-            sys.exit()
+            # sys.exit()
             break
         
         if not op_flag.is_set():
@@ -50,19 +50,16 @@ def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que, e
         background_img = blueprint.copy()
 
         area1_ct_pts_lst = que_area1.get()
-        # print('area1_ct_pts_lst orig = ' , area1_ct_pts_lst)
-        area1_ct_pts_lst = [area1_ct_pts_lst[i][-1] for i in range(0, len(area1_ct_pts_lst))]
         area3_ct_pts_lst = que_area3.get()
-        # print('area3_ct_pts_lst orig = ' , area3_ct_pts_lst)
-        area3_ct_pts_lst = [area3_ct_pts_lst[i][-1] for i in range(0, len(area3_ct_pts_lst))]
         area4_ct_pts_lst = que_area4.get()
-        # print('area4_ct_pts_lst orig = ' , area4_ct_pts_lst)
-        area4_ct_pts_lst = [area4_ct_pts_lst[i][-1] for i in range(0, len(area4_ct_pts_lst))]
-        
-        # print('area pt list = ' , area1_ct_pts_lst, area3_ct_pts_lst, area4_ct_pts_lst)
-        
         if type(area1_ct_pts_lst) == type(None) or type(area3_ct_pts_lst) == type(None) or type(area4_ct_pts_lst) == type(None):
             break
+        
+        area1_ct_pts_lst = [area1_ct_pts_lst[i][-1] for i in range(0, len(area1_ct_pts_lst))]
+        area3_ct_pts_lst = [area3_ct_pts_lst[i][-1] for i in range(0, len(area3_ct_pts_lst))]
+        area4_ct_pts_lst = [area4_ct_pts_lst[i][-1] for i in range(0, len(area4_ct_pts_lst))]
+        
+        
 
         # mapped_pts_area1 = mapping(area1_matrices, area1_ct_pts_lst)
         # mapped_pts_area3 = mapping(area3_matrices, area3_ct_pts_lst)

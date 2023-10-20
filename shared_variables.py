@@ -1,4 +1,5 @@
 from multiprocessing import Manager, Event, Queue
+# import sys
 
 class SharedVariables():
     def __init__(self) -> None:
@@ -42,4 +43,7 @@ class SharedVariables():
         
         self.exit_event = Event()
         self.process_que = Queue(5)
+        
+        # print('q100 size = ', sys.getsizeof(Queue(100)))
+        # print('q200 size = ', sys.getsizeof(Queue(200)))
 

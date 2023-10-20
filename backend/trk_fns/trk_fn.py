@@ -18,7 +18,7 @@ from .filter_blacklist import filter_blacklist_fn_callback_lst
 data_dicts_lst = [area1_data_dict, area3_data_dict, area4_data_dict]
 
 
-def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, collision_que, exit_event, proc_num):
+def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visualize_bp_que, data_save_que, exit_event, proc_num):
 
     #data load
     # proc_num_to_area_num = [1, 3, 4]
@@ -50,14 +50,15 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         if type(dets) == type(None):
             trk_result_que.put(None)
             visualize_bp_que.put(None)
-            collision_que.put(None)
+            data_save_que.put(None)
             # sys.exit()
             break
-        
         # if dets == None:
         #     print('tracker None input break!')
         #     break
         filter_blacklist_fn(dets)
+        # dets = ([], [], []) -> dets = ((), (), ())
+        dets = tuple([tuple(dets[i]) for i in range(0, len(dets))])
         dets = filter_out_low_conf(dets, 0.30)
         eliminate_dup(dets)
         put_data = {}
@@ -169,7 +170,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
                 try:
                     # pass
                     data_cls.removed_at = datetime.datetime.now()
-                    collision_que.put(data_cls)
+                    data_save_que.put(data_cls)
                     trk_data_lst.remove(data_cls)
                     # if area_number == 4:
                     #     print('removed!')

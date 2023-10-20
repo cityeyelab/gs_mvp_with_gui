@@ -81,13 +81,16 @@ class gs_tracker():
                                                                                           self.image_que_lst_draw[i], paths[i], self.need_visualization,
                                                                                           self.exit_event), daemon=False))
             self.yolo_inference_lst.append(multiprocessing.Process(target=yolo_inference, args=(self.yolo_inference_ready_flag_lst[i], self.operation_flag, self.image_que_lst_proc[i],
-                                                                                                self.det_result_que_lst[i], self.exit_event), daemon=False))
+                                                                                                self.det_result_que_lst[i], self.exit_event, i), daemon=False))
             # self.tracking_proc_lst.append(multiprocessing.Process(target=lst_of_trk_fns[i], args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i],
             #                                                                                       self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],
             #                                                                                       self.exit_event, i), daemon=False))
             self.tracking_proc_lst.append(multiprocessing.Process(target=tracker, args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i],
                                                                                                   self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i], self.data_save_que[i],
                                                                                                   self.exit_event, i), daemon=False))
+            # self.tracking_proc_lst.append(multiprocessing.Process(target=tracker, args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i],
+            #                                                                                       self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],
+            #                                                                                       self.exit_event, i), daemon=False))
         self.post_proc = multiprocessing.Process(target=control_center, args=(self.operation_flag, self.trk_result_que_lst[0], self.trk_result_que_lst[1],
                                                                               self.trk_result_que_lst[2], self.exit_event), daemon=False)
         
@@ -158,8 +161,8 @@ def video_load(rtsp_ready_flag, op_flag, image_que1, image_que2, path, need_visu
 
 
 
-def yolo_inference(ready_flag, op_flag, image_que, result_que, exit_event):
-    inference_instance = inference()
+def yolo_inference(ready_flag, op_flag, image_que, result_que, exit_event, proc_num):
+    inference_instance = inference(proc_num)
     # if flag.is_set():
     y_s = time.time()
     inference_instance.run(ready_flag, op_flag, image_que, result_que, exit_event)

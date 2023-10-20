@@ -5,12 +5,13 @@ from shared_variables import SharedVariables
 from multiprocessing import Process
 import time
 
+# import sys
+
 def main_run():
     
     shared_variables = SharedVariables()
     
 
-    
     p1 = Process(target = create_frontend, args= (shared_variables.args, shared_variables.drawing_result_ques, shared_variables.exit_event), daemon=False)
     p2 = Process(target = create_backend, args= (shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.exit_event), daemon=False)
     p3 = Process(target = create_visualization, args=(shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.drawing_result_ques, shared_variables.exit_event))
@@ -32,6 +33,10 @@ def main_run():
             break
         else:
             time.sleep(1)
+            # print('p1 size', sys.getsizeof(p1))
+            # print('p2 size', sys.getsizeof(p2))
+            # print('p3 size', sys.getsizeof(p3))
+            # print('shared varialbes size = ' , sys.getsizeof(shared_variables.args))
 
 
 if __name__ == '__main__':

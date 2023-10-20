@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+# import sys
 ##########################################################
 
 area1_global_inout_map = np.load('backend/maps/area1_global_inout_map.npy')
@@ -28,7 +29,8 @@ area1_place0_map_img = 100*np.ones((1080, 1920, 3), np.uint8)
 area1_place0_map_non_false_idx  = np.where(area1_place0_map==True)
 area1_place0_map_img[area1_place0_map_non_false_idx] = (0,255,0)
 
-
+# print('loaded map size = ' , sys.getsizeof(area1_global_inout_map))
+# print('loaded map img size = ' , sys.getsizeof(area1_global_inout_map_img))
 #######################################################
 
 area3_global_inout_map = np.load('backend/maps/area3_global_inout_map.npy')

@@ -1,10 +1,10 @@
 import time
 import threading
 from queue import Queue
-# import pickle
-import dill
+import pickle
+# import dill
 from datetime import datetime
-
+# from ..trk_fns.trk_data import TrackingData
 
 def collect_data(que1, que2, que3):
     save_que = Queue()
@@ -17,19 +17,22 @@ def collect_data(que1, que2, que3):
             print('q1 result = ' , q1_result)
             if type(q1_result) == None:
                 break
-            save_que.put(q1_result)
+            else:
+                save_que.put(q1_result)
         if not que2.empty():
             q2_result = que2.get()
             print('q2 result = ' , q2_result)
             if type(q2_result) == None:
                 break
-            save_que.put(q2_result)
+            else:
+                save_que.put(q2_result)
         if not que3.empty():
             q3_result = que3.get()
             print('q3 result = ' , q3_result)
             if type(q3_result) == None:
                 break
-            save_que.put(q3_result)
+            else:
+                save_que.put(q3_result)
         
         time.sleep(0.01)
     print('analysis end')
@@ -38,13 +41,38 @@ def save_data(save_que):
     filename="_raw_data"
     while True:
         data = save_que.get()
+        data_cvt = cvt_cls_to_pkl(data)
         # data_cvted = convert_data_cls(data)
         now = datetime.now()
         today_string = now.strftime('%Y-%m-%d')
         with open('data/'+today_string+filename, 'ab+') as fp:
-            dill.dump(data, fp)
+            # dill.dump(data, fp)
+            # pickle.dump(data, fp)
+            pickle.dump(data_cvt, fp)
         time.sleep(0.01)
-        
+
+def cvt_cls_to_pkl(cls):
+    result_lst = (cls.area_num, cls.id, cls.bboxes, cls.center_points_lst, cls.frame_record, cls.created_at, cls.removed_at)
+    return result_lst
+
+def cvt_cls_to_pkl_lst(cls_lst):
+    result_lst = [(cls.area_num, cls.id, cls.bboxes, cls.center_points_lst, cls.frame_record, cls.created_at, cls.removed_at) for cls in cls_lst]
+    return result_lst
+    # for cls in cls_lst:
+        # cls.area_num
+        # cls.id
+        # cls.bboxes
+        # cls.center_points_lst
+        # cls.time_stamp
+        # cls.frame_record
+        # cls.created_at
+        # cls.removed_at
+        # new_item = (cls.area_num, cls.id, cls.bboxes, cls.center_points_lst, cls.time_stamp, cls.frame_record, cls.created_at, cls.removed_at)
+
+
+# def cvt_pkl_to_cls(pkl_lst):
+#     result_lst = [TrackingData()]
+    
 
 # class TrackingDataStore():
 #     __slots__ = ['area_num', 'id', 'bboxes', 'center_points_lst', 'frame_record', 'created_at', 'removed_at']

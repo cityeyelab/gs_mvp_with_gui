@@ -29,6 +29,7 @@ Usage - formats:
 """
 
 import argparse
+
 import os
 import platform
 import sys
@@ -50,14 +51,21 @@ from utils.general import (LOGGER, Profile, check_file, check_img_size, check_im
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, smart_inference_mode
 
-import pickle
 
-from multiprocessing import Process
-from torch.multiprocessing import Process as TorchMP
+
 
 import sys
 
 
+import datetime
+import time
+import threading
+import pickle
+from npy_append_array import NpyAppendArray
+from queue import Queue
+from copy import deepcopy
+# from multiprocessing import Process
+# from torch.multiprocessing import Process as TorchMP
 
 
 def letterbox(im, new_shape=(640, 640), color=(114, 114, 114), auto=True, scaleFill=False, scaleup=True, stride=32):
@@ -128,7 +136,7 @@ class inference():
 # class inference(TorchMP):
     # self.yolo_inference_flags[i],self.image_que_lst_proc[i], self.det_result_que_lst[i]
     @smart_inference_mode()
-    def __init__(self) -> None:
+    def __init__(self, proc_num) -> None:
         # self.img_que = img_que
         # self.det_que = det_que
         # Process.__init__(self)
@@ -176,6 +184,22 @@ class inference():
         self.model.warmup(imgsz=(1 if self.pt or self.model.triton else bs, 3, *self.imgsz))  # warmup
         seen, windows, self.dt = 0, [], (Profile(), Profile(), Profile())
         # print('inference init')
+        
+        proc_to_area = [1,2,4]
+        self.area_num = proc_to_area[proc_num]
+        
+        self.need_save = True
+
+        if self.need_save:
+            self.save_img_que = Queue()
+            self.save_img_thread = threading.Thread(target=self.save_img, args=(self.save_img_que,))
+            
+            self.save_dets_que = Queue()
+            self.save_dets_thread = threading.Thread(target=self.save_dets, args=(self.save_dets_que,))
+            
+            self.save_img_thread.start()
+            self.save_dets_thread.start()
+        
 
     # self.yolo_inference_flags[i],self.image_que_lst_proc[i], self.det_result_que_lst[i]
     @smart_inference_mode()
@@ -189,7 +213,8 @@ class inference():
         
         det_cnt = 0
         preds = []
-
+        
+       
         # if type(image_q) and image_q.shape == (1080, 1920, 3):
         #     len_img_q = 1
         # else:
@@ -215,74 +240,84 @@ class inference():
             
             
             im0 = image_que.get()
+            if self.need_save:
+                self.save_img_que.put(im0)
+            # im0_orig = deepcopy(im0)
             if type(im0) == type(None):
                 result_que.put(None)
-                sys.exit()
-                # break
-                
-
-            if type(im0) != np.ndarray and im0 == None:
-                result_que.put(None)
+                # sys.exit()
                 break
-
-            if type(im0) == np.ndarray:
-                im = letterbox(im0, self.imgsz, stride=self.stride, auto=self.pt)[0]  # padded resize
-                im = im.transpose((2, 0, 1))[::-1]  # HWC to CHW, BGR to RGB
-                im = np.ascontiguousarray(im)  # contiguous
-
-
-                with self.dt[0]:
-                    im = torch.from_numpy(im).to(self.model.device)
-                    im = im.half() if self.model.fp16 else im.float()  # uint8 to fp16/32
-                    im /= 255  # 0 - 255 to 0.0 - 1.0
-                    if len(im.shape) == 3:
-                        im = im[None]  # expand for batch dim
-
-                    # Inference
-                with self.dt[1]:
-                    pred = self.model.forward(im, augment=False, visualize=False)
-
-                # NMS
-                with self.dt[2]:
-                    pred = non_max_suppression(pred, conf_thres, iou_thres, classes, agnostic_nms, max_det=max_det)
-
-
-                for i, det in enumerate(pred): 
-                    det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
-                    # det[:, 4] = names[int(det[:, 4])]
                 
-                # pred[0] = pred[0].numpy()
 
-                # print('in detect pred = ' , pred)
-                # print('in detect pred[0] = ' , pred[0])
-                # det_result = pred[0].numpy().tolist()
-                # print('pred[0] = ' , pred[0])
-                det_result = pred[0].detach().cpu().numpy().tolist()
-                # det_result = 
-                # preds.append(det_result)
-                # print('before rsult que = ' , det_result)
-                det_result = tuple(det_result)
-                result_que.put(det_result)
-                # result_lst.append(det_result)
-                # result_que.get()
-                # preds.append(pred)
-                det_cnt += 1
-                # divisor = 1 if len_img_q == 1 else int(len_img_q/10)
-                # if det_cnt % divisor == 0:
-                #     print('det_cnt = ' + str(det_cnt) + '/' + str(len_img_q))
+            # if type(im0) != np.ndarray and im0 == None:
+            #     result_que.put(None)
+            #     break
 
-                # print('det_cnt = ' + str(det_cnt))
-                # print('result que = ' , result_que)
-                
-                if result_que.qsize() > 10:
-                    print('model output Q size = ' , result_que.qsize())
-                if result_que.full():
-                    print('model output Queue is full!!')
-                    print('clearing Q')
-                    while not result_que.empty():
-                        _ = result_que.get()
+            # if type(im0) == np.ndarray:
+            im = letterbox(im0, self.imgsz, stride=self.stride, auto=self.pt)[0]  # padded resize
+            im = im.transpose((2, 0, 1))[::-1]  # HWC to CHW, BGR to RGB
+            im = np.ascontiguousarray(im)  # contiguous
 
 
+            with self.dt[0]:
+                im = torch.from_numpy(im).to(self.model.device)
+                im = im.half() if self.model.fp16 else im.float()  # uint8 to fp16/32
+                im /= 255  # 0 - 255 to 0.0 - 1.0
+                if len(im.shape) == 3:
+                    im = im[None]  # expand for batch dim
+
+                # Inference
+            with self.dt[1]:
+                pred = self.model.forward(im, augment=False, visualize=False)
+
+            # NMS
+            with self.dt[2]:
+                pred = non_max_suppression(pred, conf_thres, iou_thres, classes, agnostic_nms, max_det=max_det)
+
+
+            for i, det in enumerate(pred): 
+                det[:, :4] = scale_boxes(im.shape[2:], det[:, :4], im0.shape).round()
+                # det[:, 4] = names[int(det[:, 4])]
+            
+            # pred[0] = pred[0].numpy()
+
+            # print('in detect pred = ' , pred)
+            # print('in detect pred[0] = ' , pred[0])
+            # det_result = pred[0].numpy().tolist()
+            # print('pred[0] = ' , pred[0])
+            det_result = pred[0].detach().cpu().numpy().tolist()
+            # det_result = 
+            # preds.append(det_result)
+            # print('before rsult que = ' , det_result)
+            
+            # det_result = tuple([tuple(det_result[i]) for i in range(0, len(det_result))])
+            
+            result_que.put(det_result)
+            # result_lst.append(det_result)
+            # result_que.get()
+            # preds.append(pred)
+            det_cnt += 1
+            # divisor = 1 if len_img_q == 1 else int(len_img_q/10)
+            # if det_cnt % divisor == 0:
+            #     print('det_cnt = ' + str(det_cnt) + '/' + str(len_img_q))
+
+            # print('det_cnt = ' + str(det_cnt))
+            # print('result que = ' , result_que)
+            
+            if result_que.qsize() > 10:
+                print('model output Q size = ' , result_que.qsize())
+            if result_que.full():
+                print('model output Queue is full!!')
+                print('clearing Q')
+                while not result_que.empty():
+                    _ = result_que.get()
+
+            # im0, det_result 저장
+            if self.need_save:
+                self.save_dets_que.put(det_result)
+            
+            # cv2.imshow('im0'+str(self.area_num), im0)
+            # cv2.waitKey(3)
 
                 # if det_cnt % 20 == 0:
                 #     print('det_cnt = ' + str(det_cnt))
@@ -292,11 +327,101 @@ class inference():
         #     pickle.dump(result_lst, f)
 
         # return preds
-    
+        
+    def save_img(self, save_img_que):
+        now = datetime.datetime.now()
+        today_string = now.strftime('%Y-%m-%d')
+        filename="_img"
+        w, h = int(1920 * 0.3), int(1080 * 0.3)
+        fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+        file_cnt = 0
+        frame_cnt = 0
+        while True:
+            file_cnt_string = str(file_cnt).zfill(4)
+            writer=cv2.VideoWriter(f'data/videos/sample_video_area{self.area_num}_{today_string}_{file_cnt_string}.avi', fourcc, 1, (w, h), False)
+            # writer=SafeVideoWriter(f'data/videos/sample_video_area{self.area_num}_{today_string}_{file_cnt_string}.avi', fourcc, 1, (w, h), False)
+            # print('in writer size = ' , (int(1920 * 0.3), int(1080 * 0.3)))
+            # frame_cnt = 0
+            while True:
+                for _ in range(0, 14):
+                    _ = save_img_que.get()
+                img = save_img_que.get()
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                # img = cv2.resize(img, dsize=(0, 0), fx=0.3, fy=0.3)
+                img = cv2.resize(img, dsize=(w, h))
+                # print('in while size = ' , img.shape)
+                writer.write(img)
+                frame_cnt += 1
+                if frame_cnt == 60 * 5:
+                    print('write!!')
+                    writer.release()
+                    frame_cnt = 0
+                    break
+            file_cnt += 1
+        # with open('data/' + today_string + filename, 'ab+') as f:
+        # with NpyAppendArray('data/' + today_string + filename + str(self.area_num) +'.npy', delete_if_exists=False) as npaa:
+        #     while True:
+        #         img = save_img_que.get()
+        #         if type(img) == type(None):
+        #             break
+        #         # print('save img = ', img)
+        #         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        #         # h, w, c = img.shape
+        #         img = cv2.resize(img, dsize=(0, 0), fx=0.3, fy=0.3)
+        #         # cv2.imshow('gray'+str(self.area_num), img)
+        #         # cv2.waitKey(3)
+        #         npaa.append(img)
+        #         time.sleep(0.01)
+        #         frame_cnt += 1
+        #         if frame_cnt == 100:
+                    
+        #             frame_cnt = 0
 
+
+# with NpyAppendArray(filename, delete_if_exists=True) as npaa:
+#     npaa.append(arr1)
+#     npaa.append(arr2)
+#     npaa.append(arr2)
+
+    
+    def save_dets(self, save_dets_que):
+        now = datetime.datetime.now()
+        today_string = now.strftime('%Y-%m-%d')
+        filename="_dets"
+        with open('data/' + today_string + filename, 'ab+') as f:
+            while True:
+                dets = save_dets_que.get()
+                if type(dets) == type(None):
+                    break
+                # print('dets = ', dets)
+                pickle.dump(dets, f)
+                time.sleep(0.01)
+
+
+
+# def save_data(save_que):
+#     filename="_raw_data"
+#     while True:
+#         data = save_que.get()
+#         data_cvt = cvt_cls_to_pkl(data)
+#         # data_cvted = convert_data_cls(data)
+#         now = datetime.now()
+#         today_string = now.strftime('%Y-%m-%d')
+#         with open('data/'+today_string+filename, 'ab+') as fp:
+#             # dill.dump(data, fp)
+#             # pickle.dump(data, fp)
+#             pickle.dump(data_cvt, fp)
+#         time.sleep(0.01)
 
 ###############################################################################
 
+class SafeVideoWriter(cv2.VideoWriter):
+    def __enter__(self):
+        print('safe writer enter')
+
+    def __exit__(self, type, value, traceback):
+        print('context manager works!')
+        self.release()
 
 
 def main(image):
