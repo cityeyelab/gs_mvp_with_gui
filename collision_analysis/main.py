@@ -1,12 +1,19 @@
 import pickle
 import time
+from multiprocessing import Process
+from .analysis.analysis import analyze
 
 
-data = []
+# data = []
 # filename = 'data/2023-10-14_raw_data'
 # filename = 'data/2023-10-15_raw_data'
 # filename = 'data/2023-10-18_raw_data'
-filename = 'data/2023-10-19_raw_data'
+# filename = 'data/2023-10-19_raw_data'
+
+def create_collision_analysis():
+    analysis_instance = CollisionAnalysis()
+    analysis_instance.run()
+
 
 class TrackingData():
     __slots__ = ['area_num', 'id', 'age', 'bboxes', 'center_points_lst', 'frame_record', 'created_at', 'removed_at']
@@ -32,22 +39,30 @@ def cvt_pkl_to_cls(pkl):
     new_cls = TrackingData(pkl[0], pkl[1], pkl[2], pkl[3], pkl[4], pkl[5], pkl[6])
     return new_cls
 
-with open(filename, 'rb') as f:
-    try:
-        while True:
-            # data.append(pickle.load(f))
-            loaded_data = pickle.load(f)
-            cls_cvt = cvt_pkl_to_cls(loaded_data)
-            data.append(cls_cvt)
-    except EOFError:
-        time.sleep(60)
+# with open(filename, 'rb') as f:
+#     try:
+#         while True:
+#             # data.append(pickle.load(f))
+#             loaded_data = pickle.load(f)
+#             cls_cvt = cvt_pkl_to_cls(loaded_data)
+#             data.append(cls_cvt)
+#     except EOFError:
+#         time.sleep(60)
 
-def create_collision_analysis(op_flags,):
-    pass
 
 
 def analyze_rt(center_points_lst_que):
     pass
 
-def analyze():
-    pass
+# def analyze():
+#     pass
+
+
+class CollisionAnalysis():
+    def __init__(self) -> None:
+        self.analysis_proc = Process(target = analyze)
+        # self.analysis_rt_proc = Process(target = analyze_rt)
+        
+    
+    def run(self):
+        self.analysis_proc.start()

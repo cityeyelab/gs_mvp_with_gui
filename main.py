@@ -3,6 +3,7 @@ from frontend.main import create_frontend
 from visualization.main import create_visualization
 from shared_variables import SharedVariables
 from multiprocessing import Process
+from collision_analysis.main import create_collision_analysis
 import time
 
 # import sys
@@ -16,11 +17,12 @@ def main_run():
     p2 = Process(target = create_backend, args= (shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.exit_event), daemon=False)
     p3 = Process(target = create_visualization, args=(shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.drawing_result_ques, shared_variables.exit_event))
     # p4 = Process(target = check_exit, args=(shared_variables.exit_event, p2, p3))
-    
+    p4 = Process(target= create_collision_analysis)
     
     p1.start()
     p2.start()
     p3.start()
+    p4.start()
 
     while True:
         if shared_variables.exit_event.is_set():

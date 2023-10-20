@@ -353,7 +353,7 @@ class inference():
                 writer.write(img)
                 frame_cnt += 1
                 if frame_cnt == 60 * 5:
-                    print('write!!')
+                    print('video write!!')
                     writer.release()
                     frame_cnt = 0
                     break
