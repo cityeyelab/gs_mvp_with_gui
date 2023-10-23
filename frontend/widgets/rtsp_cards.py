@@ -105,11 +105,16 @@ class RtspFrame(customtkinter.CTkFrame):
     def run_video(self):
         # print('run video')
         while True:
-            self.current_frame_1 = self.drawing_result_que[0].get()
-            self.current_frame_2 = self.drawing_result_que[1].get()
-            self.current_frame_3 = self.drawing_result_que[2].get()
+            if (not self.drawing_result_que[0].empty()) and (not self.drawing_result_que[1].empty()) and (not self.drawing_result_que[2].empty()):
+                self.current_frame_1 = self.drawing_result_que[0].get()
+                self.current_frame_2 = self.drawing_result_que[1].get()
+                self.current_frame_3 = self.drawing_result_que[2].get()
+            else:
+                time.sleep(0.01)
             if not self.drawing_result_que[3].empty():
                 self.current_frame_bp = self.drawing_result_que[3].get()
+            else:
+                time.sleep(0.01)
             # if type(self.current_frame_1) == type(None) or type(self.current_frame_2) == type(None) or type(self.current_frame_3) == type(None) or type(self.current_frame_bp) == type(None):
             #     print('run video None type')
             #     self.after_cancel(self.update_frame_task)

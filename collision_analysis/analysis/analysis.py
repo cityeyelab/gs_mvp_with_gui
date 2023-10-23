@@ -328,10 +328,21 @@ def draw_stay_time(cvs, center_points_lst, contained_points_lst):
             #     cvs += tf_template
             cvs += add_value*tf_template
             # print('8')
-    
 
+base_data_path = None
+base_data = []
+if type(base_data_path) != type(None):
+    with open(base_data_path, 'rb') as f:
+        try:
+            while True:
+                # data.append(pickle.load(f))
+                loaded_data = pickle.load(f)
+                cls_cvt = cvt_pkl_to_cls(loaded_data)
+                base_data.append(cls_cvt)
+        except EOFError:
+            print('EOFError')
 
-def analyze(que):
+def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_time_ready_flag, collision_que, st_que):
     time_interval = 10
     # filename="_raw_data"
     now = datetime.datetime.now()
@@ -339,9 +350,14 @@ def analyze(que):
     filename = 'data/'+ today_string + '_raw_data'
     # filename = 'data/2023-10-19_raw_data'
 
+    
     glb_cvs = np.zeros((h, w), dtype=np.int64)
     stay_time_cvs = np.zeros((h, w), dtype=np.int64)
     # prev_cvs = np.zeros((h, w), dtype=np.int64)
+    
+    # time.sleep(10)
+    # collision_ready_flag.set()
+    # stay_time_ready_flag.set()
     
     while True:
         try:
@@ -350,18 +366,23 @@ def analyze(que):
                 break
             else:
                 print('file checking in collision analysis...')
-                time.sleep(1)
+                # if base_data:
+                #     new_data = base_data
+                #     break
+                time.sleep(2)
             # with open(filename, 'rb') as f:
             #     break
         except:
             print('file checking in collision analysis...')
-            time.sleep(1)
+            time.sleep(3)
+            # if base_data:
+            #     new_data = base_data
+            #     break
     
     
     prev_data = [] #ct pts lst
     with open(filename, 'rb') as f:
         while True:
-            
             # with open(filename, 'rb') as f:
             #     try:
             #         while True:
@@ -470,35 +491,41 @@ def analyze(que):
 
 
                 glb_max_val = np.max(glb_cvs)
-                scaled_glb_cvs = 254*(glb_cvs/glb_max_val)
-                glb_result = np.uint8(scaled_glb_cvs)
+                if glb_max_val != 0:
+                    scaled_glb_cvs = 254*(glb_cvs/glb_max_val)
+                    glb_result = np.uint8(scaled_glb_cvs)
 
-                res_show = cv2.applyColorMap(glb_result, cv2.COLORMAP_JET)
-                res_show = cv2.GaussianBlur(res_show,(13,13), 11)
-                # cv2.imshow('glb result', glb_result)
-                # cv2.imshow('glb result', res_show)
-                # cv2.waitKey(0)
+                    res_show = cv2.applyColorMap(glb_result, cv2.COLORMAP_JET)
+                    # res_show = cv2.GaussianBlur(res_show,(13,13), 11)
+                    res_show = cv2.blur(res_show, (7, 7))
+                    # cv2.imshow('glb result', glb_result)
+                    # cv2.imshow('glb result', res_show)
+                    # cv2.waitKey(0)
 
-                # glb_result = cv2.cvtColor(glb_result, cv2.COLOR_GRAY2BGR)
+                    # glb_result = cv2.cvtColor(glb_result, cv2.COLOR_GRAY2BGR)
 
-                # end = time.time()
-                # elapsed_time = end - start
-                # print('elapsed time = ' , elapsed_time)
+                    # end = time.time()
+                    # elapsed_time = end - start
+                    # print('elapsed time = ' , elapsed_time)
 
-                # result = cv2.addWeighted(bp_background.copy(), 0.5, glb_result, 0.5, 0)
-                bg_ratio = 0.6
-                result = cv2.addWeighted(bp_background.copy(), bg_ratio, res_show, 1-bg_ratio, 0)
-                # draw_colorbar(result)
-                # cv2.imshow('result1', result)
-                # non_zero_idx = glb_result != 0
-                
-                # result[glb_result == 0] = bp_background[glb_result == 0]
-                # draw_colorbar(result)
-                
-                # cv2.imshow('result2', result)
-                # cv2.waitKey(600)
-                que.put(result)
-                
+                    # result = cv2.addWeighted(bp_background.copy(), 0.5, glb_result, 0.5, 0)
+                    # bg_ratio = 0.6
+                    # result = cv2.addWeighted(bp_background.copy(), bg_ratio, res_show, 1-bg_ratio, 0)
+                    # draw_colorbar(result)
+                    # cv2.imshow('result1', result)
+                    # non_zero_idx = glb_result != 0
+                    
+                    # result[glb_result == 0] = bp_background[glb_result == 0]
+                    # draw_colorbar(result)
+                    
+                    # cv2.imshow('result2', result)
+                    # cv2.waitKey(600)
+                    collision_que.put(res_show)
+                    collision_ready_flag.set()
+                    
+                else:
+                    print('valid result not created, in collision analysis')
+
                 prev_data = prev_data + refined_pts_lst
                 # print('prev data = ', prev_data)
                 # prev_cvs = glb_cvs.copy()
@@ -508,15 +535,26 @@ def analyze(que):
                 ###############################
                 # stay_time_cvs
                 st_max_val = np.max(stay_time_cvs)
-                scaled_st_cvs = 254*(stay_time_cvs/st_max_val)
-                st_result = np.uint8(scaled_st_cvs)
-                
-                st_res = cv2.applyColorMap(st_result, cv2.COLORMAP_JET)
-                st_res = cv2.GaussianBlur(st_res, (13,13), 11)
-                st_result = cv2.addWeighted(bp_background.copy(), bg_ratio, st_res, 1-bg_ratio, 0)
-                cv2.imshow('st', st_result)
-                cv2.waitKey(500)
+                if st_max_val != 0:
+                    scaled_st_cvs = 254*(stay_time_cvs/st_max_val)
+                    st_result = np.uint8(scaled_st_cvs)
+                    st_res = cv2.applyColorMap(st_result, cv2.COLORMAP_JET)
+                    # st_res = cv2.GaussianBlur(st_res, (13,13), 11)
+                    st_res = cv2.blur(st_res, (7, 7))
+                    st_que.put(st_res)
+                    stay_time_ready_flag.set()
+                    # bg_ratio = 0.5
+                    # st_result = cv2.addWeighted(bp_background.copy(), bg_ratio, st_res, 1-bg_ratio, 0)
+                    # cv2.imshow('st', st_result)
+                    # cv2.waitKey(300)
+                    
+                else:
+                    print('valid result not created, in stay time')
                 
                 end = time.time()
                 print('collision analysis elapsed time = ' , end - start)
                 time.sleep(time_interval)
+                
+                # if not collision_op_flag.is_set():
+                #     print('waiting.. collision op flag is not set.')
+                # collision_op_flag.wait()
