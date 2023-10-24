@@ -5,10 +5,17 @@ from shared_variables import SharedVariables
 from multiprocessing import Process
 from collision_analysis.main import create_collision_analysis
 import time
-
-# import sys
+# from datetime import datetime, timedelta
+# # import sys
+# import gc
 
 def main_run():
+    # whole_proc_test_cnt = 0
+    # 
+    # while True:
+        # whole_proc_test_cnt += 1
+        # print('whole cnt = ' , whole_proc_test_cnt)
+        
     
     shared_variables = SharedVariables()
     
@@ -25,22 +32,45 @@ def main_run():
     p3.start()
     p4.start()
 
+    # test_cnt = 0
+    # while True:
+        # test_cnt += 1
+        # print('test_cnt = ', test_cnt)
+        
+        # # now_time = datetime.now()
+        # # if (now_time + timedelta(seconds=30)).day == (datetime.now()).day + 1:
+        # if test_cnt == 30:
+        #     shared_variables.args['operation_flag'].clear()
+        #     time.sleep(5)
+        #     p1.terminate()
+        #     p2.terminate()
+        #     p3.terminate()
+        #     p4.terminate()
+        #     del p1
+        #     del p2
+        #     del p3
+        #     del p4
+        #     time.sleep(30)
+        #     gc.collect()
+        #     break
+
     while True:
         if shared_variables.exit_event.is_set():
             # print('sys exit!!')
-            time.sleep(2)
+            time.sleep(3)
             p1.terminate()
             p2.terminate()
             p3.terminate()
+            p4.terminate()
             # sys.exit()
             break
         else:
-            time.sleep(1)
+            time.sleep(2)
             # print('p1 size', sys.getsizeof(p1))
             # print('p2 size', sys.getsizeof(p2))
             # print('p3 size', sys.getsizeof(p3))
             # print('shared varialbes size = ' , sys.getsizeof(shared_variables.args))
-
+    # time.sleep(10)
 
 if __name__ == '__main__':
     main_run()

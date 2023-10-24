@@ -4,10 +4,10 @@ import cv2
 import numpy as np
 import pickle
 import math
-import datetime
+# import datetime
 import time
 from os.path import isfile
-
+from datetime import datetime, timedelta
 
 class TrackingData():
     __slots__ = ['area_num', 'id', 'age', 'bboxes', 'center_points_lst', 'frame_record', 'created_at', 'removed_at']
@@ -345,9 +345,7 @@ if type(base_data_path) != type(None):
 def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_time_ready_flag, collision_que, st_que):
     time_interval = 10
     # filename="_raw_data"
-    now = datetime.datetime.now()
-    today_string = now.strftime('%Y-%m-%d')
-    filename = 'data/'+ today_string + '_raw_data'
+    
     # filename = 'data/2023-10-19_raw_data'
 
     
@@ -360,6 +358,9 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
     # stay_time_ready_flag.set()
     
     while True:
+        now = datetime.now()
+        today_string = now.strftime('%Y-%m-%d')
+        filename = 'data/'+ today_string + '_raw_data'
         try:
             if isfile(filename):
                 print('file exist in collision')
@@ -379,182 +380,194 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
             #     new_data = base_data
             #     break
     
+    while True:
+        now = datetime.now()
+        today_string = now.strftime('%Y-%m-%d')
+        filename = 'data/'+ today_string + '_raw_data'
+        prev_data = [] #ct pts lst
+        with open(filename, 'rb') as f:
+            while True:
+                # with open(filename, 'rb') as f:
+                #     try:
+                #         while True:
+                #             # data.append(pickle.load(f))
+                #             data.append(pickle.load(f))
+                #     except EOFError:
+                #         pass
+                
+                new_data = [] # ct pts lst
+                
+                try:
+                    while True:
+                        # data.append(pickle.load(f))
+                        loaded_data = pickle.load(f)
+                        cls_cvt = cvt_pkl_to_cls(loaded_data)
+                        new_data.append(cls_cvt)
+                except EOFError:
+                    print('EOFError')
+
+                if not new_data:
+                    print('data not appended')
+                    if (now_time + timedelta(seconds=15)).day == (datetime.now()).day + 1: # 잠시 딜레이 될 때 비록 새벽이지만 Que가 약간 쌓일 위험성이 있음.
+                        time.sleep(16)
+                        print('mid level break')
+                        break
+                    time.sleep(time_interval)
+                    
+                
+                elif new_data:
+                    print('new data added')
+                    print('len new data = ' , len(new_data))
+                    start = time.time()
+                    cls_lst = new_data
     
-    prev_data = [] #ct pts lst
-    with open(filename, 'rb') as f:
-        while True:
-            # with open(filename, 'rb') as f:
-            #     try:
-            #         while True:
-            #             # data.append(pickle.load(f))
-            #             data.append(pickle.load(f))
-            #     except EOFError:
-            #         pass
-            
-            new_data = [] # ct pts lst
-            
-            try:
-                while True:
-                    # data.append(pickle.load(f))
-                    loaded_data = pickle.load(f)
-                    cls_cvt = cvt_pkl_to_cls(loaded_data)
-                    new_data.append(cls_cvt)
-            except EOFError:
-                print('EOFError')
+                    smoothed_center_points_lst = smooth_center_points_lst_from_cls_lst(cls_lst)
 
-            if not new_data:
-                print('data not appended')
-                time.sleep(time_interval)
-                
-            
-            elif new_data:
-                print('new data added')
-                print('len new data = ' , len(new_data))
-                start = time.time()
-                cls_lst = new_data
- 
-                smoothed_center_points_lst = smooth_center_points_lst_from_cls_lst(cls_lst)
+                    mapped_pts = map_points(smoothed_center_points_lst, cls_lst)
 
-                mapped_pts = map_points(smoothed_center_points_lst, cls_lst)
-
-                filtered_points_lst = filter_out_no_movement(mapped_pts, 200)
+                    filtered_points_lst = filter_out_no_movement(mapped_pts, 200)
 
 
-                refined_pts_lst, contained_pts_lst = refine_points_lst_by_moving_distance(filtered_points_lst)
+                    refined_pts_lst, contained_pts_lst = refine_points_lst_by_moving_distance(filtered_points_lst)
 
-                # collison_events_lst = detect_collisions(refined_pts_lst)
-                collison_events_lst = detect_collisons_partly(prev_data, refined_pts_lst)
-                
-                # print('len collision events lst = ', len(collison_events_lst))
-                
+                    # collison_events_lst = detect_collisions(refined_pts_lst)
+                    collison_events_lst = detect_collisons_partly(prev_data, refined_pts_lst)
+                    
+                    # print('len collision events lst = ', len(collison_events_lst))
+                    
+                    
+
+                    #############################################################
+                    print('start draw stay time')
+                    draw_stay_time(stay_time_cvs, refined_pts_lst, contained_pts_lst)
+
+
+                    
+                    # with open("data.pickle","rb") as f:
+                    #     data = pickle.load(f)
+                    # print(data)
+                    data = collison_events_lst
+
                 
 
-                #############################################################
-                print('start draw stay time')
-                draw_stay_time(stay_time_cvs, refined_pts_lst, contained_pts_lst)
+                    # print(len(data))
+                    # glb_cvs = np.zeros((h, w), dtype=np.int64)
+                    empty_temp = np.full((h, w), False)
+                    draw_template = np.zeros((h, w), dtype=np.uint8)
+                    cnt = 0
+                    for item in data:
+                        cnt+=1
+                        
+                        draw = draw_template.copy()
+                        tf_template = empty_temp.copy()
+                        
+                        inter_pt, prev_pt, next_pt, other_prev_pt, other_next_pt = item
+                        
+                        cv2.circle(draw, (int(inter_pt[0]), int(inter_pt[1])), 30, (255, 255, 255), -1)
+                        # draw = cv2.cvtColor(draw, cv2.COLOR_BGR2GRAY)
+                        # cv2.imshow('draw', draw)
+                        # cv2.waitKey(0)
+                        tf_template[draw != 0 ] = True
+                        
+                        glb_cvs += tf_template
+                        
+                        
+                        # cv2.circle(draw, (int(inter_pt[0]), int(inter_pt[1])), 30, (255, 255, 255), -1)
+                        # tf_template[draw != 0 ] = True
+                        # glb_cvs += tf_template
+                        
+                        # print('sum = ' , np.sum(glb_cvs))
+                        ################################
+                        # # print(inter_pt)
+                        # temp_img = bp_background.copy()
+                        # former_pt, futher_pt = strech_vec(prev_pt, next_pt)
+                        # other_former_pt, other_futher_pt = strech_vec(other_prev_pt, other_next_pt)
+                        # cv2.arrowedLine(temp_img, (int(former_pt[0]), int(former_pt[1])), (int(futher_pt[0]), int(futher_pt[1])), (150, 100, 80), 3, 8, tipLength=0.2)
+                        # cv2.arrowedLine(temp_img, (int(other_former_pt[0]), int(other_former_pt[1])), (int(other_futher_pt[0]), int(other_futher_pt[1])), (150, 80, 120), 3, 8, tipLength=0.3)
+                        # # cv2.line(temp_img, (int(former_pt[0]), int(former_pt[1])), (int(futher_pt[0]), int(futher_pt[1])), (255, 255, 0), 4, 8)
+                        # # cv2.line(temp_img, (int(other_former_pt[0]), int(other_former_pt[1])), (int(other_futher_pt[0]), int(other_futher_pt[1])), (255, 255, 0),  4, 8)
+                        # cv2.line(temp_img, (int(prev_pt[0]), int(prev_pt[1])), (int(next_pt[0]), int(next_pt[1])), (100, 255, 0), 4, 8)
+                        # cv2.line(temp_img, (int(other_prev_pt[0]), int(other_prev_pt[1])), (int(other_next_pt[0]), int(other_next_pt[1])), (0, 255, 180),  4, 8)
+                        # cv2.circle(temp_img, (int(inter_pt[0]), int(inter_pt[1])), 4, (0, 0, 255), -1)
+                        # cv2.imshow('t', temp_img)
+                        # if cnt <= 10:
+                        #     wk = 0
+                        # else:
+                        #     wk = 10
+                        # cv2.waitKey(wk)
+                        ################################
 
 
-                
-                # with open("data.pickle","rb") as f:
-                #     data = pickle.load(f)
-                # print(data)
-                data = collison_events_lst
+                    glb_max_val = np.max(glb_cvs)
+                    if glb_max_val != 0:
+                        scaled_glb_cvs = 254*(glb_cvs/glb_max_val)
+                        glb_result = np.uint8(scaled_glb_cvs)
 
-            
+                        res_show = cv2.applyColorMap(glb_result, cv2.COLORMAP_JET)
+                        # res_show = cv2.GaussianBlur(res_show,(13,13), 11)
+                        res_show = cv2.blur(res_show, (7, 7))
+                        # cv2.imshow('glb result', glb_result)
+                        # cv2.imshow('glb result', res_show)
+                        # cv2.waitKey(0)
 
-                # print(len(data))
-                # glb_cvs = np.zeros((h, w), dtype=np.int64)
-                empty_temp = np.full((h, w), False)
-                draw_template = np.zeros((h, w), dtype=np.uint8)
-                cnt = 0
-                for item in data:
-                    cnt+=1
-                    
-                    draw = draw_template.copy()
-                    tf_template = empty_temp.copy()
-                    
-                    inter_pt, prev_pt, next_pt, other_prev_pt, other_next_pt = item
-                    
-                    cv2.circle(draw, (int(inter_pt[0]), int(inter_pt[1])), 30, (255, 255, 255), -1)
-                    # draw = cv2.cvtColor(draw, cv2.COLOR_BGR2GRAY)
-                    # cv2.imshow('draw', draw)
-                    # cv2.waitKey(0)
-                    tf_template[draw != 0 ] = True
-                    
-                    glb_cvs += tf_template
-                    
-                    
-                    # cv2.circle(draw, (int(inter_pt[0]), int(inter_pt[1])), 30, (255, 255, 255), -1)
-                    # tf_template[draw != 0 ] = True
-                    # glb_cvs += tf_template
-                    
-                    # print('sum = ' , np.sum(glb_cvs))
-                    ################################
-                    # # print(inter_pt)
-                    # temp_img = bp_background.copy()
-                    # former_pt, futher_pt = strech_vec(prev_pt, next_pt)
-                    # other_former_pt, other_futher_pt = strech_vec(other_prev_pt, other_next_pt)
-                    # cv2.arrowedLine(temp_img, (int(former_pt[0]), int(former_pt[1])), (int(futher_pt[0]), int(futher_pt[1])), (150, 100, 80), 3, 8, tipLength=0.2)
-                    # cv2.arrowedLine(temp_img, (int(other_former_pt[0]), int(other_former_pt[1])), (int(other_futher_pt[0]), int(other_futher_pt[1])), (150, 80, 120), 3, 8, tipLength=0.3)
-                    # # cv2.line(temp_img, (int(former_pt[0]), int(former_pt[1])), (int(futher_pt[0]), int(futher_pt[1])), (255, 255, 0), 4, 8)
-                    # # cv2.line(temp_img, (int(other_former_pt[0]), int(other_former_pt[1])), (int(other_futher_pt[0]), int(other_futher_pt[1])), (255, 255, 0),  4, 8)
-                    # cv2.line(temp_img, (int(prev_pt[0]), int(prev_pt[1])), (int(next_pt[0]), int(next_pt[1])), (100, 255, 0), 4, 8)
-                    # cv2.line(temp_img, (int(other_prev_pt[0]), int(other_prev_pt[1])), (int(other_next_pt[0]), int(other_next_pt[1])), (0, 255, 180),  4, 8)
-                    # cv2.circle(temp_img, (int(inter_pt[0]), int(inter_pt[1])), 4, (0, 0, 255), -1)
-                    # cv2.imshow('t', temp_img)
-                    # if cnt <= 10:
-                    #     wk = 0
-                    # else:
-                    #     wk = 10
-                    # cv2.waitKey(wk)
-                    ################################
+                        # glb_result = cv2.cvtColor(glb_result, cv2.COLOR_GRAY2BGR)
 
+                        # end = time.time()
+                        # elapsed_time = end - start
+                        # print('elapsed time = ' , elapsed_time)
 
-                glb_max_val = np.max(glb_cvs)
-                if glb_max_val != 0:
-                    scaled_glb_cvs = 254*(glb_cvs/glb_max_val)
-                    glb_result = np.uint8(scaled_glb_cvs)
+                        # result = cv2.addWeighted(bp_background.copy(), 0.5, glb_result, 0.5, 0)
+                        # bg_ratio = 0.6
+                        # result = cv2.addWeighted(bp_background.copy(), bg_ratio, res_show, 1-bg_ratio, 0)
+                        # draw_colorbar(result)
+                        # cv2.imshow('result1', result)
+                        # non_zero_idx = glb_result != 0
+                        
+                        # result[glb_result == 0] = bp_background[glb_result == 0]
+                        # draw_colorbar(result)
+                        
+                        # cv2.imshow('result2', result)
+                        # cv2.waitKey(600)
+                        collision_que.put(res_show)
+                        collision_ready_flag.set()
+                        
+                    else:
+                        print('valid result not created, in collision analysis')
 
-                    res_show = cv2.applyColorMap(glb_result, cv2.COLORMAP_JET)
-                    # res_show = cv2.GaussianBlur(res_show,(13,13), 11)
-                    res_show = cv2.blur(res_show, (7, 7))
-                    # cv2.imshow('glb result', glb_result)
-                    # cv2.imshow('glb result', res_show)
-                    # cv2.waitKey(0)
-
-                    # glb_result = cv2.cvtColor(glb_result, cv2.COLOR_GRAY2BGR)
-
-                    # end = time.time()
-                    # elapsed_time = end - start
-                    # print('elapsed time = ' , elapsed_time)
-
-                    # result = cv2.addWeighted(bp_background.copy(), 0.5, glb_result, 0.5, 0)
-                    # bg_ratio = 0.6
-                    # result = cv2.addWeighted(bp_background.copy(), bg_ratio, res_show, 1-bg_ratio, 0)
-                    # draw_colorbar(result)
-                    # cv2.imshow('result1', result)
-                    # non_zero_idx = glb_result != 0
+                    prev_data = prev_data + refined_pts_lst
+                    # print('prev data = ', prev_data)
+                    # prev_cvs = glb_cvs.copy()
+                    print('glb cvs total sum',np.sum(glb_cvs))
                     
-                    # result[glb_result == 0] = bp_background[glb_result == 0]
-                    # draw_colorbar(result)
                     
-                    # cv2.imshow('result2', result)
-                    # cv2.waitKey(600)
-                    collision_que.put(res_show)
-                    collision_ready_flag.set()
+                    ###############################
+                    # stay_time_cvs
+                    st_max_val = np.max(stay_time_cvs)
+                    if st_max_val != 0:
+                        scaled_st_cvs = 254*(stay_time_cvs/st_max_val)
+                        st_result = np.uint8(scaled_st_cvs)
+                        st_res = cv2.applyColorMap(st_result, cv2.COLORMAP_JET)
+                        # st_res = cv2.GaussianBlur(st_res, (13,13), 11)
+                        st_res = cv2.blur(st_res, (7, 7))
+                        st_que.put(st_res)
+                        stay_time_ready_flag.set()
+                        # bg_ratio = 0.5
+                        # st_result = cv2.addWeighted(bp_background.copy(), bg_ratio, st_res, 1-bg_ratio, 0)
+                        # cv2.imshow('st', st_result)
+                        # cv2.waitKey(300)
+                        
+                    else:
+                        print('valid result not created, in stay time')
                     
-                else:
-                    print('valid result not created, in collision analysis')
-
-                prev_data = prev_data + refined_pts_lst
-                # print('prev data = ', prev_data)
-                # prev_cvs = glb_cvs.copy()
-                print('glb cvs total sum',np.sum(glb_cvs))
-                
-                
-                ###############################
-                # stay_time_cvs
-                st_max_val = np.max(stay_time_cvs)
-                if st_max_val != 0:
-                    scaled_st_cvs = 254*(stay_time_cvs/st_max_val)
-                    st_result = np.uint8(scaled_st_cvs)
-                    st_res = cv2.applyColorMap(st_result, cv2.COLORMAP_JET)
-                    # st_res = cv2.GaussianBlur(st_res, (13,13), 11)
-                    st_res = cv2.blur(st_res, (7, 7))
-                    st_que.put(st_res)
-                    stay_time_ready_flag.set()
-                    # bg_ratio = 0.5
-                    # st_result = cv2.addWeighted(bp_background.copy(), bg_ratio, st_res, 1-bg_ratio, 0)
-                    # cv2.imshow('st', st_result)
-                    # cv2.waitKey(300)
+                    end = time.time()
+                    print('collision analysis elapsed time = ' , end - start)
+                    now_time = datetime.now()
+                    if (now_time + timedelta(seconds=15)).day == (datetime.now()).day + 1: # 잠시 딜레이 될 때 비록 새벽이지만 Que가 약간 쌓일 위험성이 있음.
+                        time.sleep(16)
+                        print('mid level break')
+                        break
+                    time.sleep(time_interval)
                     
-                else:
-                    print('valid result not created, in stay time')
-                
-                end = time.time()
-                print('collision analysis elapsed time = ' , end - start)
-                time.sleep(time_interval)
-                
-                # if not collision_op_flag.is_set():
-                #     print('waiting.. collision op flag is not set.')
-                # collision_op_flag.wait()
+                    # if not collision_op_flag.is_set():
+                    #     print('waiting.. collision op flag is not set.')
+                    # collision_op_flag.wait()
