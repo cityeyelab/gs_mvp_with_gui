@@ -15,6 +15,60 @@ from .filter_blacklist import filter_blacklist_fn_callback_lst
 # non_global_maps = [area1_car_wash_waiting_map, area1_place0_map]
 
 
+# def handle_trk_data(trk_data_lst, dets, tracking_id, frame_cnt):
+#     row_num = len(trk_data_lst)
+#     column_num = len(dets)
+#     iou_lst = []
+#     trk_data_to_det_mapping_lst = []
+#     trk_data_lst_orig = trk_data_lst.copy()
+#     unmatched_dets_idx = [i for i in range(0, column_num)]
+#     for i in range(0, row_num):
+#         trk_data = trk_data_lst_orig[i]
+#         last_bbox = trk_data.bboxes[-1]
+#         iou_lst_wrt_trk_data = cal_IoU_elt_lst(last_bbox, dets)
+#         iou_lst = iou_lst + iou_lst_wrt_trk_data
+    
+#     iou_lst = [iou_lst[i] if iou_lst[i] >= 0.1  else 0 for i in range(0, len(iou_lst))]
+#     while sum(iou_lst) > 0:
+#         iou_lst_max_idx = iou_lst.index(max(iou_lst))
+#         iou_lst_quotient = iou_lst_max_idx//column_num
+#         iou_lst_remainder = iou_lst_max_idx%column_num
+#         iou_lst[column_num*iou_lst_quotient:column_num*(iou_lst_quotient+1)] = [0 for _ in range(column_num)]
+#         for rn in range(0, row_num):
+#             iou_lst[rn*column_num + iou_lst_remainder] = 0
+            
+#         mapping_tup = (iou_lst_quotient, iou_lst_remainder) #trk -> det : (trk_nb, det_nb)
+#         unmatched_dets_idx.remove(iou_lst_remainder)
+        
+#         trk_data_to_det_mapping_lst.append(mapping_tup)
+
+#     #append data
+#     # -> cp pt 가 global inout에 포함될 경우만
+#     for mapping_data in trk_data_to_det_mapping_lst:
+#         this_cls = trk_data_lst[mapping_data[0]]
+#         to_be_appended = dets[mapping_data[1]]
+#         center_point = get_ct_pt_fn(to_be_appended)
+#         if glb_inout_map[int(center_point[1]), int(center_point[0])] == True:
+#             this_cls.bboxes.append(to_be_appended)
+#             this_cls.center_points_lst.append(center_point)
+#             this_cls.frame_record.append(frame_cnt)
+    
+#     # print('unmatched_dets_idx = ', unmatched_dets_idx)
+#     # create new data cls
+#     for new_idx in unmatched_dets_idx:
+#         det = dets[new_idx]
+#         center_point = get_ct_pt_fn(det)
+#         if glb_inout_map[int(center_point[1]), int(center_point[0])] == True:
+#             if inner_map[int(center_point[1]), int(center_point[0])] == True:
+#                 print('maybe blacklist elt appear!')
+#             new_cls = TrackingData(area_num=area_number, id=tracking_id)
+#             new_cls.bboxes.append(det)
+#             new_cls.center_points_lst.append(center_point)
+#             new_cls.frame_record.append(frame_cnt)
+#             trk_data_lst.append(new_cls)
+#             tracking_id+=1
+
+
 data_dicts_lst = [area1_data_dict, area3_data_dict, area4_data_dict]
 
 
@@ -58,8 +112,8 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         #     break
         filter_blacklist_fn(dets)
         # dets = ([], [], []) -> dets = ((), (), ())
+        dets = filter_out_low_conf(dets, 0.55)
         dets = tuple([tuple(dets[i]) for i in range(0, len(dets))])
-        dets = filter_out_low_conf(dets, 0.30)
         eliminate_dup(dets)
         put_data = {}
 
@@ -68,6 +122,9 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
 
 
     #############################################
+        # input: trk_data_lst, dets, tracking_id
+        # modify: trk_data_lst
+        # output: tracking_id, 
         row_num = len(trk_data_lst)
         column_num = len(dets)
         iou_lst = []
@@ -120,6 +177,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
                 trk_data_lst.append(new_cls)
                 tracking_id+=1
         
+        #################################################################
 
         # center_points_lst_orig = center_points_lst.copy()
         # for data in center_points_lst_orig:
@@ -185,7 +243,9 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
                 # if glb_inout_map[int(center_point[1]), int(center_point[0])] == True: # *
                 glb_in_cnt += 1
                 # center_point_lst.append(center_point)
-                center_point_lst.append(data_cls.center_points_lst[-36:])
+                
+                # center_point_lst.append(data_cls.center_points_lst[-36:])
+                
                 for i in range(0, len(non_global_maps)):
                     map = non_global_maps[i]
                     if map[int(center_point[1]), int(center_point[0])] == True: # *
@@ -219,7 +279,10 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         #                 pos_data.append(round((center_point[1] - slope *(center_point[0])), 2))
         #                 break
 
-
+        center_point_lst = [trk_data_lst[i].center_points_lst[-36:] for i in range(0, len(trk_data_lst))]
+        drawing_dets = [trk_data_lst[i].bboxes[-1] for i in range(0, len(trk_data_lst))]
+        drawing_dets_car_idx = [trk_data_lst[i].id for i in range(0, len(trk_data_lst))]
+        # det_conf = [trk_data_lst[i].bboxes[-1] for i in range(0, len(trk_data_lst))]
 
 
         put_data['pos_data'] = pos_data # *
@@ -237,12 +300,15 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         # bp_data = []
         # for pt in center_point_lst:
         #     bp_data.append(pt)
-        bp_data = center_point_lst.copy()
+        # bp_data = center_point_lst.copy()
         # bp_data = center_points_lst
+        bp_data = [center_point_lst[i][-1] for i in range(0, len(center_point_lst))]
         visualize_bp_que.put(bp_data)
 
+        
+        
         if not draw_proc_result_que.full():
-            draw_put_data = {'cnt_lst': [glb_in_cnt] + zone_cnt_vars, 'center_points_lst': center_point_lst, 'dets': dets }
+            draw_put_data = {'cnt_lst': [glb_in_cnt] + zone_cnt_vars, 'center_points_lst': center_point_lst, 'dets': drawing_dets, 'dets_idx':drawing_dets_car_idx }
             draw_proc_result_que.put(draw_put_data)
 
         frame_cnt += 1

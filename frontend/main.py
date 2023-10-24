@@ -115,14 +115,14 @@ class App(customtkinter.CTk):
         self.rb_none.grid(row=6, column=0, pady=8, padx=8, sticky="nsew")
         
         
-        self.rb_col = customtkinter.CTkRadioButton(master = self.sidebar_frame, text='Collision Analysis: Loading..', variable=self.radio_var, value=1,
+        self.rb_col = customtkinter.CTkRadioButton(master = self.sidebar_frame, text='Collision Daily Analysis: Loading..', variable=self.radio_var, value=1,
                                                           command=self.radio_button_command, width=180, height=30)
         self.rb_col.grid(row=7, column=0, pady=8, padx=8, sticky="nsew")
         self.rb_col.after(200, self.rb_col_load)
         self.rb_col.configure(state=DISABLED)
         # self.radio_button2.grid(row=1, column=1, pady=4, padx=4, sticky="n")
         
-        self.rb_col_rt = customtkinter.CTkRadioButton(master = self.sidebar_frame, text='Collision RT Analysis', variable=self.radio_var, value=2,
+        self.rb_col_rt = customtkinter.CTkRadioButton(master = self.sidebar_frame, text='Collision RT Analysis: Not Implemented Yet', variable=self.radio_var, value=2,
                                                           command=self.radio_button_command, width=180, height=30)
         self.rb_col_rt.grid(row=8, column=0, pady=8, padx=8, sticky="nsew")
         self.rb_col_rt.after(200, self.rb_col_rt_load)
@@ -232,7 +232,7 @@ class App(customtkinter.CTk):
         flag = self.collision_ready_flag.is_set()
         # print('rb col flag = ' , flag)
         if flag:
-            self.rb_col.configure(state=NORMAL, text='Collision Analysis')
+            self.rb_col.configure(state=NORMAL, text='Collision Daily Analysis')
             # self.wait_col_cb_lbl.after_cancel(self.wait_col_cb_task)
         else:
             self.wait_rb_col_task = self.rb_col.after(500, self.rb_col_load)

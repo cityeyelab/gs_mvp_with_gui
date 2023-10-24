@@ -59,6 +59,9 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
     
     prev_key = 0 # operation key
     
+    random_ints = np.random.randint(50, 255, size=(30, 3), dtype=np.uint8)
+    colors = [(int(random_ints[i][0]), int(random_ints[i][1]), int(random_ints[i][2])) for i in range(0, len(random_ints))]
+    
     while True:
         if exit_event.is_set():
             break
@@ -84,7 +87,8 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
             if eco_mode:
                 _ = proc_result_q.get()
             proc_result = proc_result_q.get()
-            dets = proc_result['dets']
+            now_dets = proc_result['dets']
+            dets_idx = proc_result['dets_idx']
             center_points_lst = proc_result['center_points_lst']
             for i in range(0, len(cnts_lst)):
                 cnts_lst[i] = proc_result['cnt_lst'][i]
@@ -95,31 +99,53 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
                 cnt_value = cnts_lst[cnts_lst_idx]
                 cv2.putText(frame, cnt_str + ': ' + str(cnt_value), (80, 120 + 35*(cnts_lst_idx+1)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
 
-            for data in dets:
-                det = data
+            for i, det in enumerate(now_dets):
+                # det = data
+                car_idx = dets_idx[i]
+                center_points = center_points_lst[i]
+                color_idx = car_idx%30
+                
+                color_selected = colors[color_idx]
+                # print('color sel = ' , color_selected)
                 p_x1, p_y1 = int(det[0]), int(det[1])
                 p_x2, p_y2 = int(det[2]), int(det[3])
-                frame = cv2.rectangle(frame, (p_x1, p_y1), (p_x2, p_y2), (255, 0, 0), 2)
+                frame = cv2.rectangle(frame, (p_x1, p_y1), (p_x2, p_y2), color_selected , 2)
+                
+                det_conf = round(det[-2], 2)
+                
+                center_point = center_points[-1]
+                refined_draw_ct_pt = center_points[0::4]
+                refined_draw_ct_pt.append(center_point)
+                inted_pts = np.int32([refined_draw_ct_pt])
+                cv2.polylines(frame, inted_pts, False, color_selected, 6, lineType=8)
+                cv2.line(frame, (int(center_point[0]), int(center_point[1])), (int(center_point[0]), int(center_point[1])), color_selected , thickness=12, lineType=None, shift=None)
+                cv2.putText(frame, f'id: {car_idx}', (int(center_point[0]), int(center_point[1]+20)), font, 1.5, color_selected, 2)
+                if 0 <= int(center_point[1]+33) <= 1070:
+                    cv2.putText(frame, f'det_conf: {det_conf}', (int(center_point[0]), int(center_point[1]+33)), font, 1.5, color_selected, 2)
+                else:
+                    cv2.putText(frame, f'det_conf: {det_conf}', (int(center_point[0]), int(center_point[1]-20)), font, 1.5, color_selected, 2)
+                # cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2)
+                # cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2)
             
-            for pts in center_points_lst:
-                # for i in range(0, len(pts)-1):
-                #     former_pt = pts[i]
-                #     next_pt = pts[i+1]
-                #     cv2.line(frame, (int(former_pt[0]), int(former_pt[1])), (int(next_pt[0]), int(next_pt[1])), (0,255,255), thickness=4)
-                # print('pts = ' , pts)
-                inted_pts = np.int32([pts[0::4]])
-                # polylines_template = frame.copy()
-                # cv2.polylines(polylines_template, inted_pts, False, (200, 255, 40), 6, lineType=cv2.LINE_AA)
-                # cv2.polylines(polylines_template, inted_pts, False, (200, 255, 40), 6, lineType=8)
-                cv2.polylines(frame, inted_pts, False, (200, 255, 40), 6, lineType=8)
-                # frame = cv2.addWeighted(frame, 0.6, polylines_template, 0.4, 0)
-                center_point = pts[-1]
-                # print('center point = ', center_point)
-                cv2.line(frame, (int(center_point[0]), int(center_point[1])), (int(center_point[0]), int(center_point[1])), (0,255,0), thickness=12, lineType=None, shift=None)
-                # cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
-                cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2)
-                # cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
-                cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2)
+            # for pts in center_points_lst:
+            #     # for i in range(0, len(pts)-1):
+            #     #     former_pt = pts[i]
+            #     #     next_pt = pts[i+1]
+            #     #     cv2.line(frame, (int(former_pt[0]), int(former_pt[1])), (int(next_pt[0]), int(next_pt[1])), (0,255,255), thickness=4)
+            #     # print('pts = ' , pts)
+            #     inted_pts = np.int32([pts[0::4]])
+            #     # polylines_template = frame.copy()
+            #     # cv2.polylines(polylines_template, inted_pts, False, (200, 255, 40), 6, lineType=cv2.LINE_AA)
+            #     # cv2.polylines(polylines_template, inted_pts, False, (200, 255, 40), 6, lineType=8)
+            #     cv2.polylines(frame, inted_pts, False, (200, 255, 40), 6, lineType=8)
+            #     # frame = cv2.addWeighted(frame, 0.6, polylines_template, 0.4, 0)
+            #     center_point = pts[-1]
+            #     # print('center point = ', center_point)
+            #     cv2.line(frame, (int(center_point[0]), int(center_point[1])), (int(center_point[0]), int(center_point[1])), (0,255,0), thickness=12, lineType=None, shift=None)
+            #     # cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
+            #     cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2)
+            #     # cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
+            #     cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2)
 
 
         for i in range(0, len(non_false_idx_lst)):

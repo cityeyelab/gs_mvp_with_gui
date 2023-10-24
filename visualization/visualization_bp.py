@@ -122,9 +122,12 @@ def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que, e
             if type(area1_ct_pts_lst) == type(None) or type(area3_ct_pts_lst) == type(None) or type(area4_ct_pts_lst) == type(None):
                 break
             # print('c2')
-            area1_ct_pts_lst = [area1_ct_pts_lst[i][-1] for i in range(0, len(area1_ct_pts_lst))]
-            area3_ct_pts_lst = [area3_ct_pts_lst[i][-1] for i in range(0, len(area3_ct_pts_lst))]
-            area4_ct_pts_lst = [area4_ct_pts_lst[i][-1] for i in range(0, len(area4_ct_pts_lst))]
+            area1_ct_pts_lst = [area1_ct_pts_lst[i] for i in range(0, len(area1_ct_pts_lst))]
+            area3_ct_pts_lst = [area3_ct_pts_lst[i] for i in range(0, len(area3_ct_pts_lst))]
+            area4_ct_pts_lst = [area4_ct_pts_lst[i] for i in range(0, len(area4_ct_pts_lst))]
+            # area1_ct_pts_lst = [area1_ct_pts_lst[i][-1] for i in range(0, len(area1_ct_pts_lst))]
+            # area3_ct_pts_lst = [area3_ct_pts_lst[i][-1] for i in range(0, len(area3_ct_pts_lst))]
+            # area4_ct_pts_lst = [area4_ct_pts_lst[i][-1] for i in range(0, len(area4_ct_pts_lst))]
             # print('c3')
             mapped_pts_area1 = mapping_area1(pts_lst=area1_ct_pts_lst)
             mapped_pts_area3 = mapping_area3(pts_lst=area3_ct_pts_lst)

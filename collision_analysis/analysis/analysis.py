@@ -320,7 +320,8 @@ def draw_stay_time(cvs, center_points_lst, contained_points_lst):
             # print('4')
             ct_pt = ((prev_pt[0]+next_pt[0])/2, (prev_pt[1]+next_pt[1])/2)
             # print('5')
-            cv2.circle(draw_template, (int(ct_pt[0]), int(ct_pt[1])), 30, (255, 255, 255), -1)
+            # cv2.circle(draw_template, (int(ct_pt[0]), int(ct_pt[1])), 30, (255, 255, 255), -1)
+            cv2.circle(draw_template, (int(ct_pt[0]), int(ct_pt[1])), 30,  255, -1)
             # print('6')
             tf_template[draw_template != 0 ] = True
             # print('7')
@@ -342,6 +343,8 @@ if type(base_data_path) != type(None):
         except EOFError:
             print('EOFError')
 
+
+
 def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_time_ready_flag, collision_que, st_que):
     time_interval = 10
     # filename="_raw_data"
@@ -356,17 +359,19 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
     # time.sleep(10)
     # collision_ready_flag.set()
     # stay_time_ready_flag.set()
-    
+    now = datetime.now()
+    today_string = now.strftime('%Y-%m-%d')
+    filename = 'data/'+ today_string + '_raw_data'
     while True:
-        now = datetime.now()
-        today_string = now.strftime('%Y-%m-%d')
-        filename = 'data/'+ today_string + '_raw_data'
+        # now = datetime.now()
+        # today_string = now.strftime('%Y-%m-%d')
+        # filename = 'data/'+ today_string + '_raw_data'
         try:
             if isfile(filename):
                 print('file exist in collision')
                 break
             else:
-                print('file checking in collision analysis...')
+                print('file checking in collision analysis...1')
                 # if base_data:
                 #     new_data = base_data
                 #     break
@@ -374,19 +379,109 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
             # with open(filename, 'rb') as f:
             #     break
         except:
-            print('file checking in collision analysis...')
+            print('file checking in collision analysis...2')
             time.sleep(3)
             # if base_data:
             #     new_data = base_data
             #     break
+    # if 읽어들인 파일의 data len > 0 and 저장된 캐쉬들과 len 일치:
+    #     저장된 global cvs, stay time cvs 읽어서 초기화된 glb_cvs, stay_time_cvs에 더함.
+    #     얘네들 이미지 만들어서 vis bp에 전송함
+    #     refined_pts_lst를 prev_data에 넣음
+    #     저장할것 -> glb_cvs, stay_time_cvs, refined_pts_lst
     
+    pre_loaded_data_available = False
+    try:
+        print('try preload collision data')
+        pre_loaded_data_lst = []
+        with open(filename, 'rb') as f:
+            while True:
+                try:
+                    while True: # 이 프로세스를 한번으로 줄이면 좋음
+                        pre_loaded_data = pickle.load(f) # loads?
+                        cls_cvt = cvt_pkl_to_cls(pre_loaded_data)
+                        pre_loaded_data_lst.append(cls_cvt)
+                except EOFError:
+                    print('EOFError 1')
+                    break
+                except:
+                    print('preload raw data file failure')
+                    break
+                
+        print('preload check1')
+        with open('data/'+ today_string + '_refined_pts_lst_cached', 'rb') as f:
+            refined_pts_lst_loaded = pickle.load(f)
+        print('preload check2')
+        with open('data/'+ today_string + '_meta', 'rb') as f:
+            meta_dict_loaded = pickle.load(f)
+            len_refined_pts_lst = meta_dict_loaded['len_refined_pts_lst']
+            glb_max_val_cached = meta_dict_loaded['glb_max_val']
+            st_max_val_cached = meta_dict_loaded['st_max_val']
+            # meta_dict = {'len_refined_pts_lst': len(prev_data), 'glb_max_val':glb_max_val, 'st_max_val': st_max_val, }
+        print('preload check3')
+        pre_loaded_glb_cvs = np.load('data/'+ today_string + '_glb_cvs_cached.npy')
+        pre_loaded_st_cvs = np.load('data/'+ today_string + '_st_cvs_cached.npy')
+        print('preload check4')
+        if len_refined_pts_lst == len(refined_pts_lst_loaded):
+        
+            # glb_max_val = np.max(pre_loaded_glb_cvs)
+            if glb_max_val_cached != 0:
+                scaled_glb_cvs = 254*(pre_loaded_glb_cvs/glb_max_val_cached)
+                glb_result = np.uint8(scaled_glb_cvs)
+                res_show = cv2.applyColorMap(glb_result, cv2.COLORMAP_JET)
+                res_show = cv2.blur(res_show, (7, 7))
+                collision_que.put(res_show)
+                collision_ready_flag.set()
+            else:
+                print('not valid result in pre loaded glb cvs calc')
+            
+            print('preload check5')
+            # st_max_val = np.max(pre_loaded_st_cvs)
+            if st_max_val_cached != 0:
+                scaled_st_cvs = 254*(pre_loaded_st_cvs/st_max_val_cached)
+                st_result = np.uint8(scaled_st_cvs)
+                st_res = cv2.applyColorMap(st_result, cv2.COLORMAP_JET)
+                # st_res = cv2.GaussianBlur(st_res, (13,13), 11)
+                st_res = cv2.blur(st_res, (7, 7))
+                st_que.put(st_res)
+                stay_time_ready_flag.set()
+            else:
+                print('not valid result in pre loaded stay time calc')
+            
+            glb_cvs += pre_loaded_glb_cvs
+            stay_time_cvs += pre_loaded_st_cvs
+            
+            refined_pts_lst = refined_pts_lst_loaded
+            
+            pre_loaded_data_available = True
+        print('preload check6')
+    except:
+        print('fail: preload collision data')
+    
+    # 중간에 실패시 모두 롤백하는 기능 필요
+    
+    
+    
+    # data lenght validation feature needed in the future
+    
+    
+    
+    pre_loaded_once = False
+    pass_load_raw_data_once = False
     while True:
         now = datetime.now()
         today_string = now.strftime('%Y-%m-%d')
         filename = 'data/'+ today_string + '_raw_data'
-        prev_data = [] #ct pts lst
+        # len_data = 0
+        if  (not pre_loaded_once) and pre_loaded_data_available:
+            prev_data = refined_pts_lst
+            pre_loaded_once = True
+        else:
+            prev_data = [] #ct pts lst
+        
         with open(filename, 'rb') as f:
             while True:
+                print('inner while starts')
                 # with open(filename, 'rb') as f:
                 #     try:
                 #         while True:
@@ -397,6 +492,7 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                 
                 new_data = [] # ct pts lst
                 
+                print('before try')
                 try:
                     while True:
                         # data.append(pickle.load(f))
@@ -404,18 +500,24 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                         cls_cvt = cvt_pkl_to_cls(loaded_data)
                         new_data.append(cls_cvt)
                 except EOFError:
-                    print('EOFError')
-
+                    print('EOFError 2')
+                
+                if not pass_load_raw_data_once:
+                    new_data = []
+                    pass_load_raw_data_once = True
+                
                 if not new_data:
                     print('data not appended')
+                    now_time = datetime.now()
                     if (now_time + timedelta(seconds=15)).day == (datetime.now()).day + 1: # 잠시 딜레이 될 때 비록 새벽이지만 Que가 약간 쌓일 위험성이 있음.
                         time.sleep(16)
-                        print('mid level break')
+                        # print('mid level break')
                         break
                     time.sleep(time_interval)
                     
                 
                 elif new_data:
+                    # len_data += len(new_data)
                     print('new data added')
                     print('len new data = ' , len(new_data))
                     start = time.time()
@@ -537,7 +639,7 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                     prev_data = prev_data + refined_pts_lst
                     # print('prev data = ', prev_data)
                     # prev_cvs = glb_cvs.copy()
-                    print('glb cvs total sum',np.sum(glb_cvs))
+                    # print('glb cvs total sum',np.sum(glb_cvs))
                     
                     
                     ###############################
@@ -558,7 +660,22 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                         
                     else:
                         print('valid result not created, in stay time')
-                    
+
+
+                    # pre_loaded_glb_cvs = np.load('glb_cvs_cached.npy')
+                    # pre_loaded_st_cvs = np.load('st_cvs_cached.npy')
+
+                    with open('data/'+ today_string + '_refined_pts_lst_cached', 'wb') as f1:
+                        pickle.dump(refined_pts_lst, f1)
+                    np.save('data/'+ today_string + '_glb_cvs_cached', glb_cvs)
+                    np.save('data/'+ today_string + '_st_cvs_cached', stay_time_cvs)
+                    with open('data/'+ today_string + '_meta', 'wb') as f2:
+                        meta_dict = {'len_refined_pts_lst': len(prev_data), 'glb_max_val':glb_max_val, 'st_max_val': st_max_val, }
+                        pickle.dump(meta_dict, f2)
+
+
+
+                    print('process end')
                     end = time.time()
                     print('collision analysis elapsed time = ' , end - start)
                     now_time = datetime.now()
@@ -567,7 +684,7 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                         print('mid level break')
                         break
                     time.sleep(time_interval)
-                    
+                    print('after time sleep')
                     # if not collision_op_flag.is_set():
                     #     print('waiting.. collision op flag is not set.')
                     # collision_op_flag.wait()
