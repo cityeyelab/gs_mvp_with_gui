@@ -101,7 +101,13 @@ def letterbox(im, new_shape=(640, 640), color=(114, 114, 114), auto=True, scaleF
     return im, ratio, (dw, dh)
 
 
-
+import os
+def make_dir(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    except OSError:
+        print("Error: Failed to create the directory.")
 
 # weights=ROOT / 'sample.pt',  # model path or triton URL
 # source=ROOT / 'data/images',  # file/dir/URL/glob/screen/0(webcam)
@@ -329,16 +335,20 @@ class inference():
         # return preds
         
     def save_img(self, save_img_que):
-        now = datetime.datetime.now()
-        today_string = now.strftime('%Y-%m-%d')
-        filename="_img"
+        
+        # filename="_img"
         w, h = int(1920 * 0.3), int(1080 * 0.3)
         fourcc = cv2.VideoWriter_fourcc(*'DIVX')
-        file_cnt = 0
+        # file_cnt = 0
         frame_cnt = 0
         while True:
-            file_cnt_string = str(file_cnt).zfill(4)
-            writer=cv2.VideoWriter(f'data/videos/sample_video_area{self.area_num}_{today_string}_{file_cnt_string}.avi', fourcc, 1, (w, h), False)
+            now = datetime.datetime.now()
+            today_string = now.strftime('%Y-%m-%d')
+            make_dir(f'data/{today_string}/videos/')
+            starting_time = now.strftime("%H-%M-%S")
+            # file_cnt_string = str(file_cnt).zfill(4)
+            # writer=cv2.VideoWriter(f'data/{today_string}/videos/sample_area{self.area_num}_{starting_time}_{file_cnt_string}.avi', fourcc, 1, (w, h), False)
+            writer=cv2.VideoWriter(f'data/{today_string}/videos/sample_area{self.area_num}_{starting_time}.avi', fourcc, 1, (w, h), False)
             # writer=SafeVideoWriter(f'data/videos/sample_video_area{self.area_num}_{today_string}_{file_cnt_string}.avi', fourcc, 1, (w, h), False)
             # print('in writer size = ' , (int(1920 * 0.3), int(1080 * 0.3)))
             # frame_cnt = 0
@@ -357,7 +367,7 @@ class inference():
                     writer.release()
                     frame_cnt = 0
                     break
-            file_cnt += 1
+            # file_cnt += 1
         # with open('data/' + today_string + filename, 'ab+') as f:
         # with NpyAppendArray('data/' + today_string + filename + str(self.area_num) +'.npy', delete_if_exists=False) as npaa:
         #     while True:
@@ -387,8 +397,8 @@ class inference():
     def save_dets(self, save_dets_que):
         now = datetime.datetime.now()
         today_string = now.strftime('%Y-%m-%d')
-        filename="_dets"
-        with open('data/' + today_string + filename, 'ab+') as f:
+        # filename="_dets"
+        with open(f'data/{today_string}/{today_string}_dets', 'ab+') as f:
             while True:
                 dets = save_dets_que.get()
                 if type(dets) == type(None):

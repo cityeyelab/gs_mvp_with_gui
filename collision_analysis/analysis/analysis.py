@@ -330,6 +330,17 @@ def draw_stay_time(cvs, center_points_lst, contained_points_lst):
             cvs += add_value*tf_template
             # print('8')
 
+
+
+import os
+def make_dir(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    except OSError:
+        print("Error: Failed to create the directory.")
+
+
 base_data_path = None
 base_data = []
 if type(base_data_path) != type(None):
@@ -361,7 +372,7 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
     # stay_time_ready_flag.set()
     now = datetime.now()
     today_string = now.strftime('%Y-%m-%d')
-    filename = 'data/'+ today_string + '_raw_data'
+    filename = f'data/{today_string}/{today_string}_raw_data'
     while True:
         # now = datetime.now()
         # today_string = now.strftime('%Y-%m-%d')
@@ -407,21 +418,32 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                 except:
                     print('preload raw data file failure')
                     break
-                
+    
+    # with open(f'data/{today_string}/{today_string}_refined_pts_lst_cached', 'wb') as f1:
+    #     pickle.dump(refined_pts_lst, f1)
+    # np.save(f'data/{today_string}/{today_string}_glb_cvs_cached', glb_cvs)
+    # np.save(f'data/{today_string}/{today_string}_st_cvs_cached', stay_time_cvs)
+    # with open(f'data/{today_string}/{today_string}_meta', 'wb') as f2:
+    
+    
         print('preload check1')
-        with open('data/'+ today_string + '_refined_pts_lst_cached', 'rb') as f:
+        with open(f'data/{today_string}/{today_string}_refined_pts_lst_cached', 'rb') as f:
             refined_pts_lst_loaded = pickle.load(f)
         print('preload check2')
-        with open('data/'+ today_string + '_meta', 'rb') as f:
+        with open(f'data/{today_string}/{today_string}_meta', 'rb') as f:
             meta_dict_loaded = pickle.load(f)
             len_refined_pts_lst = meta_dict_loaded['len_refined_pts_lst']
             glb_max_val_cached = meta_dict_loaded['glb_max_val']
             st_max_val_cached = meta_dict_loaded['st_max_val']
             # meta_dict = {'len_refined_pts_lst': len(prev_data), 'glb_max_val':glb_max_val, 'st_max_val': st_max_val, }
         print('preload check3')
-        pre_loaded_glb_cvs = np.load('data/'+ today_string + '_glb_cvs_cached.npy')
-        pre_loaded_st_cvs = np.load('data/'+ today_string + '_st_cvs_cached.npy')
+        
+        pre_loaded_glb_cvs = np.load(f'data/{today_string}/{today_string}_glb_cvs_cached.npy')
+        pre_loaded_st_cvs = np.load(f'data/{today_string}/{today_string}_st_cvs_cached.npy')
         print('preload check4')
+        print('meta pts len = ' , len_refined_pts_lst)
+        print('real pts len = ' , len(refined_pts_lst_loaded))
+        print('valid pre load data = ' , len_refined_pts_lst == len(refined_pts_lst_loaded))
         if len_refined_pts_lst == len(refined_pts_lst_loaded):
         
             # glb_max_val = np.max(pre_loaded_glb_cvs)
@@ -471,7 +493,8 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
     while True:
         now = datetime.now()
         today_string = now.strftime('%Y-%m-%d')
-        filename = 'data/'+ today_string + '_raw_data'
+        make_dir(f'data/{today_string}/')
+        filename = f'data/{today_string}/{today_string}_raw_data'
         # len_data = 0
         if  (not pre_loaded_once) and pre_loaded_data_available:
             prev_data = refined_pts_lst
@@ -665,11 +688,11 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                     # pre_loaded_glb_cvs = np.load('glb_cvs_cached.npy')
                     # pre_loaded_st_cvs = np.load('st_cvs_cached.npy')
 
-                    with open('data/'+ today_string + '_refined_pts_lst_cached', 'wb') as f1:
-                        pickle.dump(refined_pts_lst, f1)
-                    np.save('data/'+ today_string + '_glb_cvs_cached', glb_cvs)
-                    np.save('data/'+ today_string + '_st_cvs_cached', stay_time_cvs)
-                    with open('data/'+ today_string + '_meta', 'wb') as f2:
+                    with open(f'data/{today_string}/{today_string}_refined_pts_lst_cached', 'wb') as f1:
+                        pickle.dump(prev_data, f1)
+                    np.save(f'data/{today_string}/{today_string}_glb_cvs_cached', glb_cvs)
+                    np.save(f'data/{today_string}/{today_string}_st_cvs_cached', stay_time_cvs)
+                    with open(f'data/{today_string}/{today_string}_meta', 'wb') as f2:
                         meta_dict = {'len_refined_pts_lst': len(prev_data), 'glb_max_val':glb_max_val, 'st_max_val': st_max_val, }
                         pickle.dump(meta_dict, f2)
 
@@ -681,7 +704,7 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                     now_time = datetime.now()
                     if (now_time + timedelta(seconds=15)).day == (datetime.now()).day + 1: # 잠시 딜레이 될 때 비록 새벽이지만 Que가 약간 쌓일 위험성이 있음.
                         time.sleep(16)
-                        print('mid level break')
+                        # print('mid level break')
                         break
                     time.sleep(time_interval)
                     print('after time sleep')
