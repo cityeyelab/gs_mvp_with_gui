@@ -113,8 +113,8 @@ def get_center_pt(box_info):
 
 wh_ratio_x_thr_a1 = 0.7
 y2_portion_a1 = 0.8
-slope_a1 = -2*(10*y2_portion_a1-1)
-y_intercept_a1 = 2*10*y2_portion_a1 - 1
+slope_a1 = (y2_portion_a1 - 0.5) / (wh_ratio_x_thr_a1 - 1)
+y_intercept_a1 = y2_portion_a1 + wh_ratio_x_thr_a1 * (-1 * slope_a1)
 def get_center_pt_a1(box_info):
     width = box_info[2] - box_info[0]
     height = box_info[3] - box_info[1]
@@ -123,7 +123,7 @@ def get_center_pt_a1(box_info):
         ct_pt = (int((box_info[0]+box_info[2])/2), int((1- y2_portion_a1)*box_info[1] + y2_portion_a1*box_info[3]))
     elif wh_ratio_x_thr_a1 < wh_ratio <= 1.0:
         cal_num = slope_a1*wh_ratio + y_intercept_a1
-        ct_pt = (int((box_info[0]+box_info[2])/2), int(1*box_info[1] + cal_num*box_info[3])/(1 + cal_num))
+        ct_pt = (int((box_info[0]+box_info[2])/2), int(((1-cal_num)*box_info[1] + cal_num*box_info[3])))
     else:
         ct_pt = (int((box_info[0]+box_info[2])/2), int((box_info[1] + box_info[3])/2))
     return ct_pt
@@ -136,8 +136,8 @@ def get_center_pt_a3(box_info):
 
 wh_ratio_x_thr_a4 = 0.7
 y2_portion_a4 = 0.8
-slope_a4 = -2*(10*y2_portion_a4-1)
-y_intercept_a4 = 2*10*y2_portion_a4 - 1
+slope_a4 = (y2_portion_a4 - 0.5) / (wh_ratio_x_thr_a4 - 1)
+y_intercept_a4 = y2_portion_a4 + wh_ratio_x_thr_a4 * (-1 * slope_a4)
 def get_center_pt_a4(box_info):
     width = box_info[2] - box_info[0]
     height = box_info[3] - box_info[1]
@@ -146,10 +146,26 @@ def get_center_pt_a4(box_info):
         ct_pt = (int((box_info[0]+box_info[2])/2), int((1- y2_portion_a4)*box_info[1] + y2_portion_a4*box_info[3]))
     elif wh_ratio_x_thr_a4 < wh_ratio <= 1.0:
         cal_num = slope_a4*wh_ratio + y_intercept_a4
-        ct_pt = (int((box_info[0]+box_info[2])/2), int(1*box_info[1] + cal_num*box_info[3])/(1 + cal_num))
+        ct_pt = (int((box_info[0]+box_info[2])/2), int(((1-cal_num)*box_info[1] + cal_num*box_info[3])))
     else:
         ct_pt = (int((box_info[0]+box_info[2])/2), int((box_info[1] + box_info[3])/2))
     return ct_pt
+# wh_ratio_x_thr_a4 = 0.7
+# y2_portion_a4 = 0.8
+# slope_a4 = -2*(10*y2_portion_a4-1)
+# y_intercept_a4 = 2*10*y2_portion_a4 - 1
+# def get_center_pt_a4(box_info):
+#     width = box_info[2] - box_info[0]
+#     height = box_info[3] - box_info[1]
+#     wh_ratio = height/width
+#     if wh_ratio < wh_ratio_x_thr_a4:
+#         ct_pt = (int((box_info[0]+box_info[2])/2), int((1- y2_portion_a4)*box_info[1] + y2_portion_a4*box_info[3]))
+#     elif wh_ratio_x_thr_a4 < wh_ratio <= 1.0:
+#         cal_num = slope_a4*wh_ratio + y_intercept_a4
+#         ct_pt = (int((box_info[0]+box_info[2])/2), int((1*box_info[1] + cal_num*box_info[3])/(1 + cal_num)))
+#     else:
+#         ct_pt = (int((box_info[0]+box_info[2])/2), int((box_info[1] + box_info[3])/2))
+#     return ct_pt
 
 trk_fn_get_ct_pt_lst = [get_center_pt_a1, get_center_pt_a3, get_center_pt_a4]
 

@@ -41,14 +41,15 @@ def save_data(save_que):
     filename="_raw_data"
     while True:
         data = save_que.get()
-        data_cvt = cvt_cls_to_pkl(data)
-        # data_cvted = convert_data_cls(data)
-        now = datetime.now()
-        today_string = now.strftime('%Y-%m-%d')
-        with open('data/'+today_string+filename, 'ab+') as fp:
-            # dill.dump(data, fp)
-            # pickle.dump(data, fp)
-            pickle.dump(data_cvt, fp)
+        if type(data) != type(None):
+            data_cvt = cvt_cls_to_pkl(data)
+            # data_cvted = convert_data_cls(data)
+            now = datetime.now()
+            today_string = now.strftime('%Y-%m-%d')
+            with open('data/'+today_string+filename, 'ab+') as fp:
+                # dill.dump(data, fp)
+                # pickle.dump(data, fp)
+                pickle.dump(data_cvt, fp)
         time.sleep(0.01)
 
 def cvt_cls_to_pkl(cls):
