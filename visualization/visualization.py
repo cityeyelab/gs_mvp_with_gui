@@ -59,7 +59,7 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
     
     prev_key = 0 # operation key
     
-    random_ints = np.random.randint(50, 255, size=(30, 3), dtype=np.uint8)
+    random_ints = np.random.randint(80, 255, size=(30, 3), dtype=np.uint8)
     colors = [(int(random_ints[i][0]), int(random_ints[i][1]), int(random_ints[i][2])) for i in range(0, len(random_ints))]
     
     while True:

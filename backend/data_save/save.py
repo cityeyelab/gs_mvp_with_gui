@@ -6,6 +6,15 @@ import pickle
 from datetime import datetime
 # from ..trk_fns.trk_data import TrackingData
 
+import os
+def make_dir(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    except OSError:
+        print("Error: Failed to create the directory.")
+
+
 def collect_data(que1, que2, que3):
     save_que = Queue()
     save_thread = threading.Thread(target=save_data, args=(save_que,))
@@ -38,7 +47,7 @@ def collect_data(que1, que2, que3):
     print('analysis end')
 
 def save_data(save_que):
-    filename="_raw_data"
+    make_dir('data/')
     while True:
         data = save_que.get()
         if type(data) != type(None):
@@ -46,7 +55,9 @@ def save_data(save_que):
             # data_cvted = convert_data_cls(data)
             now = datetime.now()
             today_string = now.strftime('%Y-%m-%d')
-            with open('data/'+today_string+filename, 'ab+') as fp:
+            make_dir(f'data/{today_string}/')
+            filename = f'data/{today_string}/{today_string}_raw_data'
+            with open(filename, 'ab+') as fp:
                 # dill.dump(data, fp)
                 # pickle.dump(data, fp)
                 pickle.dump(data_cvt, fp)

@@ -112,7 +112,7 @@ def tracker(op_flag, det_result_que, trk_result_que, draw_proc_result_que, visua
         #     break
         filter_blacklist_fn(dets)
         # dets = ([], [], []) -> dets = ((), (), ())
-        dets = filter_out_low_conf(dets, 0.55)
+        dets = filter_out_low_conf(dets, 0.20)
         dets = tuple([tuple(dets[i]) for i in range(0, len(dets))])
         eliminate_dup(dets)
         put_data = {}
