@@ -1,9 +1,8 @@
 # import joblib
 # loaded_model = joblib.load('xgboost_model.pkl')
-# condition를 list, tuple로 
 def area1_filter_blacklist(dets):
-    # pass
-    for det in dets[:]:
+    area1_del_list = []
+    for i, det in enumerate(dets[:]):
         p_x1, p_y1 = int(det[0]), int(det[1])
         p_x2, p_y2 = int(det[2]), int(det[3])
        
@@ -14,24 +13,19 @@ def area1_filter_blacklist(dets):
         ratio_difference = abs(6.0 - ratio)
    
         area_of_bbox = w * h
-        if ((p_x1 >=  500 and p_x1 <= 520) and (p_y1 <= 1025 and p_y1 >= 1010)) or (ratio_difference < 2):
-            dets.remove(det)
-            print(f"remove area1 : {det}")
-        elif (p_x1 >= 1230 and p_y1 >= 190):
-            dets.remove(det)
-            print(f"remove area1 : {det}")            
-        elif ((p_x1 >=  10 and p_x1 <= 30) and (p_y1 <= 765 and p_y1 >= 740)):
-            dets.remove(det)
-            print(f"remove area1 : {det}")
-        elif area_of_bbox < 5000:
-            dets.remove(det)
-            print(f"remove area1 : {det}")
-        # X_test = 0
-        # result = loaded_model.predict(X_test)
+        condition1 = ((500 <= p_x1 <= 520) and (1010 <= p_y1 <= 1025))
+        condition2 = (ratio_difference < 2)
+        condition3 = ((10 <= p_x1 <= 30) and (740 <= p_y1 <= 765))
+        condition4 = (area_of_bbox >= 90000)
+        if condition1 or condition2 or condition3 or condition4:
+            area1_del_list.append(i)
+    for index in reversed(area1_del_list):
+        # print(f"remove area1 : {dets[index]}")
+        del dets[index]
 
 def area3_filter_blacklist(dets):
-    # pass
-    for det in dets[:]:
+    area3_del_list = []
+    for i, det in enumerate(dets[:]):
         p_x1, p_y1 = int(det[0]), int(det[1])
         p_x2, p_y2 = int(det[2]), int(det[3])
        
@@ -40,40 +34,27 @@ def area3_filter_blacklist(dets):
  
         ratio = round(w / h, 4)
         ratio_difference = abs(0.2 - ratio)
-   
-        area_of_bbox = w * h
-        if p_x1 > 1830 and p_x1 < 1899 and ratio_difference < 0.2:
-            dets.remove(det)
-            print(f"remove area3 : {det}")
-        elif (p_x1 >= 0  and p_x1 <= 20) and (p_y1 <= 340 and p_y1 >= 0):
-            dets.remove(det)
-            print(f"remove area3 : {det}")
-        # X_test = 0
-        # result = loaded_model.predict(X_test)
+        condition1 = ratio_difference < 0.2
+        condition2 = (p_x1 <= 20) and (p_y1 <= 340)
+        if condition1 or condition2:
+            area3_del_list.append(i)
+    for index in reversed(area3_del_list):
+        # print(f"remove area3 : {dets[index]}")
+        del dets[index]
+
 def area4_filter_blacklist(dets):
-    # pass
-    for det in dets[:]:
+    area4_del_list = []
+    for i, det in enumerate(dets[:]):
         p_x1, p_y1 = int(det[0]), int(det[1])
         p_x2, p_y2 = int(det[2]), int(det[3])
-       
-        w = p_x2 - p_x1
-        h = p_y2 - p_y1
- 
-        ratio = round(w / h, 4)
-        ratio_difference = abs(6.0 - ratio)
-   
-        area_of_bbox = w * h
-        if (p_x1 >=  0 and p_x1 <= 16) and (p_y1 <= 899 and p_y1 >= 840):
-            dets.remove(det)
-            print(f"remove area4 : {det}")
-        elif (p_x1 >=  0 and p_x1 <= 10) and (p_y1 <= 810 and p_y1 >= 755) and (p_x2 >= 280 and p_x2 <= 289) and (p_y2 >= 1070 and p_y2 <= 1080):
-            dets.remove(det)
-            print(f"remove area4 : {det}")
-        elif (p_x1 >=  1540 and p_x1 <= 1570) and (p_y1 <= 80 and p_y1 >= 60):
-            dets.remove(det)
-            print(f"remove area4 : {det}")
-        # X_test = 0
-        # result = loaded_model.predict(X_test)
+        condition1 = (p_x1 <= 10) and (755 <= p_y1 <= 899) and (280 <= p_x2 <= 289) and (1070 <= p_y2 <= 1080)
+        condition2 = (p_x1 < 150 and p_y1 < 300)
+        condition3 = (1540 <= p_x1 <= 1570) and (60 <= p_y1 <= 80)
+        if condition1 or condition2 or condition3 :
+            area4_del_list.append(i)
 
+    for index in reversed(area4_del_list):
+        print(f"remove area4 : {dets[index]}")
+        del dets[index]
 
 filter_blacklist_fn_callback_lst = [area1_filter_blacklist, area3_filter_blacklist, area4_filter_blacklist]
