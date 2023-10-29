@@ -1,7 +1,6 @@
 import pickle
 import numpy as np
 
-
 def load_matrices(path):
     # print('check')
     with open(path, "rb") as f:
