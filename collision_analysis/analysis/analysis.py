@@ -9,6 +9,13 @@ import time
 from os.path import isfile
 from datetime import datetime, timedelta
 
+
+
+import asyncio
+import websockets
+
+import base64
+
 class TrackingData():
     __slots__ = ['area_num', 'id', 'age', 'bboxes', 'center_points_lst', 'frame_record', 'created_at', 'removed_at']
     
@@ -355,8 +362,60 @@ if type(base_data_path) != type(None):
             print('EOFError')
 
 
+async def connect():
 
-def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_time_ready_flag, collision_que, st_que):
+    # 웹 소켓에 접속을 합니다.
+    # async with websockets.connect("ws://14.36.1.6:8000/ws/bp_heatmap") as websocket:
+    async with websockets.connect("ws://localhost:8001/ws/bp_heatmap") as websocket:
+        # websocket.close_timeout()
+        # websockets.
+
+        # str = input('Python 웹소켓으로 전송할 내용을 입력하세요[종료하려면 quit 입력!]: ')     # 사용자의 입력을 변수에 저장
+        # #print(str)  # 변수의 내용을 출력
+
+        # #입력받은 값을 파일로 저장
+        # f = open('./chat/chatlog2.txt', 'w')
+        # f.write(str)
+        cnt = 0
+        # rcv = await websocket.recv()
+        # print('client rcv = ' , rcv)
+        while True:
+            cnt += 1
+            try:
+                print('analysis connect while goes on')
+                # print('websocket open = ', websocket.ensure_open)
+                # quit가 들어오기 전까지 계속 입력받은 문자열을 전송하고 에코를 수신한다.
+                data = 'hihihi ' + str(cnt)
+                await websocket.send(data)
+                # rcv = await websocket.recv()
+                # print('sent data = ', data)
+
+                # 웹 소켓 서버로 부터 메시지가 오면 콘솔에 출력합니다.
+                # data = await websocket.recv();
+                # print(data);
+                # f.write(data)
+
+                # str = input('Python 웹소켓으로 전송할 내용을 입력하세요[종료하려면 quit 입력!]: ')  # 사용자의 입력을 변수에 저장
+                # print(str)  # 변수의 내용을 출력
+            except Exception as e:
+                print('error : ' , e)
+            
+            await asyncio.sleep(1.0)
+
+        # f.close()
+
+
+
+
+async def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_time_ready_flag, collision_que, st_que, ):
+    
+    # print('analysis time sleep')
+    # time.sleep(5)
+    # asyncio.get_event_loop().run_until_complete(connect())
+    # # asyncio.get_event_loop().run_forever()
+    # # connect()
+    # print('ws bp heatmap connected')
+    
     time_interval = 10
     # filename="_raw_data"
     
@@ -453,6 +512,23 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                 res_show = cv2.applyColorMap(glb_result, cv2.COLORMAP_JET)
                 res_show = cv2.blur(res_show, (7, 7))
                 collision_que.put(res_show)
+                
+                # async with websockets.connect("ws://localhost:8001/ws/bp_collision_heatmap_innerpass") as websocket:
+                async with websockets.connect("ws://127.0.0.1:8001/ws/bp_collision_heatmap_innerpass") as websocket:
+                    try:
+                        retval, buffer = cv2.imencode('.jpg', res_show, [cv2.IMWRITE_JPEG_QUALITY,80])
+                        # print('buffer : ' , buffer)
+                        data = base64.b64encode(buffer)
+                        # print('sent data : ' , data)
+                        # data = data.decode('utf-8')
+                        await websocket.send(data)
+                        await websocket.close()
+                    except Exception as e:
+                        print(f'something went wrong in ws send, error : {e}')
+                        await websocket.close()
+                
+                # bp_heatmap_que.put(res_show)
+                
                 collision_ready_flag.set()
             else:
                 print('not valid result in pre loaded glb cvs calc')
@@ -467,6 +543,21 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                 st_res = cv2.blur(st_res, (7, 7))
                 st_que.put(st_res)
                 stay_time_ready_flag.set()
+                
+                
+                # async with websockets.connect("ws://localhost:8001/ws/bp_st_heatmap_innerpass") as websocket:
+                async with websockets.connect("ws://127.0.0.1:8001/ws/bp_st_heatmap_innerpass") as websocket:
+                    try:
+                        retval, buffer = cv2.imencode('.jpg', st_res, [cv2.IMWRITE_JPEG_QUALITY,80])
+                        # print('buffer : ' , buffer)
+                        data = base64.b64encode(buffer)
+                        # print('sent data : ' , data)
+                        # data = data.decode('utf-8')
+                        await websocket.send(data)
+                        await websocket.close()
+                    except Exception as e:
+                        print(f'something went wrong in ws send, error : {e}')
+                        await websocket.close()
             else:
                 print('not valid result in pre loaded stay time calc')
             
@@ -504,7 +595,7 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
         
         with open(filename, 'rb') as f:
             while True:
-                print('inner while starts')
+                # print('inner while starts')
                 # with open(filename, 'rb') as f:
                 #     try:
                 #         while True:
@@ -515,7 +606,7 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                 
                 new_data = [] # ct pts lst
                 
-                print('before try')
+                # print('before try')
                 try:
                     while True:
                         # data.append(pickle.load(f))
@@ -656,6 +747,18 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                         collision_que.put(res_show)
                         collision_ready_flag.set()
                         
+                        # async with websockets.connect("ws://localhost:8001/ws/bp_collision_heatmap_innerpass") as websocket:
+                        async with websockets.connect("ws://127.0.0.1:8001/ws/bp_collision_heatmap_innerpass") as websocket:
+                            try:
+                                retval, buffer = cv2.imencode('.jpg', res_show, [cv2.IMWRITE_JPEG_QUALITY,80])
+                                data = base64.b64encode(buffer)
+                                await websocket.send(data)
+                                await websocket.close()
+                            except Exception as e:
+                                print(f'something went wrong in ws send, error : {e}')
+                                await websocket.close()
+                        # bp_heatmap_que.put(res_show)
+                        
                     else:
                         print('valid result not created, in collision analysis')
 
@@ -680,6 +783,19 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                         # st_result = cv2.addWeighted(bp_background.copy(), bg_ratio, st_res, 1-bg_ratio, 0)
                         # cv2.imshow('st', st_result)
                         # cv2.waitKey(300)
+                        # async with websockets.connect("ws://localhost:8001/ws/bp_st_heatmap_innerpass") as websocket:
+                        async with websockets.connect("ws://127.0.0.1:8001/ws/bp_st_heatmap_innerpass") as websocket:
+                            try:
+                                retval, buffer = cv2.imencode('.jpg', st_res, [cv2.IMWRITE_JPEG_QUALITY,80])
+                                # print('buffer : ' , buffer)
+                                data = base64.b64encode(buffer)
+                                # print('sent data : ' , data)
+                                # data = data.decode('utf-8')
+                                await websocket.send(data)
+                                await websocket.close()
+                            except Exception as e:
+                                print(f'something went wrong in ws send, error : {e}')
+                                await websocket.close()
                         
                     else:
                         print('valid result not created, in stay time')
@@ -711,3 +827,7 @@ def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_tim
                     # if not collision_op_flag.is_set():
                     #     print('waiting.. collision op flag is not set.')
                     # collision_op_flag.wait()
+
+def run_analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_time_ready_flag, collision_que, st_que, ):
+    asyncio.get_event_loop().run_until_complete(analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_time_ready_flag, collision_que, st_que, ))
+    asyncio.get_event_loop().run_forever()

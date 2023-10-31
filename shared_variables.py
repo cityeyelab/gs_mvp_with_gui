@@ -72,6 +72,7 @@ class SharedVariables():
         self.collision_analysis_rt_queue = Queue(200)
         self.stay_time_queue = Queue(200)
         
+        self.bp_heatmap_from_analysis_to_fastapi = Queue(200)
         # print('q100 size = ', sys.getsizeof(Queue(100)))
         # print('q200 size = ', sys.getsizeof(Queue(200)))
 

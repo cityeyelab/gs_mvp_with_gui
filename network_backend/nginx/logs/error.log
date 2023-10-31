@@ -1,0 +1,504 @@
+2023/10/28 17:07:27 [emerg] 35516#24352: bind() to 0.0.0.0:80 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/10/28 17:07:41 [emerg] 27668#39868: bind() to 0.0.0.0:80 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/10/28 17:08:08 [emerg] 31692#34920: bind() to 0.0.0.0:80 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/10/28 17:09:30 [emerg] 30324#4160: bind() to 0.0.0.0:80 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)
+2023/10/28 17:11:49 [error] 18704#29420: *1 CreateFile() "C:\Users\EunKyue Sohn\Downloads\nginx-1.24.0\nginx-1.24.0/html/favicon.ico" failed (2: The system cannot find the file specified), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/"
+2023/10/28 17:22:22 [warn] 27004#32492: server name "http://14.36.1.6/" has suspicious symbols in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:37
+2023/10/28 17:22:22 [emerg] 27004#32492: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/proxy_params" failed (2: The system cannot find the file specified) in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:46
+2023/10/28 17:22:27 [warn] 41188#30596: server name "http://14.36.1.6/" has suspicious symbols in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:37
+2023/10/28 17:22:27 [emerg] 41188#30596: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/proxy_params" failed (2: The system cannot find the file specified) in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:46
+2023/10/28 17:24:29 [warn] 27212#11560: server name "http://14.36.1.6" has suspicious symbols in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:37
+2023/10/28 17:24:29 [emerg] 27212#11560: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/proxy_params" failed (2: The system cannot find the file specified) in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:46
+2023/10/28 17:25:34 [warn] 41940#28568: server name "http://14.36.1.6" has suspicious symbols in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:37
+2023/10/28 17:25:34 [emerg] 41940#28568: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/proxy_params" failed (2: The system cannot find the file specified) in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:46
+2023/10/28 17:26:53 [warn] 31652#27812: server name "http://14.36.1.6" has suspicious symbols in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:37
+2023/10/28 17:26:53 [emerg] 31652#27812: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/proxy_params" failed (2: The system cannot find the file specified) in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:46
+2023/10/28 17:28:54 [emerg] 28992#40292: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/proxy_params" failed (2: The system cannot find the file specified) in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:46
+2023/10/28 17:28:59 [emerg] 18324#41720: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/proxy_params" failed (2: The system cannot find the file specified) in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:46
+2023/10/28 17:33:47 [emerg] 43044#30500: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/proxy_params" failed (2: The system cannot find the file specified) in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:46
+2023/10/28 17:38:56 [emerg] 27876#29580: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/proxy_params" failed (2: The system cannot find the file specified) in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:46
+2023/10/28 17:48:28 [notice] 33368#42308: signal process started
+2023/10/28 17:48:37 [notice] 25468#27664: signal process started
+2023/10/28 17:48:37 [error] 25468#27664: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/28 17:48:45 [notice] 28568#25920: signal process started
+2023/10/28 17:48:45 [error] 28568#25920: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/28 17:50:16 [notice] 15396#12632: signal process started
+2023/10/28 17:51:27 [emerg] 42964#23448: invalid URL prefix in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:47
+2023/10/28 17:51:47 [emerg] 28616#43536: invalid URL prefix in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:47
+2023/10/28 17:52:23 [emerg] 38224#38064: invalid URL prefix in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:47
+2023/10/28 17:52:26 [emerg] 432#28260: invalid URL prefix in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:47
+2023/10/28 17:55:17 [emerg] 35920#45664: invalid URL prefix in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:47
+2023/10/28 17:55:20 [emerg] 38856#30184: invalid URL prefix in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:47
+2023/10/28 17:55:25 [emerg] 24420#37276: invalid URL prefix in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:47
+2023/10/28 18:02:35 [notice] 45060#42896: signal process started
+2023/10/28 18:04:09 [notice] 27804#30152: signal process started
+2023/10/28 18:04:31 [emerg] 30576#37240: invalid host in upstream "http://192.168.0.24:8001" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:36
+2023/10/28 18:05:18 [warn] 45968#29420: server name "http://14.36.1.6" has suspicious symbols in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:41
+2023/10/28 18:06:01 [emerg] 35428#15640: invalid URL prefix in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:51
+2023/10/28 18:21:58 [notice] 32520#36416: signal process started
+2023/10/28 18:29:08 [notice] 11024#9828: signal process started
+2023/10/28 18:32:15 [notice] 34636#45556: signal process started
+2023/10/28 18:32:51 [notice] 19180#37120: signal process started
+2023/10/28 18:40:14 [notice] 31488#45556: signal process started
+2023/10/28 18:40:56 [notice] 12596#42136: signal process started
+2023/10/28 18:41:08 [notice] 13380#26836: signal process started
+2023/10/28 18:41:46 [notice] 35028#39208: signal process started
+2023/10/28 18:43:27 [notice] 36556#29544: signal process started
+2023/10/28 18:45:54 [emerg] 36408#9048: directive "server_name" is not terminated by ";" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:48
+2023/10/28 18:46:16 [emerg] 39588#15320: directive "server_name" is not terminated by ";" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:48
+2023/10/28 18:46:22 [emerg] 36276#25380: directive "server_name" is not terminated by ";" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:48
+2023/10/28 18:46:31 [notice] 40604#33608: signal process started
+2023/10/28 18:46:56 [notice] 22884#44320: signal process started
+2023/10/28 18:49:22 [notice] 14216#40564: signal process started
+2023/10/28 18:49:24 [notice] 32296#33460: signal process started
+2023/10/28 18:49:24 [error] 32296#33460: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/28 18:49:39 [notice] 36084#39208: signal process started
+2023/10/28 18:50:06 [notice] 43468#43128: signal process started
+2023/10/28 18:50:06 [error] 43468#43128: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/28 19:40:06 [notice] 38316#29500: signal process started
+2023/10/28 21:51:51 [emerg] 37016#45040: invalid parameter "server_name" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:40
+2023/10/28 21:52:20 [emerg] 28608#32296: invalid parameter "server_name" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:40
+2023/10/28 21:52:29 [emerg] 11540#45884: invalid parameter "server_name" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:40
+2023/10/28 21:52:35 [emerg] 41612#41244: invalid parameter "server_name" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:40
+2023/10/28 21:52:59 [emerg] 45880#38920: invalid parameter "server_name" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:40
+2023/10/28 21:53:26 [notice] 25076#25840: signal process started
+2023/10/28 21:53:56 [notice] 41368#39236: signal process started
+2023/10/28 21:55:26 [notice] 42032#43788: signal process started
+2023/10/28 21:56:59 [notice] 37680#41760: signal process started
+2023/10/28 21:57:11 [alert] 28580#16520: *1031 1024 worker_connections are not enough while connecting to upstream, client: 192.168.0.24, server: api.ff.gg, request: "GET /sub/ HTTP/1.0", upstream: "http://192.168.0.24:8000/sub/", host: "subApp"
+2023/10/28 21:57:31 [notice] 40148#11648: signal process started
+2023/10/28 21:57:34 [alert] 39224#10808: *2055 1024 worker_connections are not enough while connecting to upstream, client: 192.168.0.24, server: api.ff.gg, request: "GET /sub/ HTTP/1.0", upstream: "http://192.168.0.24:8000/sub/", host: "subApp"
+2023/10/28 21:57:59 [notice] 11692#11608: signal process started
+2023/10/28 21:58:58 [notice] 20836#20080: signal process started
+2023/10/28 21:59:06 [error] 14184#17728: *2060 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /sub/ HTTP/1.1", upstream: "http://192.168.0.24:8090/sub/", host: "14.36.1.6:8000"
+2023/10/28 22:00:09 [notice] 22864#34608: signal process started
+2023/10/28 22:00:16 [error] 31700#11980: *2063 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /sub/ HTTP/1.1", upstream: "http://192.168.0.24:8090/sub/", host: "14.36.1.6:8000"
+2023/10/28 22:00:18 [error] 31700#11980: *2063 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /sub/ HTTP/1.1", upstream: "http://192.168.0.24:8090/sub/", host: "14.36.1.6:8000"
+2023/10/28 22:01:18 [notice] 37500#40092: signal process started
+2023/10/28 22:01:22 [error] 34372#15084: *2070 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /sub/ HTTP/1.1", upstream: "http://192.168.0.24:8090/sub/", host: "14.36.1.6:8000"
+2023/10/28 22:01:25 [error] 34372#15084: *2070 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /sub/ HTTP/1.1", upstream: "http://192.168.0.24:8090/sub/", host: "14.36.1.6:8000"
+2023/10/28 22:01:42 [error] 34372#15084: *2070 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /sub/ HTTP/1.1", upstream: "http://192.168.0.24:8090/sub/", host: "14.36.1.6:8000"
+2023/10/28 22:06:53 [error] 34372#15084: *2075 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /sub/ HTTP/1.1", upstream: "http://192.168.0.24:8090/sub/", host: "14.36.1.6:8000"
+2023/10/28 22:07:20 [notice] 45596#33000: signal process started
+2023/10/29 12:20:10 [error] 45020#17244: *2 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/favicon.ico" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "14.36.1.6:8000", referrer: "http://14.36.1.6:8000/"
+2023/10/29 12:20:42 [notice] 3680#31868: signal process started
+2023/10/29 12:20:52 [notice] 44264#43404: signal process started
+2023/10/29 12:21:06 [notice] 31796#44996: signal process started
+2023/10/29 12:23:38 [notice] 42828#23856: signal process started
+2023/10/29 12:23:42 [error] 21784#38300: *7 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://[::1]:8001/", host: "14.36.1.6:8000"
+2023/10/29 12:23:44 [error] 21784#38300: *7 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8001/", host: "14.36.1.6:8000"
+2023/10/29 12:23:50 [error] 21784#38300: *7 no live upstreams while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://localhost/", host: "14.36.1.6:8000"
+2023/10/29 12:24:05 [notice] 29348#46000: signal process started
+2023/10/29 12:24:09 [error] 21784#38300: *8 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8001/", host: "14.36.1.6:8000"
+2023/10/29 12:24:11 [error] 21784#38300: *8 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://[::1]:8001/", host: "14.36.1.6:8000"
+2023/10/29 12:24:49 [notice] 8892#21336: signal process started
+2023/10/29 12:24:59 [error] 24320#22688: *17 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /sub HTTP/1.1", upstream: "http://192.168.0.24:8090/sub", host: "14.36.1.6:8000"
+2023/10/29 12:25:17 [error] 24320#22688: *17 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /sub HTTP/1.1", upstream: "http://192.168.0.24:8090/sub", host: "14.36.1.6:8000"
+2023/10/29 12:25:59 [notice] 34060#36016: signal process started
+2023/10/29 12:27:57 [notice] 35164#35180: signal process started
+2023/10/29 12:29:49 [notice] 31864#18048: signal process started
+2023/10/29 12:29:59 [error] 40180#41828: *32 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:30:38 [error] 40180#41828: *32 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:30:39 [error] 40180#41828: *32 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:31:59 [notice] 34292#42368: signal process started
+2023/10/29 12:32:02 [error] 43636#39440: *37 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:32:02 [error] 43636#39440: *37 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:32:12 [error] 43636#39440: *37 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:32:39 [notice] 33472#30556: signal process started
+2023/10/29 12:32:41 [error] 43636#39440: *36 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:32:43 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:17 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:17 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:19 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:31 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:36 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:45 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:46 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:46 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:46 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:46 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:47 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:33:47 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:34:26 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:34:48 [error] 4048#30132: *38 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:35:03 [notice] 34720#40556: signal process started
+2023/10/29 12:35:12 [error] 4048#30132: *41 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:35:40 [notice] 43272#35948: signal process started
+2023/10/29 12:35:43 [notice] 33800#42728: signal process started
+2023/10/29 12:35:45 [error] 37516#18212: *44 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/home" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: localhost, request: "GET /home HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:35:46 [error] 15652#45208: *48 CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/html/sub" failed (2: The system cannot find the file specified), client: 192.168.0.1, server: _, request: "GET /sub HTTP/1.1", host: "14.36.1.6:8000"
+2023/10/29 12:36:38 [emerg] 39456#6152: duplicate location "/home" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:82
+2023/10/29 12:36:53 [notice] 45460#32700: signal process started
+2023/10/29 12:43:14 [emerg] 25368#43332: unexpected "}" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:37
+2023/10/29 12:43:40 [emerg] 12248#7928: invalid number of arguments in "proxy_pass" directive in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:82
+2023/10/29 12:44:03 [notice] 30160#35788: signal process started
+2023/10/29 12:44:53 [notice] 34568#28888: signal process started
+2023/10/29 12:48:03 [notice] 29056#18236: signal process started
+2023/10/29 12:51:04 [notice] 25096#34288: signal process started
+2023/10/29 12:51:56 [notice] 37644#26188: signal process started
+2023/10/29 12:52:39 [notice] 4208#43716: signal process started
+2023/10/29 12:52:52 [notice] 36964#23856: signal process started
+2023/10/29 12:53:21 [notice] 44792#44976: signal process started
+2023/10/29 12:53:38 [notice] 22196#22032: signal process started
+2023/10/29 12:53:53 [notice] 28724#34076: signal process started
+2023/10/29 12:54:57 [notice] 36944#44048: signal process started
+2023/10/29 12:55:10 [notice] 43632#27692: signal process started
+2023/10/29 12:56:51 [notice] 40704#11832: signal process started
+2023/10/29 12:58:05 [notice] 42864#39812: signal process started
+2023/10/29 12:58:05 [error] 42864#39812: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/29 12:58:25 [error] 34288#12024: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET // HTTP/1.1", upstream: "http://192.168.0.24:8001//", host: "14.36.1.6:8000"
+2023/10/29 12:58:37 [error] 34288#12024: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET // HTTP/1.1", upstream: "http://192.168.0.24:8090//", host: "14.36.1.6:8000"
+2023/10/29 12:58:42 [error] 34288#12024: *2 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET // HTTP/1.1", upstream: "http://192.168.0.24:8001//", host: "14.36.1.6:8000"
+2023/10/29 12:58:42 [error] 34288#12024: *2 no live upstreams while connecting to upstream, client: 192.168.0.1, server: _, request: "GET // HTTP/1.1", upstream: "http://mainApp//", host: "14.36.1.6:8000"
+2023/10/29 12:58:42 [error] 34288#12024: *2 no live upstreams while connecting to upstream, client: 192.168.0.1, server: _, request: "GET // HTTP/1.1", upstream: "http://mainApp//", host: "14.36.1.6:8000"
+2023/10/29 13:03:16 [emerg] 43416#42368: unknown directive "round-robin" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:36
+2023/10/29 13:04:56 [emerg] 2204#37236: unknown directive "round-robin" in C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\docker_service_test\nginx/conf/nginx.conf:37
+2023/10/29 13:05:16 [notice] 36152#36576: signal process started
+2023/10/29 13:12:58 [notice] 25920#17856: signal process started
+2023/10/29 13:13:16 [notice] 35604#36196: signal process started
+2023/10/29 17:09:53 [notice] 40540#40744: signal process started
+2023/10/29 17:10:00 [error] 10024#32876: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /favicon.ico HTTP/1.1", upstream: "http://192.168.0.24:8090/favicon.ico", host: "14.36.1.6:8000", referrer: "http://14.36.1.6:8000/"
+2023/10/29 17:10:29 [notice] 23760#27412: signal process started
+2023/10/29 17:10:34 [error] 16564#38516: *12 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.24:8090/", host: "14.36.1.6:8000"
+2023/10/29 17:39:54 [error] 16564#38516: *70 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:40:33 [error] 16564#38516: *70 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:41:19 [error] 16564#38516: *70 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:42:30 [notice] 24408#24180: signal process started
+2023/10/29 17:42:40 [error] 16564#38516: *87 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:43:00 [notice] 43732#36740: signal process started
+2023/10/29 17:43:26 [error] 2532#32640: *103 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:44:30 [error] 2532#32640: *103 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:45:22 [error] 2532#32640: *103 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:46:55 [error] 2532#32640: *117 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:48:00 [notice] 11824#41996: signal process started
+2023/10/29 17:48:31 [error] 39000#36104: *128 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:50:33 [error] 39000#36104: *139 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:51:13 [error] 39000#36104: *142 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:52:18 [error] 39000#36104: *142 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:52:44 [error] 39000#36104: *155 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:52:44 [notice] 45476#8472: signal process started
+2023/10/29 17:52:51 [notice] 4208#43668: signal process started
+2023/10/29 17:53:47 [error] 45888#30112: *170 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/29 17:54:22 [error] 45888#30112: *174 connect() failed (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.32:8081/", host: "14.36.1.6:8000"
+2023/10/30 12:44:09 [error] 34876#34908: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.24:8001/", host: "14.36.1.6:8000"
+2023/10/30 12:44:11 [error] 34876#34908: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.24:8001/", host: "14.36.1.6:8000"
+2023/10/30 12:44:13 [error] 34876#34908: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /favicon.ico HTTP/1.1", upstream: "http://192.168.0.24:8001/favicon.ico", host: "14.36.1.6:8000", referrer: "http://14.36.1.6:8000/"
+2023/10/30 12:44:28 [error] 34876#34908: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://192.168.0.24:8001/", host: "14.36.1.6:8000"
+2023/10/30 12:44:30 [error] 34876#34908: *1 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 192.168.0.1, server: _, request: "GET /favicon.ico HTTP/1.1", upstream: "http://192.168.0.24:8001/favicon.ico", host: "14.36.1.6:8000", referrer: "http://14.36.1.6:8000/"
+2023/10/30 12:51:17 [notice] 5700#19392: signal process started
+2023/10/30 12:51:27 [notice] 32360#30504: signal process started
+2023/10/30 12:51:27 [error] 32360#30504: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\network_backend\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/30 13:08:07 [notice] 32448#32808: signal process started
+2023/10/30 13:08:07 [error] 32448#32808: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\network_backend\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/30 13:10:11 [notice] 19204#7684: signal process started
+2023/10/30 13:10:11 [error] 19204#7684: OpenEvent("Global\ngx_stop_35212") failed (2: The system cannot find the file specified)
+2023/10/30 13:13:38 [notice] 31152#15152: signal process started
+2023/10/30 13:13:38 [error] 31152#15152: OpenEvent("Global\ngx_stop_12212") failed (2: The system cannot find the file specified)
+2023/10/30 13:16:21 [notice] 8012#32932: signal process started
+2023/10/30 13:17:31 [notice] 43772#5800: signal process started
+2023/10/30 13:17:31 [error] 43772#5800: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\network_backend\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/30 13:18:04 [notice] 27136#11768: signal process started
+2023/10/30 13:18:15 [notice] 41992#3216: signal process started
+2023/10/30 13:18:15 [error] 41992#3216: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\network_backend\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/30 13:18:32 [notice] 3840#30332: signal process started
+2023/10/30 13:18:32 [error] 3840#30332: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\network_backend\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/30 13:19:10 [notice] 42164#40532: signal process started
+2023/10/30 13:19:10 [error] 42164#40532: OpenEvent("Global\ngx_stop_23748") failed (2: The system cannot find the file specified)
+2023/10/30 16:05:29 [notice] 42388#40820: signal process started
+2023/10/30 16:05:29 [error] 42388#40820: OpenEvent("Global\ngx_stop_23748") failed (2: The system cannot find the file specified)
+2023/10/30 16:06:45 [notice] 33272#6924: signal process started
+2023/10/30 16:06:45 [error] 33272#6924: OpenEvent("Global\ngx_stop_38488") failed (2: The system cannot find the file specified)
+2023/10/30 16:09:05 [notice] 26020#36344: signal process started
+2023/10/30 16:09:05 [error] 26020#36344: OpenEvent("Global\ngx_stop_43080") failed (2: The system cannot find the file specified)
+2023/10/30 16:10:03 [notice] 40224#42128: signal process started
+2023/10/30 16:10:03 [error] 40224#42128: OpenEvent("Global\ngx_stop_20168") failed (2: The system cannot find the file specified)
+2023/10/30 16:19:10 [notice] 42392#37920: signal process started
+2023/10/30 16:19:10 [error] 42392#37920: OpenEvent("Global\ngx_stop_35144") failed (2: The system cannot find the file specified)
+2023/10/30 16:56:31 [notice] 39900#12296: signal process started
+2023/10/30 16:56:31 [error] 39900#12296: OpenEvent("Global\ngx_stop_43124") failed (2: The system cannot find the file specified)
+2023/10/30 16:57:45 [notice] 38160#8732: signal process started
+2023/10/30 16:57:45 [error] 38160#8732: OpenEvent("Global\ngx_stop_43240") failed (2: The system cannot find the file specified)
+2023/10/30 16:59:09 [notice] 38904#35208: signal process started
+2023/10/30 16:59:09 [error] 38904#35208: OpenEvent("Global\ngx_stop_32292") failed (2: The system cannot find the file specified)
+2023/10/30 17:13:11 [notice] 37872#44976: signal process started
+2023/10/30 17:13:11 [error] 37872#44976: OpenEvent("Global\ngx_stop_44544") failed (2: The system cannot find the file specified)
+2023/10/30 17:19:08 [notice] 23592#36536: signal process started
+2023/10/30 17:19:08 [error] 23592#36536: OpenEvent("Global\ngx_stop_10748") failed (2: The system cannot find the file specified)
+2023/10/30 17:25:23 [notice] 42168#41056: signal process started
+2023/10/30 17:25:57 [notice] 19676#32128: signal process started
+2023/10/30 17:25:57 [error] 19676#32128: OpenEvent("Global\ngx_stop_33888") failed (2: The system cannot find the file specified)
+2023/10/30 17:27:38 [notice] 1140#37884: signal process started
+2023/10/30 17:27:38 [error] 1140#37884: OpenEvent("Global\ngx_stop_23740") failed (2: The system cannot find the file specified)
+2023/10/30 17:38:07 [notice] 31864#46408: signal process started
+2023/10/30 17:38:07 [error] 31864#46408: OpenEvent("Global\ngx_stop_38792") failed (2: The system cannot find the file specified)
+2023/10/30 17:39:43 [notice] 1748#42428: signal process started
+2023/10/30 17:39:43 [error] 1748#42428: OpenEvent("Global\ngx_stop_30064") failed (2: The system cannot find the file specified)
+2023/10/30 17:41:34 [notice] 32552#16356: signal process started
+2023/10/30 17:41:34 [error] 32552#16356: OpenEvent("Global\ngx_stop_10504") failed (2: The system cannot find the file specified)
+2023/10/30 17:45:10 [notice] 21320#43632: signal process started
+2023/10/30 17:45:10 [error] 21320#43632: OpenEvent("Global\ngx_stop_42544") failed (2: The system cannot find the file specified)
+2023/10/30 17:47:35 [notice] 40044#31284: signal process started
+2023/10/30 17:47:35 [error] 40044#31284: OpenEvent("Global\ngx_stop_28604") failed (2: The system cannot find the file specified)
+2023/10/30 17:48:46 [notice] 37032#12956: signal process started
+2023/10/30 17:48:46 [error] 37032#12956: OpenEvent("Global\ngx_stop_23852") failed (2: The system cannot find the file specified)
+2023/10/30 17:50:40 [notice] 38112#33588: signal process started
+2023/10/30 17:50:40 [error] 38112#33588: OpenEvent("Global\ngx_stop_17304") failed (2: The system cannot find the file specified)
+2023/10/30 17:54:56 [notice] 37748#28148: signal process started
+2023/10/30 17:54:56 [error] 37748#28148: OpenEvent("Global\ngx_stop_26100") failed (2: The system cannot find the file specified)
+2023/10/30 17:56:34 [notice] 38568#14280: signal process started
+2023/10/30 17:56:34 [error] 38568#14280: OpenEvent("Global\ngx_stop_10268") failed (2: The system cannot find the file specified)
+2023/10/30 17:59:30 [notice] 19832#50280: signal process started
+2023/10/30 17:59:30 [error] 19832#50280: OpenEvent("Global\ngx_stop_50624") failed (2: The system cannot find the file specified)
+2023/10/30 18:01:38 [notice] 46564#20552: signal process started
+2023/10/30 18:01:38 [error] 46564#20552: OpenEvent("Global\ngx_stop_33664") failed (2: The system cannot find the file specified)
+2023/10/30 18:11:39 [notice] 48428#15404: signal process started
+2023/10/30 18:11:39 [error] 48428#15404: OpenEvent("Global\ngx_stop_15620") failed (2: The system cannot find the file specified)
+2023/10/30 18:14:20 [notice] 49520#34884: signal process started
+2023/10/30 18:14:20 [error] 49520#34884: OpenEvent("Global\ngx_stop_48936") failed (2: The system cannot find the file specified)
+2023/10/30 18:16:44 [notice] 47964#36420: signal process started
+2023/10/30 18:16:44 [error] 47964#36420: OpenEvent("Global\ngx_stop_46404") failed (2: The system cannot find the file specified)
+2023/10/30 18:20:07 [notice] 48908#50200: signal process started
+2023/10/30 18:20:07 [error] 48908#50200: OpenEvent("Global\ngx_stop_48368") failed (2: The system cannot find the file specified)
+2023/10/30 18:27:24 [notice] 47348#47492: signal process started
+2023/10/30 18:27:24 [error] 47348#47492: OpenEvent("Global\ngx_stop_28968") failed (2: The system cannot find the file specified)
+2023/10/30 18:29:43 [notice] 14056#45660: signal process started
+2023/10/30 18:29:43 [error] 14056#45660: OpenEvent("Global\ngx_stop_45084") failed (2: The system cannot find the file specified)
+2023/10/30 18:35:49 [notice] 14636#46168: signal process started
+2023/10/30 18:35:49 [error] 14636#46168: OpenEvent("Global\ngx_stop_39956") failed (2: The system cannot find the file specified)
+2023/10/30 18:37:34 [notice] 49116#47348: signal process started
+2023/10/30 18:37:34 [error] 49116#47348: OpenEvent("Global\ngx_stop_25404") failed (2: The system cannot find the file specified)
+2023/10/30 18:39:36 [notice] 3480#39452: signal process started
+2023/10/30 18:39:36 [error] 3480#39452: OpenEvent("Global\ngx_stop_45784") failed (2: The system cannot find the file specified)
+2023/10/30 18:43:37 [notice] 40136#46200: signal process started
+2023/10/30 18:43:37 [error] 40136#46200: OpenEvent("Global\ngx_stop_50552") failed (2: The system cannot find the file specified)
+2023/10/30 18:46:23 [notice] 45052#41728: signal process started
+2023/10/30 18:46:23 [error] 45052#41728: OpenEvent("Global\ngx_stop_49428") failed (2: The system cannot find the file specified)
+2023/10/30 18:48:46 [notice] 30392#50736: signal process started
+2023/10/30 18:48:46 [error] 30392#50736: OpenEvent("Global\ngx_stop_41960") failed (2: The system cannot find the file specified)
+2023/10/30 19:07:24 [notice] 8248#27604: signal process started
+2023/10/30 19:07:24 [error] 8248#27604: OpenEvent("Global\ngx_stop_30692") failed (2: The system cannot find the file specified)
+2023/10/30 19:08:51 [notice] 49416#48668: signal process started
+2023/10/30 19:08:51 [error] 49416#48668: OpenEvent("Global\ngx_stop_41996") failed (2: The system cannot find the file specified)
+2023/10/30 19:09:34 [notice] 30912#42028: signal process started
+2023/10/30 19:09:34 [error] 30912#42028: OpenEvent("Global\ngx_stop_50860") failed (2: The system cannot find the file specified)
+2023/10/30 19:15:39 [notice] 50948#48632: signal process started
+2023/10/30 19:15:39 [error] 50948#48632: OpenEvent("Global\ngx_stop_42464") failed (2: The system cannot find the file specified)
+2023/10/30 19:17:54 [notice] 46120#48380: signal process started
+2023/10/30 19:17:54 [error] 46120#48380: OpenEvent("Global\ngx_stop_51116") failed (2: The system cannot find the file specified)
+2023/10/30 19:19:50 [notice] 46756#43868: signal process started
+2023/10/30 19:19:50 [error] 46756#43868: OpenEvent("Global\ngx_stop_30632") failed (2: The system cannot find the file specified)
+2023/10/30 19:22:00 [notice] 48100#28260: signal process started
+2023/10/30 19:22:00 [error] 48100#28260: OpenEvent("Global\ngx_stop_50836") failed (2: The system cannot find the file specified)
+2023/10/30 19:23:26 [notice] 44852#48480: signal process started
+2023/10/30 19:23:26 [error] 44852#48480: OpenEvent("Global\ngx_stop_33776") failed (2: The system cannot find the file specified)
+2023/10/30 19:26:06 [notice] 50980#50812: signal process started
+2023/10/30 19:26:06 [error] 50980#50812: OpenEvent("Global\ngx_stop_43368") failed (2: The system cannot find the file specified)
+2023/10/30 19:27:11 [notice] 29972#39812: signal process started
+2023/10/30 19:27:11 [error] 29972#39812: OpenEvent("Global\ngx_stop_47776") failed (2: The system cannot find the file specified)
+2023/10/30 19:28:22 [notice] 46676#43392: signal process started
+2023/10/30 19:28:22 [error] 46676#43392: OpenEvent("Global\ngx_stop_29064") failed (2: The system cannot find the file specified)
+2023/10/30 22:32:49 [notice] 22972#19464: signal process started
+2023/10/30 22:32:49 [error] 22972#19464: OpenEvent("Global\ngx_stop_36884") failed (2: The system cannot find the file specified)
+2023/10/30 22:33:45 [notice] 45752#6284: signal process started
+2023/10/30 22:33:45 [error] 45752#6284: OpenEvent("Global\ngx_stop_1156") failed (2: The system cannot find the file specified)
+2023/10/30 22:35:12 [notice] 18840#47196: signal process started
+2023/10/30 22:35:12 [error] 18840#47196: OpenEvent("Global\ngx_stop_49476") failed (2: The system cannot find the file specified)
+2023/10/30 22:36:26 [notice] 28612#40752: signal process started
+2023/10/30 22:36:26 [error] 28612#40752: OpenEvent("Global\ngx_stop_11072") failed (2: The system cannot find the file specified)
+2023/10/30 22:53:02 [notice] 41180#45720: signal process started
+2023/10/30 22:53:02 [error] 41180#45720: OpenEvent("Global\ngx_stop_11980") failed (2: The system cannot find the file specified)
+2023/10/30 22:54:16 [notice] 38636#40416: signal process started
+2023/10/30 22:57:24 [notice] 38576#39900: signal process started
+2023/10/30 22:57:24 [error] 38576#39900: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\network_backend\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/31 00:13:34 [notice] 19924#41672: signal process started
+2023/10/31 00:13:34 [error] 19924#41672: OpenEvent("Global\ngx_stop_27364") failed (2: The system cannot find the file specified)
+2023/10/31 00:15:54 [notice] 44568#42668: signal process started
+2023/10/31 00:15:54 [error] 44568#42668: OpenEvent("Global\ngx_stop_15512") failed (2: The system cannot find the file specified)
+2023/10/31 00:28:12 [notice] 49460#38536: signal process started
+2023/10/31 00:28:12 [error] 49460#38536: OpenEvent("Global\ngx_stop_50916") failed (2: The system cannot find the file specified)
+2023/10/31 00:28:57 [notice] 46608#37292: signal process started
+2023/10/31 00:28:57 [error] 46608#37292: OpenEvent("Global\ngx_stop_47632") failed (2: The system cannot find the file specified)
+2023/10/31 00:31:50 [notice] 39948#39840: signal process started
+2023/10/31 00:31:50 [error] 39948#39840: OpenEvent("Global\ngx_stop_49916") failed (2: The system cannot find the file specified)
+2023/10/31 09:50:18 [notice] 42084#15364: signal process started
+2023/10/31 09:50:18 [error] 42084#15364: OpenEvent("Global\ngx_stop_47488") failed (2: The system cannot find the file specified)
+2023/10/31 09:50:56 [notice] 38612#21436: signal process started
+2023/10/31 09:50:56 [error] 38612#21436: OpenEvent("Global\ngx_stop_40448") failed (2: The system cannot find the file specified)
+2023/10/31 09:53:41 [notice] 22568#9232: signal process started
+2023/10/31 09:53:41 [error] 22568#9232: OpenEvent("Global\ngx_stop_51124") failed (2: The system cannot find the file specified)
+2023/10/31 10:01:13 [notice] 23152#34360: signal process started
+2023/10/31 10:03:55 [notice] 8248#34608: signal process started
+2023/10/31 10:03:55 [error] 8248#34608: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\network_backend\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/31 10:04:27 [notice] 8324#44136: signal process started
+2023/10/31 10:06:06 [notice] 41120#29004: signal process started
+2023/10/31 10:06:06 [error] 41120#29004: CreateFile() "C:\Users\EunKyue Sohn\OneDrive - 시티아이랩\문서\python_scripts\gs_simple_tracker_demo_gui\network_backend\nginx/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2023/10/31 10:13:28 [notice] 36060#43300: signal process started
+2023/10/31 10:13:28 [error] 36060#43300: OpenEvent("Global\ngx_stop_50436") failed (2: The system cannot find the file specified)
+2023/10/31 10:18:57 [notice] 9976#41292: signal process started
+2023/10/31 10:18:57 [error] 9976#41292: OpenEvent("Global\ngx_stop_5540") failed (2: The system cannot find the file specified)
+2023/10/31 10:21:22 [notice] 30420#36120: signal process started
+2023/10/31 10:21:22 [error] 30420#36120: OpenEvent("Global\ngx_stop_46868") failed (2: The system cannot find the file specified)
+2023/10/31 10:24:14 [notice] 36424#49948: signal process started
+2023/10/31 10:24:14 [error] 36424#49948: OpenEvent("Global\ngx_stop_16560") failed (2: The system cannot find the file specified)
+2023/10/31 10:26:32 [notice] 7492#6316: signal process started
+2023/10/31 10:26:32 [error] 7492#6316: OpenEvent("Global\ngx_stop_30668") failed (2: The system cannot find the file specified)
+2023/10/31 10:31:04 [notice] 47252#46744: signal process started
+2023/10/31 10:31:04 [error] 47252#46744: OpenEvent("Global\ngx_stop_32344") failed (2: The system cannot find the file specified)
+2023/10/31 10:33:04 [notice] 41656#47228: signal process started
+2023/10/31 10:33:04 [error] 41656#47228: OpenEvent("Global\ngx_stop_40508") failed (2: The system cannot find the file specified)
+2023/10/31 10:35:01 [notice] 44804#47032: signal process started
+2023/10/31 10:35:01 [error] 44804#47032: OpenEvent("Global\ngx_stop_46840") failed (2: The system cannot find the file specified)
+2023/10/31 10:37:26 [notice] 40972#7064: signal process started
+2023/10/31 10:37:26 [error] 40972#7064: OpenEvent("Global\ngx_stop_45700") failed (2: The system cannot find the file specified)
+2023/10/31 10:41:32 [notice] 19772#46520: signal process started
+2023/10/31 10:41:32 [error] 19772#46520: OpenEvent("Global\ngx_stop_44300") failed (2: The system cannot find the file specified)
+2023/10/31 10:44:11 [notice] 44840#46068: signal process started
+2023/10/31 10:44:11 [error] 44840#46068: OpenEvent("Global\ngx_stop_34608") failed (2: The system cannot find the file specified)
+2023/10/31 10:45:32 [notice] 46908#47596: signal process started
+2023/10/31 10:45:32 [error] 46908#47596: OpenEvent("Global\ngx_stop_25344") failed (2: The system cannot find the file specified)
+2023/10/31 10:48:44 [notice] 48888#36364: signal process started
+2023/10/31 10:48:44 [error] 48888#36364: OpenEvent("Global\ngx_stop_50780") failed (2: The system cannot find the file specified)
+2023/10/31 10:53:51 [notice] 34284#27236: signal process started
+2023/10/31 10:53:51 [error] 34284#27236: OpenEvent("Global\ngx_stop_18932") failed (2: The system cannot find the file specified)
+2023/10/31 10:57:03 [notice] 19772#49804: signal process started
+2023/10/31 10:57:03 [error] 19772#49804: OpenEvent("Global\ngx_stop_20144") failed (2: The system cannot find the file specified)
+2023/10/31 11:03:39 [notice] 53128#53336: signal process started
+2023/10/31 11:03:39 [error] 53128#53336: OpenEvent("Global\ngx_stop_32140") failed (2: The system cannot find the file specified)
+2023/10/31 11:06:48 [notice] 50484#52928: signal process started
+2023/10/31 11:06:48 [error] 50484#52928: OpenEvent("Global\ngx_stop_38864") failed (2: The system cannot find the file specified)
+2023/10/31 11:10:09 [notice] 53296#53112: signal process started
+2023/10/31 11:10:09 [error] 53296#53112: OpenEvent("Global\ngx_stop_49008") failed (2: The system cannot find the file specified)
+2023/10/31 11:12:39 [notice] 52912#43044: signal process started
+2023/10/31 11:12:39 [error] 52912#43044: OpenEvent("Global\ngx_stop_53456") failed (2: The system cannot find the file specified)
+2023/10/31 11:14:38 [notice] 43044#52300: signal process started
+2023/10/31 11:14:38 [error] 43044#52300: OpenEvent("Global\ngx_stop_30908") failed (2: The system cannot find the file specified)
+2023/10/31 11:16:06 [notice] 38376#17900: signal process started
+2023/10/31 11:16:06 [error] 38376#17900: OpenEvent("Global\ngx_stop_52636") failed (2: The system cannot find the file specified)
+2023/10/31 11:18:48 [notice] 51012#18328: signal process started
+2023/10/31 11:18:48 [error] 51012#18328: OpenEvent("Global\ngx_stop_40948") failed (2: The system cannot find the file specified)
+2023/10/31 11:21:24 [notice] 48664#32448: signal process started
+2023/10/31 11:21:24 [error] 48664#32448: OpenEvent("Global\ngx_stop_15720") failed (2: The system cannot find the file specified)
+2023/10/31 11:24:19 [notice] 53844#41476: signal process started
+2023/10/31 11:24:19 [error] 53844#41476: OpenEvent("Global\ngx_stop_2512") failed (2: The system cannot find the file specified)
+2023/10/31 11:33:57 [notice] 53968#22492: signal process started
+2023/10/31 11:33:57 [error] 53968#22492: OpenEvent("Global\ngx_stop_49632") failed (2: The system cannot find the file specified)
+2023/10/31 11:38:29 [error] 18160#52164: *3 upstream timed out (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while reading response header from upstream, client: 192.168.0.1, server: _, request: "GET /ws HTTP/1.1", upstream: "http://192.168.0.24:8001/ws", host: "14.36.1.6:8000"
+2023/10/31 11:45:04 [notice] 12596#36408: signal process started
+2023/10/31 11:45:04 [error] 12596#36408: OpenEvent("Global\ngx_stop_42784") failed (2: The system cannot find the file specified)
+2023/10/31 12:05:48 [notice] 43596#42816: signal process started
+2023/10/31 12:05:48 [error] 43596#42816: OpenEvent("Global\ngx_stop_51764") failed (2: The system cannot find the file specified)
+2023/10/31 12:10:44 [notice] 6272#55820: signal process started
+2023/10/31 12:10:44 [error] 6272#55820: OpenEvent("Global\ngx_stop_22348") failed (2: The system cannot find the file specified)
+2023/10/31 12:13:14 [notice] 36356#43292: signal process started
+2023/10/31 12:13:14 [error] 36356#43292: OpenEvent("Global\ngx_stop_53088") failed (2: The system cannot find the file specified)
+2023/10/31 12:20:12 [notice] 54028#47920: signal process started
+2023/10/31 12:20:12 [error] 54028#47920: OpenEvent("Global\ngx_stop_50660") failed (2: The system cannot find the file specified)
+2023/10/31 12:23:32 [notice] 56252#16856: signal process started
+2023/10/31 12:23:32 [error] 56252#16856: OpenEvent("Global\ngx_stop_55980") failed (2: The system cannot find the file specified)
+2023/10/31 12:28:08 [notice] 54920#55632: signal process started
+2023/10/31 12:28:08 [error] 54920#55632: OpenEvent("Global\ngx_stop_54636") failed (2: The system cannot find the file specified)
+2023/10/31 12:31:25 [notice] 54776#55636: signal process started
+2023/10/31 12:31:25 [error] 54776#55636: OpenEvent("Global\ngx_stop_52412") failed (2: The system cannot find the file specified)
+2023/10/31 12:33:25 [notice] 40296#54784: signal process started
+2023/10/31 12:33:25 [error] 40296#54784: OpenEvent("Global\ngx_stop_40728") failed (2: The system cannot find the file specified)
+2023/10/31 12:43:49 [notice] 55312#31328: signal process started
+2023/10/31 12:43:49 [error] 55312#31328: OpenEvent("Global\ngx_stop_29840") failed (2: The system cannot find the file specified)
+2023/10/31 12:45:50 [notice] 18092#26128: signal process started
+2023/10/31 12:45:50 [error] 18092#26128: OpenEvent("Global\ngx_stop_20448") failed (2: The system cannot find the file specified)
+2023/10/31 12:47:26 [notice] 52792#53668: signal process started
+2023/10/31 12:47:26 [error] 52792#53668: OpenEvent("Global\ngx_stop_43664") failed (2: The system cannot find the file specified)
+2023/10/31 12:48:57 [notice] 53744#10844: signal process started
+2023/10/31 12:48:57 [error] 53744#10844: OpenEvent("Global\ngx_stop_42244") failed (2: The system cannot find the file specified)
+2023/10/31 12:51:03 [notice] 38340#43936: signal process started
+2023/10/31 12:51:03 [error] 38340#43936: OpenEvent("Global\ngx_stop_48016") failed (2: The system cannot find the file specified)
+2023/10/31 13:00:51 [notice] 53608#39520: signal process started
+2023/10/31 13:00:51 [error] 53608#39520: OpenEvent("Global\ngx_stop_8184") failed (2: The system cannot find the file specified)
+2023/10/31 13:02:00 [notice] 55080#32520: signal process started
+2023/10/31 13:02:00 [error] 55080#32520: OpenEvent("Global\ngx_stop_48868") failed (2: The system cannot find the file specified)
+2023/10/31 13:15:15 [notice] 50464#51512: signal process started
+2023/10/31 13:15:15 [error] 50464#51512: OpenEvent("Global\ngx_stop_28492") failed (2: The system cannot find the file specified)
+2023/10/31 13:18:23 [notice] 18328#46516: signal process started
+2023/10/31 13:18:23 [error] 18328#46516: OpenEvent("Global\ngx_stop_48608") failed (2: The system cannot find the file specified)
+2023/10/31 13:21:57 [notice] 25592#41772: signal process started
+2023/10/31 13:21:57 [error] 25592#41772: OpenEvent("Global\ngx_stop_42692") failed (2: The system cannot find the file specified)
+2023/10/31 13:28:08 [notice] 22428#22188: signal process started
+2023/10/31 13:28:08 [error] 22428#22188: OpenEvent("Global\ngx_stop_7832") failed (2: The system cannot find the file specified)
+2023/10/31 13:29:39 [notice] 56020#41096: signal process started
+2023/10/31 13:29:39 [error] 56020#41096: OpenEvent("Global\ngx_stop_49320") failed (2: The system cannot find the file specified)
+2023/10/31 13:31:19 [notice] 17624#48716: signal process started
+2023/10/31 13:31:19 [error] 17624#48716: OpenEvent("Global\ngx_stop_35088") failed (2: The system cannot find the file specified)
+2023/10/31 14:56:07 [notice] 52384#40636: signal process started
+2023/10/31 14:56:07 [error] 52384#40636: OpenEvent("Global\ngx_stop_53416") failed (2: The system cannot find the file specified)
+2023/10/31 15:05:12 [notice] 55388#33924: signal process started
+2023/10/31 15:05:12 [error] 55388#33924: OpenEvent("Global\ngx_stop_18540") failed (2: The system cannot find the file specified)
+2023/10/31 15:06:38 [notice] 40296#22052: signal process started
+2023/10/31 15:06:38 [error] 40296#22052: OpenEvent("Global\ngx_stop_40984") failed (2: The system cannot find the file specified)
+2023/10/31 15:10:13 [notice] 38724#34024: signal process started
+2023/10/31 15:10:13 [error] 38724#34024: OpenEvent("Global\ngx_stop_54352") failed (2: The system cannot find the file specified)
+2023/10/31 17:49:41 [notice] 51552#24500: signal process started
+2023/10/31 17:49:41 [error] 51552#24500: OpenEvent("Global\ngx_stop_52812") failed (2: The system cannot find the file specified)
+2023/10/31 17:52:19 [notice] 38116#18080: signal process started
+2023/10/31 17:52:19 [error] 38116#18080: OpenEvent("Global\ngx_stop_55572") failed (2: The system cannot find the file specified)
+2023/10/31 18:02:13 [notice] 46412#52172: signal process started
+2023/10/31 18:02:13 [error] 46412#52172: OpenEvent("Global\ngx_stop_50220") failed (2: The system cannot find the file specified)
+2023/10/31 18:04:10 [error] 50704#47724: *2 upstream timed out (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while reading response header from upstream, client: 192.168.0.1, server: _, request: "GET /ws/bp-st HTTP/1.1", upstream: "http://192.168.0.24:8001/ws/bp-st", host: "14.36.1.6:8000"
+2023/10/31 18:06:02 [notice] 53444#55304: signal process started
+2023/10/31 18:06:02 [error] 53444#55304: OpenEvent("Global\ngx_stop_39916") failed (2: The system cannot find the file specified)
+2023/10/31 18:07:59 [error] 46068#33048: *2 upstream timed out (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while reading response header from upstream, client: 192.168.0.1, server: _, request: "GET /ws/bp-st HTTP/1.1", upstream: "http://192.168.0.24:8001/ws/bp-st", host: "14.36.1.6:8000"
+2023/10/31 18:14:26 [notice] 35096#51212: signal process started
+2023/10/31 18:14:26 [error] 35096#51212: OpenEvent("Global\ngx_stop_50516") failed (2: The system cannot find the file specified)
+2023/10/31 18:16:25 [error] 24460#51584: *2 upstream timed out (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while reading response header from upstream, client: 192.168.0.1, server: _, request: "GET /ws/bp-st HTTP/1.1", upstream: "http://192.168.0.24:8001/ws/bp-st", host: "14.36.1.6:8000"
+2023/10/31 18:19:12 [notice] 7656#37984: signal process started
+2023/10/31 18:19:12 [error] 7656#37984: OpenEvent("Global\ngx_stop_55400") failed (2: The system cannot find the file specified)
+2023/10/31 18:23:14 [notice] 38532#52712: signal process started
+2023/10/31 18:23:14 [error] 38532#52712: OpenEvent("Global\ngx_stop_34540") failed (2: The system cannot find the file specified)
+2023/10/31 18:25:03 [notice] 50488#47244: signal process started
+2023/10/31 18:25:03 [error] 50488#47244: OpenEvent("Global\ngx_stop_42848") failed (2: The system cannot find the file specified)
+2023/10/31 18:26:37 [notice] 55008#38872: signal process started
+2023/10/31 18:26:37 [error] 55008#38872: OpenEvent("Global\ngx_stop_26440") failed (2: The system cannot find the file specified)
+2023/10/31 18:29:53 [notice] 47408#13792: signal process started
+2023/10/31 18:29:53 [error] 47408#13792: OpenEvent("Global\ngx_stop_28540") failed (2: The system cannot find the file specified)
+2023/10/31 18:31:40 [error] 39960#49940: *2 upstream timed out (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while reading response header from upstream, client: 192.168.0.1, server: _, request: "GET /ws/bp-st HTTP/1.1", upstream: "http://192.168.0.24:8001/ws/bp-st", host: "14.36.1.6:8000"
+2023/10/31 18:35:13 [notice] 18328#42912: signal process started
+2023/10/31 18:35:13 [error] 18328#42912: OpenEvent("Global\ngx_stop_51352") failed (2: The system cannot find the file specified)
+2023/10/31 18:37:37 [error] 55948#40904: *2 upstream timed out (10060: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond) while reading response header from upstream, client: 192.168.0.1, server: _, request: "GET /ws/bp-st HTTP/1.1", upstream: "http://192.168.0.24:8001/ws/bp-st", host: "14.36.1.6:8000"
+2023/10/31 18:38:38 [notice] 32860#43328: signal process started
+2023/10/31 18:38:38 [error] 32860#43328: OpenEvent("Global\ngx_stop_44504") failed (2: The system cannot find the file specified)
+2023/10/31 18:47:55 [notice] 7896#14788: signal process started
+2023/10/31 18:47:55 [error] 7896#14788: OpenEvent("Global\ngx_stop_45064") failed (2: The system cannot find the file specified)
+2023/10/31 18:48:56 [notice] 25076#57008: signal process started
+2023/10/31 18:48:56 [error] 25076#57008: OpenEvent("Global\ngx_stop_34576") failed (2: The system cannot find the file specified)
+2023/10/31 18:50:43 [notice] 56500#56364: signal process started
+2023/10/31 18:50:43 [error] 56500#56364: OpenEvent("Global\ngx_stop_33452") failed (2: The system cannot find the file specified)
+2023/10/31 18:57:32 [notice] 11772#19956: signal process started
+2023/10/31 18:57:32 [error] 11772#19956: OpenEvent("Global\ngx_stop_4012") failed (2: The system cannot find the file specified)
+2023/10/31 18:59:47 [notice] 9780#5824: signal process started
+2023/10/31 18:59:47 [error] 9780#5824: OpenEvent("Global\ngx_stop_6704") failed (2: The system cannot find the file specified)
+2023/10/31 19:01:29 [notice] 3104#15212: signal process started
+2023/10/31 19:01:29 [error] 3104#15212: OpenEvent("Global\ngx_stop_8428") failed (2: The system cannot find the file specified)
+2023/10/31 19:06:31 [notice] 1648#1420: signal process started
+2023/10/31 19:06:31 [error] 1648#1420: OpenEvent("Global\ngx_stop_8444") failed (2: The system cannot find the file specified)
+2023/10/31 19:07:56 [notice] 24356#1712: signal process started
+2023/10/31 19:07:56 [error] 24356#1712: OpenEvent("Global\ngx_stop_1280") failed (2: The system cannot find the file specified)
+2023/10/31 19:11:39 [notice] 24236#22900: signal process started
+2023/10/31 19:11:39 [error] 24236#22900: OpenEvent("Global\ngx_stop_23780") failed (2: The system cannot find the file specified)
+2023/10/31 19:13:13 [notice] 440#10532: signal process started
+2023/10/31 19:13:13 [error] 440#10532: OpenEvent("Global\ngx_stop_14972") failed (2: The system cannot find the file specified)
+2023/10/31 19:17:17 [notice] 18664#24192: signal process started
+2023/10/31 19:17:17 [error] 18664#24192: OpenEvent("Global\ngx_stop_9616") failed (2: The system cannot find the file specified)
+2023/10/31 19:18:51 [notice] 23224#21684: signal process started
+2023/10/31 19:18:51 [error] 23224#21684: OpenEvent("Global\ngx_stop_24232") failed (2: The system cannot find the file specified)
+2023/10/31 19:21:56 [notice] 23232#23920: signal process started
+2023/10/31 19:21:56 [error] 23232#23920: OpenEvent("Global\ngx_stop_18540") failed (2: The system cannot find the file specified)
+2023/10/31 19:24:46 [notice] 14916#23004: signal process started
+2023/10/31 19:24:46 [error] 14916#23004: OpenEvent("Global\ngx_stop_4112") failed (2: The system cannot find the file specified)
+2023/10/31 19:29:07 [notice] 9548#17056: signal process started
+2023/10/31 19:29:07 [error] 9548#17056: OpenEvent("Global\ngx_stop_24356") failed (2: The system cannot find the file specified)
+2023/10/31 20:29:05 [notice] 20820#5376: signal process started
+2023/10/31 20:29:05 [error] 20820#5376: OpenEvent("Global\ngx_stop_25252") failed (2: The system cannot find the file specified)
+2023/10/31 20:36:34 [notice] 5516#23300: signal process started
+2023/10/31 20:36:34 [error] 5516#23300: OpenEvent("Global\ngx_stop_22468") failed (2: The system cannot find the file specified)
+2023/10/31 20:56:30 [notice] 28116#27848: signal process started
+2023/10/31 20:56:30 [error] 28116#27848: OpenEvent("Global\ngx_stop_15236") failed (2: The system cannot find the file specified)
+2023/10/31 22:03:41 [notice] 14900#2324: signal process started
+2023/10/31 22:03:41 [error] 14900#2324: OpenEvent("Global\ngx_stop_29076") failed (2: The system cannot find the file specified)

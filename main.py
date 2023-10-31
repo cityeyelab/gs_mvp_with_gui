@@ -2,12 +2,43 @@ from backend.main import create_backend
 from frontend.main import create_frontend
 from visualization.main import create_visualization
 from shared_variables import SharedVariables
+from network_backend.main import create_network_backend
+# from network_backend.main import app
+
 from multiprocessing import Process
 from collision_analysis.main import create_collision_analysis
 import time
 # from datetime import datetime, timedelta
 # # import sys
 # import gc
+import os
+import subprocess
+
+def run_nginx():
+    os.system('cd network_backend')
+    os.chdir('network_backend')
+    # os.system('dir')
+    os.chdir('nginx')
+    # os.system('cd nginx')
+    # os.system('dir')
+    os.system('nginx -s stop')
+    os.system('nginx -t')
+    print('nginx starts')
+    subprocess.run(["nginx"])
+    # os.system('nginx')
+    # os.system('ipconfig')
+
+def stop_nginx():
+    os.system('cd network_backend')
+    os.chdir('network_backend')
+    # os.system('dir')
+    os.chdir('nginx')
+    # os.system('cd nginx')
+    # os.system('dir')
+    os.system('nginx -s stop')
+    # os.system('nginx -t')
+    # subprocess.run(["nginx"])
+    print('nginx stopped')
 
 def main_run():
     # whole_proc_test_cnt = 0
@@ -15,22 +46,26 @@ def main_run():
     # while True:
         # whole_proc_test_cnt += 1
         # print('whole cnt = ' , whole_proc_test_cnt)
+    p0 = Process(target=run_nginx)
+    p0.start()
         
     
     shared_variables = SharedVariables()
     
 
     p1 = Process(target = create_frontend, args= (shared_variables.args, shared_variables.drawing_result_ques, shared_variables.exit_event), daemon=False)
-    p2 = Process(target = create_backend, args= (shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.exit_event), daemon=False)
+    p2 = Process(target = create_backend, args= (shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.exit_event, ), daemon=False)
     p3 = Process(target = create_visualization, args=(shared_variables.args, shared_variables.model_proc_result_ques, shared_variables.drawing_result_ques, shared_variables.exit_event,
                                                     shared_variables.collision_analysis_queue, shared_variables.collision_analysis_rt_queue, shared_variables.stay_time_queue))
     # p4 = Process(target = check_exit, args=(shared_variables.exit_event, p2, p3))
-    p4 = Process(target= create_collision_analysis, args=(shared_variables.args, shared_variables.collision_analysis_queue, shared_variables.collision_analysis_rt_queue, shared_variables.stay_time_queue))
+    p4 = Process(target= create_collision_analysis, args=(shared_variables.args, shared_variables.collision_analysis_queue, shared_variables.collision_analysis_rt_queue, shared_variables.stay_time_queue,))
+    p5 = Process(target=create_network_backend, )
     
     p1.start()
     p2.start()
     p3.start()
     p4.start()
+    p5.start()
 
     # test_cnt = 0
     # while True:
@@ -57,6 +92,7 @@ def main_run():
     while True:
         if shared_variables.exit_event.is_set():
             # print('sys exit!!')
+            stop_nginx()
             time.sleep(3)
             p1.terminate()
             p2.terminate()
@@ -74,3 +110,6 @@ def main_run():
 
 if __name__ == '__main__':
     main_run()
+
+# 사무실 외부 ip 10.100.71.25
+# 내부 ip 192.168.1.10

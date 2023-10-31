@@ -1,7 +1,7 @@
 import pickle
 import time
 from multiprocessing import Process
-from .analysis.analysis import analyze
+from .analysis.analysis import analyze, run_analyze
 
 
 # data = []
@@ -10,8 +10,8 @@ from .analysis.analysis import analyze
 # filename = 'data/2023-10-18_raw_data'
 # filename = 'data/2023-10-19_raw_data'
 
-def create_collision_analysis(args, que, rt_que, st_que):
-    analysis_instance = CollisionAnalysis(args, que, rt_que, st_que)
+def create_collision_analysis(args, que, rt_que, st_que, ):
+    analysis_instance = CollisionAnalysis(args, que, rt_que, st_que, )
     analysis_instance.run()
 
 
@@ -59,13 +59,15 @@ def analyze_rt(center_points_lst_que):
 
 
 class CollisionAnalysis():
-    def __init__(self, args, que, rt_que, st_que) -> None:
+    def __init__(self, args, que, rt_que, st_que, ) -> None:
         self.args = args
         self.collision_op_flag = args['collision_op_flag']
         self.stay_time_op_flag = args['stay_time_op_flag']
         self.collision_ready_flag = args['collision_ready_flag']
         self.stay_time_ready_flag = args['stay_time_ready_flag']
-        self.analysis_proc = Process(target = analyze, args=(self.collision_op_flag, self.stay_time_op_flag, self.collision_ready_flag, self.stay_time_ready_flag, que, st_que))
+        # self.bp_heatmap_que = bp_heatmap_que
+        # self.analysis_proc = Process(target = analyze, args=(self.collision_op_flag, self.stay_time_op_flag, self.collision_ready_flag, self.stay_time_ready_flag, que, st_que,))
+        self.analysis_proc = Process(target = run_analyze, args=(self.collision_op_flag, self.stay_time_op_flag, self.collision_ready_flag, self.stay_time_ready_flag, que, st_que,))
         # self.analysis_rt_proc = Process(target = analyze_rt)
         
     

@@ -398,6 +398,7 @@ class inference():
         now = datetime.datetime.now()
         today_string = now.strftime('%Y-%m-%d')
         # filename="_dets"
+        make_dir(f'data/{today_string}/')
         with open(f'data/{today_string}/{today_string}_dets', 'ab+') as f:
             while True:
                 dets = save_dets_que.get()
