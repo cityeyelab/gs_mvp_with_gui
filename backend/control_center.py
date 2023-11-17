@@ -3,12 +3,14 @@ import time
 import numpy as np
 from .firebase import firebase_upload
 import sys
-
+import websockets
+import asyncio
+import json
 
 # Queue로 넘어온 데이터를 get하는 과정에서 string으로 불러오는건 의존성이 trk_fns_data에서의 strings와 의존성이 있기 때문에 공통 string을 설정하는 것이 좋겠다.
 # area별 arguments는 list로 관리하는 것이 좀 더 일반화에 좋겠다.
 
-def control_center(op_flag, que1, que2, que3, exit_event):
+async def control_center(op_flag, que1, que2, que3, exit_event):
     # print('cc check!')
     area1_global_cnt = 0
     area1_car_wash_waiting_cnt = 0
@@ -30,14 +32,16 @@ def control_center(op_flag, que1, que2, que3, exit_event):
     waiting_time = 0
     electric_charging_waiting_cnt = 0
     car_interior_wash_cnt = 0
+    total_cnt = 0
 
     updated = True
 
-    data = {'congestion':congestion, 'number_of_waiting_cars': number_of_waiting_cars, 'waiting_time':waiting_time,
+    data = {'total_cnt': total_cnt, 'congestion':congestion, 'number_of_waiting_cars': number_of_waiting_cars, 'waiting_time':waiting_time,
             'electric_charging_waiting_cnt':electric_charging_waiting_cnt, 'car_interior_wash_cnt':car_interior_wash_cnt}
-    prev_data = {'congestion':congestion, 'number_of_waiting_cars': number_of_waiting_cars, 'waiting_time':waiting_time,
+    prev_data = {'total_cnt': total_cnt, 'congestion':congestion, 'number_of_waiting_cars': number_of_waiting_cars, 'waiting_time':waiting_time,
             'electric_charging_waiting_cnt':electric_charging_waiting_cnt, 'car_interior_wash_cnt':car_interior_wash_cnt}
 
+    print('cc start')
     while True:
         if exit_event.is_set():
             break
@@ -86,6 +90,7 @@ def control_center(op_flag, que1, que2, que3, exit_event):
         
 
         if updated:
+            # print('cc updated')
             total_cnt = area1_global_cnt + area3_global_cnt + area4_global_cnt
             car_wash_cnt = area1_car_wash_waiting_cnt + area3_car_wash_waiting_cnt + area4_car_wash_waiting_cnt
             electric_charging_waiting_cnt = area4_electric_vehicle_charging_cnt
@@ -97,6 +102,7 @@ def control_center(op_flag, que1, que2, que3, exit_event):
             waiting_time = 240 * number_of_waiting_cars
 
             # data = {'congestion':congestion, 'number_of_waiting_cars': number_of_waiting_cars, 'waiting_time':waiting_time}
+            data['total_cnt'] = total_cnt
             data['congestion'] = congestion
             data['number_of_waiting_cars'] = number_of_waiting_cars
             data['waiting_time'] = waiting_time
@@ -104,8 +110,19 @@ def control_center(op_flag, que1, que2, que3, exit_event):
             data['car_interior_wash_cnt'] = car_interior_wash_cnt
 
             if data != prev_data:
-                firebase_upload(data=data)
+                # firebase_upload(data=data)
                 # print('data updated : ', data)
+                async with websockets.connect("ws://127.0.0.1:8001/ws/rt_data_innerpass") as websocket:
+                    try:
+                        json_data = json.dumps(data)
+                        # await websocket.send(data)
+                        await websocket.send(json_data)
+                        await websocket.close()
+                        print('data sent, cc : ', json_data)
+                    except Exception as e:
+                        print(f'something went wrong in ws send, error : {e}')
+                        await websocket.close()
+
                 prev_data = data.copy()
 
 
@@ -113,10 +130,14 @@ def control_center(op_flag, que1, que2, que3, exit_event):
     
     print('control center end')
         
-    
+def run_control_center(op_flag, que1, que2, que3, exit_event):
+    asyncio.get_event_loop().run_until_complete(control_center(op_flag, que1, que2, que3, exit_event))
+    asyncio.get_event_loop().run_forever()
+
+
 def custom_sigmoid(x):
-    a = 0.6
-    b = 5
+    a = 0.4
+    b = 7
     return 10/(1 + np.exp(-1*a*(x - b)))
 
 def calc_congetsion(total_cnt, car_wash_cnt, electric_charging_waiting_cnt, car_interior_wash_cnt):

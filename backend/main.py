@@ -15,7 +15,7 @@ from multiprocessing import Queue
 # from .trk_fns.area3 import tracker_area3
 # from .trk_fns.area4 import tracker_area4
 from .trk_fns.trk_fn import tracker
-from .control_center import control_center
+from .control_center import run_control_center
 from .data_save.save import collect_data 
 # from .visualization_bp import visualize_b
 
@@ -91,7 +91,7 @@ class gs_tracker():
             # self.tracking_proc_lst.append(multiprocessing.Process(target=tracker, args=(self.operation_flag, self.det_result_que_lst[i], self.trk_result_que_lst[i],
             #                                                                                       self.draw_proc_result_que_lst[i], self.visualize_bp_que_lst[i],
             #                                                                                       self.exit_event, i), daemon=False))
-        self.post_proc = multiprocessing.Process(target=control_center, args=(self.operation_flag, self.trk_result_que_lst[0], self.trk_result_que_lst[1],
+        self.post_proc = multiprocessing.Process(target=run_control_center, args=(self.operation_flag, self.trk_result_que_lst[0], self.trk_result_que_lst[1],
                                                                               self.trk_result_que_lst[2], self.exit_event), daemon=False)
         
         self.collision_proc = multiprocessing.Process(target=collect_data, args=(self.data_save_que[0], self.data_save_que[1], self.data_save_que[2]), daemon=False)

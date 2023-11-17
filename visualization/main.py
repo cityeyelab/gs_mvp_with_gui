@@ -1,6 +1,8 @@
 from .visualization import visualize
 from .visualization_bp import visualize_bp
 from multiprocessing import Process
+from multiprocessing import Queue
+from .provider import run_provide
 
 def create_visualization(args, model_proc_result_ques, drawing_result_ques, exit_event, collision_que, collision_rt_que, st_que):
     main_visualizer = VisualizationMain(args, model_proc_result_ques,  drawing_result_ques, exit_event, collision_que, collision_rt_que, st_que)
@@ -35,6 +37,12 @@ class VisualizationMain():
         self.collision_que = collision_que
         self.collision_rt_que = collision_rt_que
         self.st_que = st_que
+
+        self.frame_provider_que1 = Queue(200)
+        self.frame_provider_que2 = Queue(200)
+        self.frame_provider_que3 = Queue(200)
+        self.frame_provider_ques = [self.frame_provider_que1, self.frame_provider_que2, self.frame_provider_que3]
+        self.frame_provider_que_bp = Queue(64)
         
         # self.visualization_eco_mode = False
         
@@ -42,16 +50,20 @@ class VisualizationMain():
         for i in range(0, 3):
             self.draw_proc_lst.append(Process(target=visualize, args=(self.operation_flag, self.area_display_values[i], self.selected_cam_num,
                                                                 self.image_que_lst_draw[i], self.draw_proc_result_que_lst[i], i,
-                                                                self.drawing_result_ques[0:3], self.exit_event),
+                                                                self.drawing_result_ques[0:3], self.frame_provider_ques[i], self.exit_event),
                                               daemon=False))
         self.visualize_bp_proc = Process(target=visualize_bp, args=(self.operation_flag, self.visualize_bp_que_lst[0], self.visualize_bp_que_lst[1],
-                                                                    self.visualize_bp_que_lst[2], self.drawing_result_ques[3], self.exit_event, collision_que, self.collision_op_flag, self.stay_time_op_flag, self.st_que), daemon=False)
-    
+                                                                    self.visualize_bp_que_lst[2], self.drawing_result_ques[3], self.exit_event, collision_que, self.collision_op_flag, self.stay_time_op_flag, self.st_que,
+                                                                    self.frame_provider_que_bp), daemon=False)
+        self.provider_proc = Process(target=run_provide, args=(self.frame_provider_que1, self.frame_provider_que2, self.frame_provider_que3, self.frame_provider_que_bp))
+
     def run(self):
         for i in range(0, 3):
             self.draw_proc_lst[i].start()
         self.visualize_bp_proc.start()
+        self.provider_proc.start()
         
         for i in range(0, 3):
             self.draw_proc_lst[i].join()
         self.visualize_bp_proc.join()
+        self.provider_proc.join()

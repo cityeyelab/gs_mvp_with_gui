@@ -74,18 +74,20 @@ def get_spinner_text(spinner_cnt, frame):
 
 
 
-def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que, exit_event, collision_que, collision_op_flag, stay_time_op_flag, st_que):
+def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que, exit_event, collision_que, collision_op_flag, stay_time_op_flag, st_que, frame_provider_que_bp):
     # print('bp vis')
     collision_img = blueprint.copy()
     st_img = blueprint.copy()
     collision_img_once_come = False
     st_img_once_come = False
     spinner_cnt = 0
+    send_cnt = 0
     while True:
         if exit_event.is_set():
             drawing_result_que.put(None)
             # sys.exit()
             break
+    
         
         # if not op_flag.is_set():
         #     # while not drawing_result_que.empty():
@@ -183,6 +185,11 @@ def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que, e
         # print('col op : ', collision_op_flag.is_set())
         # print('st op : ', stay_time_op_flag.is_set())
         
+        if send_cnt%3 == 0:
+            send_img = background_img.copy()
+            frame_provider_que_bp.put(send_img)
+            if send_cnt > 300 :
+                send_cnt = 0
         # print('6')
         spinner_cnt = get_spinner_text(spinner_cnt, background_img)
         drawing_result_que.put(background_img)
@@ -193,6 +200,7 @@ def visualize_bp(op_flag, que_area1, que_area3, que_area4, drawing_result_que, e
         
         time.sleep(0.3)
         spinner_cnt += 1
+        send_cnt += 1
         
         
     print('visualization bp end')

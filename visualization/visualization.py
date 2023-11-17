@@ -33,7 +33,7 @@ def get_spinner_text(spinner_cnt, frame):
     
 
 
-def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_q, area_num_idx, drawing_result_ques, exit_event, eco=False, ):
+def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_q, area_num_idx, drawing_result_ques, provider_que, exit_event, eco=False, ):
     frame_cnt = 0
 
     area_num_lst = [1, 3, 4]
@@ -61,6 +61,8 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
     
     random_ints = np.random.randint(80, 255, size=(30, 3), dtype=np.uint8)
     colors = [(int(random_ints[i][0]), int(random_ints[i][1]), int(random_ints[i][2])) for i in range(0, len(random_ints))]
+
+    send_cnt = 0
     
     while True:
         if exit_event.is_set():
@@ -99,6 +101,8 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
                 cnt_value = cnts_lst[cnts_lst_idx]
                 cv2.putText(frame, cnt_str + ': ' + str(cnt_value), (80, 120 + 35*(cnts_lst_idx+1)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
 
+            
+
             for i, det in enumerate(now_dets):
                 # det = data
                 car_idx = dets_idx[i]
@@ -110,8 +114,13 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
                 p_x1, p_y1 = int(det[0]), int(det[1])
                 p_x2, p_y2 = int(det[2]), int(det[3])
                 frame = cv2.rectangle(frame, (p_x1, p_y1), (p_x2, p_y2), color_selected , 2)
+                # frame_for_area_coloring[p_y1:p_y2, p_x1:p_x2] = color_selected
+                # frame[p_y1:p_y2, p_x1:p_x2] = color_selected
+    
                 
                 det_conf = round(det[-2], 2)
+
+                area = (p_x2-p_x1)*(p_y2-p_y1)
                 
                 center_point = center_points[-1]
                 refined_draw_ct_pt = center_points[0::4]
@@ -119,14 +128,39 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
                 inted_pts = np.int32([refined_draw_ct_pt])
                 cv2.polylines(frame, inted_pts, False, color_selected, 6, lineType=8)
                 cv2.line(frame, (int(center_point[0]), int(center_point[1])), (int(center_point[0]), int(center_point[1])), color_selected , thickness=12, lineType=None, shift=None)
-                cv2.putText(frame, f'id: {car_idx}', (int(center_point[0]), int(center_point[1]+20)), font, 1.5, color_selected, 2)
-                if 0 <= int(center_point[1]+33) <= 1070:
-                    cv2.putText(frame, f'det_conf: {det_conf}', (int(center_point[0]), int(center_point[1]+33)), font, 1.5, color_selected, 2)
-                else:
-                    cv2.putText(frame, f'det_conf: {det_conf}', (int(center_point[0]), int(center_point[1]-20)), font, 1.5, color_selected, 2)
+                
+                # cv2.putText(frame, f'id: {car_idx}', (int(center_point[0]), int(center_point[1]+20)), font, 1.5, color_selected, 2)
+                # if 0 <= int(center_point[1]+33) <= 1070:
+                #     cv2.putText(frame, f'det_conf: {det_conf}', (int(center_point[0]), int(center_point[1]+33)), font, 1.5, color_selected, 2)
+                # else:
+                #     cv2.putText(frame, f'det_conf: {det_conf}', (int(center_point[0]), int(center_point[1]-20)), font, 1.5, color_selected, 2)
+                # cv2.putText(frame, f'aera: {area}', (int(center_point[0]), int(center_point[1]-33)), font, 1.5, color_selected, 2)
+
                 # cv2.putText(frame, 'pos:: '+str(round((center_point[1] - slope *(center_point[0])), 2) ), (int(center_point[0]), int(center_point[1]+10)), font, 1, (0, 255, 0), 2)
                 # cv2.putText(frame, 'conf: '+str(get_bbox_conf(data[2])), (int(center_point[0]), int(center_point[1]+30)), font, 1, (0, 255, 0), 2)
             
+            frame_for_area_coloring = frame.copy()
+
+            for i, det in enumerate(now_dets):
+                car_idx = dets_idx[i]
+                color_idx = car_idx%30
+                color_selected = colors[color_idx]
+                p_x1, p_y1 = int(det[0]), int(det[1])
+                p_x2, p_y2 = int(det[2]), int(det[3])
+                frame_for_area_coloring[p_y1:p_y2, p_x1:p_x2] = color_selected
+            
+            frame = cv2.addWeighted(frame, 0.72, frame_for_area_coloring, 0.28, 0)
+
+            # frame_to_send_to_provider = frame.copy()
+            # provider_que.put(frame_to_send_to_provider)
+            if send_cnt%3==0:
+                frame_to_send_to_provider = frame.copy()
+                provider_que.put(frame_to_send_to_provider)
+                if send_cnt > 300:
+                    send_cnt = 0
+            if provider_que.qsize() > 32:
+                print(f'provider_q size at place {area_num} = ' , provider_que.qsize())
+
             # for pts in center_points_lst:
             #     # for i in range(0, len(pts)-1):
             #     #     former_pt = pts[i]
@@ -188,6 +222,7 @@ def visualize(op_flag, area_display_value, selected_cam_num, img_q, proc_result_
         
         frame_cnt += 1
         spinner_cnt += 1
+        send_cnt += 1
 
         if img_q.qsize() > 100:
             print(f'img_q size at place {area_num} = ' , img_q.qsize())

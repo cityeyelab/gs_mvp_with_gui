@@ -362,49 +362,6 @@ if type(base_data_path) != type(None):
             print('EOFError')
 
 
-async def connect():
-
-    # 웹 소켓에 접속을 합니다.
-    # async with websockets.connect("ws://14.36.1.6:8000/ws/bp_heatmap") as websocket:
-    async with websockets.connect("ws://localhost:8001/ws/bp_heatmap") as websocket:
-        # websocket.close_timeout()
-        # websockets.
-
-        # str = input('Python 웹소켓으로 전송할 내용을 입력하세요[종료하려면 quit 입력!]: ')     # 사용자의 입력을 변수에 저장
-        # #print(str)  # 변수의 내용을 출력
-
-        # #입력받은 값을 파일로 저장
-        # f = open('./chat/chatlog2.txt', 'w')
-        # f.write(str)
-        cnt = 0
-        # rcv = await websocket.recv()
-        # print('client rcv = ' , rcv)
-        while True:
-            cnt += 1
-            try:
-                print('analysis connect while goes on')
-                # print('websocket open = ', websocket.ensure_open)
-                # quit가 들어오기 전까지 계속 입력받은 문자열을 전송하고 에코를 수신한다.
-                data = 'hihihi ' + str(cnt)
-                await websocket.send(data)
-                # rcv = await websocket.recv()
-                # print('sent data = ', data)
-
-                # 웹 소켓 서버로 부터 메시지가 오면 콘솔에 출력합니다.
-                # data = await websocket.recv();
-                # print(data);
-                # f.write(data)
-
-                # str = input('Python 웹소켓으로 전송할 내용을 입력하세요[종료하려면 quit 입력!]: ')  # 사용자의 입력을 변수에 저장
-                # print(str)  # 변수의 내용을 출력
-            except Exception as e:
-                print('error : ' , e)
-            
-            await asyncio.sleep(1.0)
-
-        # f.close()
-
-
 
 
 async def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, stay_time_ready_flag, collision_que, st_que, ):
@@ -441,7 +398,7 @@ async def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, st
                 print('file exist in collision')
                 break
             else:
-                print('file checking in collision analysis...1')
+                print('file checking in collision analysis... 1 - 1')
                 # if base_data:
                 #     new_data = base_data
                 #     break
@@ -449,7 +406,7 @@ async def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, st
             # with open(filename, 'rb') as f:
             #     break
         except:
-            print('file checking in collision analysis...2')
+            print('file checking in collision analysis...1 - 2')
             time.sleep(3)
             # if base_data:
             #     new_data = base_data
@@ -578,20 +535,36 @@ async def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, st
     # data lenght validation feature needed in the future
     
     
-    
+    need_double_break = False
     pre_loaded_once = False
     pass_load_raw_data_once = False
     while True:
+        if need_double_break:
+            break
         now = datetime.now()
         today_string = now.strftime('%Y-%m-%d')
         make_dir(f'data/{today_string}/')
-        filename = f'data/{today_string}/{today_string}_raw_data'
+        filename = f'data/{today_string}/{today_string}_raw_data' # save모듈에서 아직 생성 안되엇으면 에러 ******************* ->save module 저장데이터 확인하는걸 이쪽으로
         # len_data = 0
         if  (not pre_loaded_once) and pre_loaded_data_available:
             prev_data = refined_pts_lst
             pre_loaded_once = True
         else:
             prev_data = [] #ct pts lst
+
+
+        while True:
+        #아래부분 중복코드. 나중에 시간 있을 때 아래 하나로만 잘 되는지도 테스트 해야함
+            try:
+                if isfile(filename):
+                    print('file exist in collision')
+                    break
+                else:
+                    print('file checking in collision analysis...2 - 1')
+                    time.sleep(2)
+            except:
+                print('file checking in collision analysis...2 - 2')
+                time.sleep(3)
         
         with open(filename, 'rb') as f:
             while True:
@@ -614,14 +587,15 @@ async def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, st
                         cls_cvt = cvt_pkl_to_cls(loaded_data)
                         new_data.append(cls_cvt)
                 except EOFError:
-                    print('EOFError 2')
+                    pass
+                    # print('EOFError 2')
                 
                 if not pass_load_raw_data_once:
                     new_data = []
                     pass_load_raw_data_once = True
                 
                 if not new_data:
-                    print('data not appended')
+                    # print('data not appended')
                     now_time = datetime.now()
                     if (now_time + timedelta(seconds=15)).day == (datetime.now()).day + 1: # 잠시 딜레이 될 때 비록 새벽이지만 Que가 약간 쌓일 위험성이 있음.
                         time.sleep(16)
@@ -760,7 +734,8 @@ async def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, st
                         # bp_heatmap_que.put(res_show)
                         
                     else:
-                        print('valid result not created, in collision analysis')
+                        print('new data come but nothing special, glb')
+                        # print('valid result not created, in collision analysis')
 
                     prev_data = prev_data + refined_pts_lst
                     # print('prev data = ', prev_data)
@@ -798,7 +773,8 @@ async def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, st
                                 await websocket.close()
                         
                     else:
-                        print('valid result not created, in stay time')
+                        print('new data come but nothing special, st')
+                        # print('valid result not created, in stay time')
 
 
                     # pre_loaded_glb_cvs = np.load('glb_cvs_cached.npy')
@@ -814,13 +790,14 @@ async def analyze(collision_op_flag, stay_time_op_flag, collision_ready_flag, st
 
 
 
-                    print('process end')
+                    print('collision analysis process end')
                     end = time.time()
                     print('collision analysis elapsed time = ' , end - start)
                     now_time = datetime.now()
                     if (now_time + timedelta(seconds=15)).day == (datetime.now()).day + 1: # 잠시 딜레이 될 때 비록 새벽이지만 Que가 약간 쌓일 위험성이 있음.
                         time.sleep(16)
                         # print('mid level break')
+                        need_double_break = True
                         break
                     time.sleep(time_interval)
                     print('after time sleep')
