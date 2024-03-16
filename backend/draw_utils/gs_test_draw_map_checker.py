@@ -4,7 +4,8 @@ import numpy as np
 import datetime
 
 # map_file_name = './maps/area4_electric_vehicle_charging_map.npy'
-map_file_name = './maps/area4_car_interior_washing_map.npy'
+# map_file_name = './maps/area4_car_interior_washing_map.npy'
+map_file_name = 'entrance.npy'
 check_target = np.load(map_file_name)
 target_map_img = np.zeros((1080, 1920, 3), np.uint8)
 target_non_false_idx  = np.where(check_target==True)
